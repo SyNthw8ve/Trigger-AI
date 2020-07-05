@@ -50,9 +50,9 @@ So, for each `Opening` in Cluster 3 we calculated another distance (or %?):
 
 | Cluster        | Distance           
 | ------------- |-------------|
-| 1      | 1.2 |
-| 2      | 1 (same as before) |
-| 3      | 0.9 |
+| 5      | 1.2 |
+| 11      | 1 (same as before) |
+| 6      | 0.9 |
 
 Now we can return all 3 openings (6, 11 and 5) or all that are above some threshold.
 
