@@ -38,17 +38,21 @@ An example of this:
 
 For each cluster, we get a distance (or %?):
 
-1: 5
-2: 2
-3: 1
+| Cluster        | Distance           
+| ------------- |-------------|
+| 1      | 5 |
+| 2      | 2 |
+| 3      | 1 |
 
 It's clear that the `Openings` of Cluster 3 would interest `a` more.
 
 So, for each `Opening` in Cluster 3 we calculated another distance (or %?):
 
-5: 1.2
-11: 1 (same as before)
-6: 0.9
+| Cluster        | Distance           
+| ------------- |-------------|
+| 1      | 1.2 |
+| 2      | 1 (same as before) |
+| 3      | 0.9 |
 
 Now we can return all 3 openings (6, 11 and 5) or all that are above some threshold.
 
