@@ -26,11 +26,31 @@ When a `User` is created/edited in order to have a match, this is what happens:
 
 1. The `User` is measured against the representative of each cluster.
     > A **measure of distance** is needed between an `Opening` and a `User`
-1. The step above yields the distance from the `User` to teach of the Clusters. For the least (1/2/X?) distance(s):
+1. The step above yields the distance from the `User` to each of the Clusters. For the Cluster(s) with the least (1/2/X?) distance(s):
 1. For each `Opening` of the Cluster, calculate the distance between it and the `User`.
 1. The closest match(es) is(are) returned.
 
 A threshold for step 2 could be used.
+
+An example of this:
+
+`User` a = ... Some user that is really talented in Machine Learning
+
+For each cluster, we get a distance (or %?):
+
+1: 5
+2: 2
+3: 1
+
+It's clear that the `Openings` of Cluster 3 would interest `a` more.
+
+So, for each `Opening` in Cluster 3 we calculated another distance (or %?):
+
+5: 1.2
+11: 1 (same as before)
+6: 0.9
+
+Now we can return all 3 openings (6, 11 and 5) or all that are above some threshold.
 
 ### Simple
 
