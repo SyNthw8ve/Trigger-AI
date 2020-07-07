@@ -16,16 +16,14 @@ In these approaches **distance measures** are used in some way to get the match.
 
 > The **bolded openings** are the representatives of each cluster
 
-To create the clusters some **distance measure** is needed between `Openings`. 
-
-What should be used in the **distance measure** of `Openings`?
+To create the clusters there has to be a **transformer to points** for `Openings`, so we can represent them as points. 
 
 The clusters need to be updated once some `Opening` is changed, deleted or created.
 
 When a `User` is created/edited in order to have a match, this is what happens:
 
 1. The `User` is measured against the representative of each cluster.
-    > A **measure of distance** is needed between an `Opening` and a `User`
+    > A **measure of distance** is needed between an `Opening` (point) and a `User`
 1. The step above yields the distance from the `User` to each of the Clusters. For the Cluster(s) with the least (1/2/X?) distance(s):
 1. For each `Opening` of the Cluster, calculate the distance between it and the `User`.
 1. The closest match(es) is(are) returned.
