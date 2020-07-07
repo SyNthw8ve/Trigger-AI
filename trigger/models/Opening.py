@@ -8,6 +8,7 @@ from trigger.models.Language import Language
 class Opening(NamedTuple):
     # Institution's sector, really
     sector: str
+    # Can this even be used?
     area: str
     languages: List[Language]
     hardSkills: List[Hardskill]
