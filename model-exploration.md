@@ -70,5 +70,5 @@ This could be slightly optimized if it's observed that lots of "different" `User
 
 Here we would need to fabricate data.
 
-What would be the features and the ouput? Classification?
+What would be the features and the output? Classification?
 
