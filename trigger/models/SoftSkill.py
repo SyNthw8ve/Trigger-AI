@@ -1,6 +1,6 @@
 from typing import NamedTuple
 
 
-class SoftSkill(NamedTuple):
+class Softskill(NamedTuple):
     name: str
     score: int

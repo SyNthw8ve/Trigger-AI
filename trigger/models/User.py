@@ -1,7 +1,7 @@
 from typing import NamedTuple, List
 
-from trigger.models.SoftSkill import SoftSkill
+from trigger.models.Softskill import Softskill
 
 
 class User(NamedTuple):
-    softSkills: List[SoftSkill]
+    softSkills: List[Softskill]
