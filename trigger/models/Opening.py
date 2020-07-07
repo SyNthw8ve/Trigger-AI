@@ -12,4 +12,3 @@ class Opening(NamedTuple):
     languages: List[Language]
     hardSkills: List[Hardskill]
     softSkills: List[Softskill]
-    value: float
