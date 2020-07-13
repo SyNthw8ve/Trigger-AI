@@ -3,4 +3,6 @@ from typing import NamedTuple
 
 class Hardskill(NamedTuple):
     name: str
-    score: int
+    # maybe area?
+    # maybe institution?
+    # maybe company?
