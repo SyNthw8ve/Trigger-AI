@@ -6,6 +6,8 @@ from trigger.models.language import Language
 
 
 class Opening(NamedTuple):
+    # because of changes?
+    entityId: str
     # Institution's sector, really
     sector: str
     # Can this even be used?
