@@ -1,24 +1,18 @@
 # I can't think of a good name for this D:
+from trigger.models.opening import Opening
+from trigger.models.user import User
+from trigger.recommend.clusters import Clusters
+from trigger.recommend.opening_transformer import OpeningPoint
+from trigger.recommend.user_transformer import UserPoint
+from scipy.spatial import distance
 
-from trigger.models.User import User
-from trigger.models.Opening import Opening
+
+def user_distance(user: User, user_point: UserPoint, opening: Opening, opening_point: OpeningPoint) -> float:
+    # very complicated stuff
+    return distance.cosine(user_point, opening_point)
 
 
-class Smart:
-    def __init__(self, model_filepath: str) -> None:
-        self.model_filepath = model_filepath
-
-        # load the model, yeppy
-
-    def distance(self, user: User, opening: Opening) -> float:
-        # very complicated stuff
-        score = 0
-        first = user.softSkills[0]
-        try:
-            score = next(soft.score / first.score for soft in opening.softSkills if soft.name == first.name)
-            if score > 1:
-                score = 1.0
-        except StopIteration as _:
-            pass
-
-        return score
+def opening_distance(opening_a: Opening, opening_a_point: OpeningPoint, opening_b: Opening, opening_b_point: OpeningPoint) \
+        -> float:
+    # very complicated stuff
+    return distance.cosine(opening_a_point, opening_b_point)
