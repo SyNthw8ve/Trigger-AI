@@ -71,7 +71,8 @@ class Clusters:
 
         all_instances = self._all_instances()
 
-        distances = [(instance.cluster_number, smart.opening_distance(instance.opening, instance.point, opening, point)) for
+        distances = [(instance.cluster_number, smart.opening_distance(instance.opening, instance.point, opening, point))
+                     for
                      instance in all_instances]
 
         ordered_distances = sorted(distances, key=lambda e: e[1])
