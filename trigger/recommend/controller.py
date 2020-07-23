@@ -14,7 +14,7 @@ class Controller:
         self.clusters = cluster
         self.user_transformer = user_transformer
 
-    def user_matches(self, user: User, lowest_distance: float = 0.5) -> List[Match]:
+    def user_matches(self, user: User, highest_distance: float = 0.5) -> List[Match]:
         # very complex stuff
 
         good_clusters = []
@@ -23,8 +23,9 @@ class Controller:
 
         for cluster_instance in representatives:
 
-            score = smart.user_distance(user, user_point, cluster_instance.opening, cluster_instance.point)
-            if score < lowest_distance:
+            distance = smart.user_distance(user, user_point, cluster_instance.opening, cluster_instance.point)
+
+            if distance > highest_distance:
                 continue
 
             good_clusters.append(cluster_instance.cluster_number)
@@ -35,10 +36,10 @@ class Controller:
             cluster_instances = self.clusters.get_cluster(cluster_number).instances
             for cluster_instance in cluster_instances:
 
-                score = smart.user_distance(user, user_point, cluster_instance.opening, cluster_instance.point)
-                if score < lowest_distance:
+                distance = smart.user_distance(user, user_point, cluster_instance.opening, cluster_instance.point)
+                if distance > highest_distance:
                     continue
 
-                matches.append(Match(user, score, cluster_instance.opening))
+                matches.append(Match(user, distance, cluster_instance.opening))
 
         return matches

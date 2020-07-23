@@ -62,7 +62,7 @@ pprint.pprint(clusters.cluster_dict)
 print("User: ")
 pprint.pprint(user)
 
-matches = controller.user_matches(user, 0)
+matches = controller.user_matches(user)
 
 print("Matches: ")
 
