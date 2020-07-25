@@ -15,6 +15,8 @@ import pprint
 from trigger.recommend.user_transformer import UserTransformer
 
 from trigger.train.other.reader import SkillsFileReader
+from trigger.train.transformers.input_transformer import SentenceEmbedder
+from trigger.train.transformers.user_transformer import UserInstance
 
 """
 all_softskill_names = ["Leadership", "Creativity", "Individuality"]
@@ -73,6 +75,18 @@ pprint.pprint([(match.opening, match.score) for match in matches])
 """
 
 reader = SkillsFileReader('./inputs.json')
+embedder = SentenceEmbedder(modelname='distilbert-base-nli-stsb-mean-tokens')
+
+hardSkills = reader.hardskills
+softSkills = reader.softskills
+competences = reader.competences
+
+user = User(softSkills=[Softskill(softSkills[0], 2), Softskill(softSkills[1], 3)],
+            hardSkills=[Hardskill(hardSkills[0]), Hardskill(hardSkills[4])], interests=["Swimming"])
+
+userInstance = UserInstance(user)
+
+userVector = userInstance.transformUser(embedder)
 
 
 
