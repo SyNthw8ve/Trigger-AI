@@ -6,12 +6,12 @@ from trigger.train.transformers.input_transformer import SentenceEmbedder
 
 class UserInstance:
 
-    def __init__(self, user: User):
+    def __init__(self, user: User, sentenceEmbedder: SentenceEmbedder):
 
         self.user = user
-        self.vector = []
+        self.embedding = self._transformUser(sentenceEmbedder)
 
-    def transformUser(self, sentenceEmbedder: SentenceEmbedder) -> numpy.array:
+    def _transformUser(self, sentenceEmbedder: SentenceEmbedder) -> numpy.array:
 
         hardSkillsSentence = ' '.join([hardSkill.name for hardSkill in self.user.hardSkills])
         hardSkillsEmbedding = sentenceEmbedder.generateEmbeddings(hardSkillsSentence)
