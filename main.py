@@ -14,6 +14,9 @@ import pprint
 # some init?
 from trigger.recommend.user_transformer import UserTransformer
 
+from trigger.train.other.reader import SkillsFileReader
+
+"""
 all_softskill_names = ["Leadership", "Creativity", "Individuality"]
 softskill_transformer = SoftskillTransformer(all_softskill_names)
 
@@ -67,3 +70,9 @@ matches = controller.user_matches(user)
 print("Matches: ")
 
 pprint.pprint([(match.opening, match.score) for match in matches])
+"""
+
+reader = SkillsFileReader('./inputs.json')
+
+
+

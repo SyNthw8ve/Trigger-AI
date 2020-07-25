@@ -4,7 +4,6 @@ from trigger.models.softskill import Softskill
 from trigger.models.hardskill import Hardskill
 from trigger.models.language import Language
 
-
 class Opening(NamedTuple):
     # because of changes?
     entityId: str
