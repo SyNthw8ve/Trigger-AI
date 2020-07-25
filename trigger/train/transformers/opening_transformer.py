@@ -12,6 +12,7 @@ class OpeningInstance:
 
         self.opening = opening
         self.embedding = self._transformOpening(sentenceEmbedder)
+        self.cluster_index = None
 
     def _transformOpening(self, sentenceEmbedder: SentenceEmbedder) -> numpy.array:
 
