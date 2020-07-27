@@ -5,6 +5,7 @@ from trigger.models.hardskill import Hardskill
 
 
 class User(NamedTuple):
+    name: str
     softSkills: List[Softskill]
     # is this "competências"?...
     hardSkills: List[Hardskill]
