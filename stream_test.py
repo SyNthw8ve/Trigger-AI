@@ -9,6 +9,8 @@ from trigger.recommend.clusters import Clusters
 from trigger.recommend.opening_transformer import OpeningTransformer
 from trigger.recommend.skill_transformers.soft_skill_transformer import SoftskillTransformer
 
+from trigger.train.cluster.gstream import 
+
 import pprint
 
 # some init?
@@ -62,10 +64,5 @@ userInstance = UserInstance(user, embedder)
 
 openingsIntances = [OpeningInstance(opening, embedder) for opening in openings]
 
-cluster = KCluster(nClusters=2, instances=openingsIntances)
 
-cluster.train()
-
-matches = cluster.getOpenings(userInstance)
-
-pprint.pprint([(match.opening, match.score) for match in matches])
+gstream = GStream(vector_size=2, alpha1=0.01, alpha2=0.001, beta=5, error_decrease=0.9)
