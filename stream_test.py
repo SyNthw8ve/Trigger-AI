@@ -9,60 +9,36 @@ from trigger.recommend.clusters import Clusters
 from trigger.recommend.opening_transformer import OpeningTransformer
 from trigger.recommend.skill_transformers.soft_skill_transformer import SoftskillTransformer
 
-from trigger.train.cluster.gstream import 
+from trigger.train.cluster.gstream.gstream import GStream
+from matplotlib import pyplot as plt 
 
 import pprint
+import numpy as np
+import pickle as pk
 
-# some init?
-from trigger.recommend.user_transformer import UserTransformer
+with open('examples/g_stream/for_g_stream', 'rb') as f:
 
-from trigger.train.other.reader import SkillsFileReader
-from trigger.train.transformers.input_transformer import SentenceEmbedder
-from trigger.train.transformers.user_transformer import UserInstance
-from trigger.train.transformers.opening_transformer import OpeningInstance
+    stream = pk.load(f)
 
-from trigger.train.cluster.kmeans import KCluster
+np_stream = [np.array([data[0], data[1]]) for data in stream]
 
-reader = SkillsFileReader('./inputs.json')
-embedder = SentenceEmbedder(modelname='distilbert-base-nli-stsb-mean-tokens')
+X = [ data[0] for data in np_stream ]
+Y = [ data[1] for data in np_stream ]
 
-hardSkills = reader.hardskills
-softSkills = reader.softskills
-competences = reader.competences
+plt.plot(X, Y, 'or')
 
-user = User(softSkills=[Softskill(softSkills[0], 2), Softskill(softSkills[2], 3)],
-            hardSkills=[Hardskill(hardSkills[0]), Hardskill(hardSkills[4])], interests=["Swimming"])
+gstream = GStream(vector_size=2, alpha1=0.05, alpha2=0.0006, beta=200, error_decrease=0.95)
 
-openings = [
-    Opening(
-        entityId="0x1",
-        sector='Computer Engineering',
-        area="Software Development",
-        languages=[Language("English")],
-        softSkills=[Softskill(softSkills[1], 2), Softskill(softSkills[2], 3)],
-        hardSkills=[Hardskill(hardSkills[0])]
-    ),
-    Opening(
-        entityId="0x2",
-        sector='Formula 1',
-        area="Aerodynamics",
-        languages=[Language("English")],
-        softSkills=[Softskill(softSkills[1], 4), Softskill(softSkills[3], 3)],
-        hardSkills=[Hardskill(hardSkills[1]), Hardskill(hardSkills[3])]
-    ),
-    Opening(
-        entityId="0x3",
-        sector='Computer Engineering',
-        area="Security",
-        languages=[Language("English")],
-        softSkills=[Softskill(softSkills[1], 4), Softskill(softSkills[6], 3)],
-        hardSkills=[Hardskill(hardSkills[0])]
-    )
-]
+for i in range(0, len(np_stream), 300):
 
-userInstance = UserInstance(user, embedder)
+    mini_stream = np_stream[i:i+300]
 
-openingsIntances = [OpeningInstance(opening, embedder) for opening in openings]
+    gstream.got_data(mini_stream)
 
+centers = [node.protype for node in gstream.graph.nodes]
 
-gstream = GStream(vector_size=2, alpha1=0.01, alpha2=0.001, beta=5, error_decrease=0.9)
+X_g = [ data[0] for data in centers ]
+Y_g = [ data[1] for data in centers ]
+
+plt.plot(X_g, Y_g, 'ob')
+plt.show()

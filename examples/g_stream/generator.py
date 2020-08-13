@@ -1,9 +1,20 @@
 import random
+import pickle as pk
 
-centers = [(1, 1), (10, 10), (50, 0), (0, 50), (25, 25), (100, 0), (30, 70)]
-max_points = 5
+centers = []
+centers_num = 100
+max_distance = 500
+
+for i in range(centers_num):
+
+    x = random.randint(-max_distance, max_distance)
+    y = random.randint(-max_distance, max_distance)
+
+    centers.append((x, y))
+
+max_points = 100
 min_points = 1
-max_offset = 5
+max_offset = 100
 points = []
 
 for (x, y) in centers:
@@ -12,4 +23,6 @@ for (x, y) in centers:
         offset_point_y = random.randint(0, max_offset)
         points.append((x + offset_point_x, y + offset_point_y))
 
-print(points)
+with open('for_g_stream', 'wb') as f:
+
+    pk.dump(points, f)
