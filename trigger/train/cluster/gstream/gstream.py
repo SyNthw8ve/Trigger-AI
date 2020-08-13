@@ -1,3 +1,4 @@
+from typing import Tuple
 import numpy as np
 
 from trigger.train.cluster.gstream.graph import Graph
@@ -131,7 +132,7 @@ class GStream:
         self.graph.nodes.append(r)
 
 
-    def get_best_match(self, instance) -> (Node, Node):
+    def get_best_match(self, instance) -> Tuple[Node, Node]:
 
         centers = [node.protype for node in self.graph.nodes]
 

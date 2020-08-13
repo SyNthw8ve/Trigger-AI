@@ -1,3 +1,4 @@
+from typing import Tuple
 from trigger.train.cluster.gstream.node import Node
 
 class Graph:
@@ -15,7 +16,7 @@ class Graph:
 
         self.links.append(link)
 
-    def get_q_and_f(self) -> (Node, Node):
+    def get_q_and_f(self) -> Tuple[Node, Node]:
 
         q = sorted(self.nodes, key=lambda node: node.error, reverse=True)[0]
         f = sorted(q.topological_neighbors, 
