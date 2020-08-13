@@ -8,7 +8,7 @@ class Graph:
         self.nodes = []
         self.links = []
 
-    def insert_node(self, node):
+    def insert_node(self, node: Node):
 
         self.nodes.append(node)
 

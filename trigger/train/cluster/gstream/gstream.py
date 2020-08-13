@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Any, List, Tuple
 import numpy as np
 
 from trigger.train.cluster.gstream.graph import Graph
@@ -9,7 +9,7 @@ from scipy.spatial.distance import cdist
 
 class GStream:
 
-    def __init__(self, vector_size, alpha1, alpha2, beta, error_decrease):
+    def __init__(self, vector_size: int, alpha1: float, alpha2: float, beta: float, error_decrease: float):
 
         self.graph = Graph()
         self.alpha1 = alpha1
@@ -29,7 +29,7 @@ class GStream:
 
         self.is_first_pass = True
 
-    def got_data(self, instances):
+    def got_data(self, instances: List[Any]):
 
         if self.is_first_pass:
 
@@ -39,7 +39,7 @@ class GStream:
         else:
             self.other_pass(instances)
 
-    def first_pass(self, instances):
+    def first_pass(self, instances: List[Any]):
 
         for instance in instances:
 
@@ -49,7 +49,7 @@ class GStream:
 
         self.apply_deltas()
 
-    def other_pass(self, instances):
+    def other_pass(self, instances: List[Any]):
 
         for instance in instances:
 
@@ -63,7 +63,7 @@ class GStream:
 
                 self.cluster(instance, bmu1, bmu2)
 
-    def cluster(self, instance, bmu1, bmu2):
+    def cluster(self, instance, bmu1: Node, bmu2: Node):
 
         self.cycle += 1
 
