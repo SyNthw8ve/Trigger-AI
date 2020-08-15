@@ -56,6 +56,8 @@ class ECM:
                     cluster.center = cluster.center + (
                         direction / np.linalg.norm(direction)) * cluster.radius
 
+                    cluster.instances.append(instance)
+
                     # print("D", direction, "I", instance, "C", temp, "->", cluster.center, "R", temp2, "->", cluster.radius, cluster.instances, "#", len(self.clusters))
 
     # def _predict(self, instance: UserInstance) -> int:
