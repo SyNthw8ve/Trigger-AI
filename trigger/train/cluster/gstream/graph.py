@@ -1,22 +1,23 @@
-from typing import Tuple
+from trigger.train.cluster.gstream.link import Link
+from typing import List, Optional, Tuple
 from trigger.train.cluster.gstream.node import Node
 
 class Graph:
 
-    def __init__(self):
+    def __init__(self) -> None:
 
-        self.nodes = []
-        self.links = []
+        self.nodes: List[Node] = []
+        self.links: List[Link] = []
 
-    def insert_node(self, node: Node):
+    def insert_node(self, node: Node) -> None:
 
         self.nodes.append(node)
 
-    def insert_link(self, link):
+    def insert_link(self, link) -> None:
 
         self.links.append(link)
 
-    def has_link(self, v, u):
+    def has_link(self, v: Node, u: Node) -> bool:
 
         for link in self.links:
 
@@ -26,7 +27,7 @@ class Graph:
 
         return False
 
-    def get_link(self, v, u):
+    def get_link(self, v: Node, u: Node) -> Optional[Link]:
 
         for link in self.links:
 
@@ -36,7 +37,7 @@ class Graph:
 
         return None
 
-    def get_q_and_f(self) -> (Node, Node):
+    def get_q_and_f(self) -> Tuple[Node, Node]:
 
         q = sorted(self.nodes, key=lambda node: node.error, reverse=True)[0]
         f = sorted(q.topological_neighbors, 
