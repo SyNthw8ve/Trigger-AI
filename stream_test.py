@@ -16,7 +16,7 @@ import pprint
 import numpy as np
 import pickle as pk
 
-with open('examples/2D_points/0', 'rb') as f:
+with open('examples/2D_points_no_true/0', 'rb') as f:
 
     stream = pk.load(f)
 
