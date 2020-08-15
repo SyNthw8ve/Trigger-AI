@@ -1,4 +1,4 @@
-from typing import Any, List, NamedTuple
+from typing import Any, List, Optional
 from scipy.spatial.distance import euclidean
 
 import numpy as np
@@ -56,6 +56,19 @@ class ECM:
                     cluster.instances.append(instance)
 
 
+    def index_of_cluster_containing(self, instance: Any) -> Optional[int]:
+        for i, cluster in enumerate(self.clusters):
+            for _instance in cluster.instances:
+                if np.array_equal(instance, _instance):
+                    return i
+        return None
+
+    def describe(self) -> str:
+        '''
+        This describes this clustering algortihm's parameters 
+        '''
+
+        return f"ECM (distance_threshold: {self.distance_threshold})"
 
     # def _predict(self, instance: UserInstance) -> int:
 
