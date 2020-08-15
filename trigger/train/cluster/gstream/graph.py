@@ -1,3 +1,4 @@
+from typing import Tuple
 from trigger.train.cluster.gstream.node import Node
 
 class Graph:
@@ -7,7 +8,7 @@ class Graph:
         self.nodes = []
         self.links = []
 
-    def insert_node(self, node):
+    def insert_node(self, node: Node):
 
         self.nodes.append(node)
 
