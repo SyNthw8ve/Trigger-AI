@@ -48,9 +48,6 @@ class ECM:
                     cluster = self.clusters[lowest_distance_and_radius_index]
                     direction = instance - cluster.center
 
-                    temp = cluster.center.copy()
-                    temp2 = cluster.radius
-                    
                     cluster.radius = lowest_distance_and_radius/2
 
                     cluster.center = cluster.center + (
@@ -58,7 +55,7 @@ class ECM:
 
                     cluster.instances.append(instance)
 
-                    # print("D", direction, "I", instance, "C", temp, "->", cluster.center, "R", temp2, "->", cluster.radius, cluster.instances, "#", len(self.clusters))
+
 
     # def _predict(self, instance: UserInstance) -> int:
 
