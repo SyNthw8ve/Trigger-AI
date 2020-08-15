@@ -2,8 +2,11 @@ import numpy as np
 
 from trigger.train.cluster.gstream.graph import Graph
 from trigger.train.cluster.gstream.node import Node
+from trigger.train.cluster.gstream.link import Link
 
 from scipy.spatial.distance import cdist
+from matplotlib import pyplot as plt 
+
 
 
 class GStream:
@@ -19,7 +22,6 @@ class GStream:
 
         node_1 = Node(np.random.rand(1, vector_size)[0], 0, 0)
         node_2 = Node(np.random.rand(1, vector_size)[0], 0, 0)
-
         node_1.topological_neighbors.append(node_2)
         node_2.topological_neighbors.append(node_1)
 
@@ -140,3 +142,169 @@ class GStream:
         top_results = np.argpartition(-distances, range(2))[0:2]
 
         return (self.graph.nodes[top_results[0]], self.graph.nodes[top_results[1]])
+
+
+class GNG:
+
+    def __init__(self, epsilon_b, epsilon_n, lam, beta, alpha, max_age, h_t, h_p, vector_size):
+
+        self.graph = Graph()
+        self.epsilon_b = epsilon_b
+        self.epsilon_n = epsilon_n
+        self.lam = lam
+        self.beta = beta
+        self.alpha = alpha
+        self.max_age = max_age
+        self.h_t = h_t
+        self.h_p = h_p
+
+        self.cycle = 1
+
+        node_1 = Node(np.random.rand(1, vector_size)[0] + 10, 0, 0)
+        node_2 = Node(np.random.rand(1, vector_size)[0] + 10, 0, 0)
+
+        self.graph.insert_node(node_1)
+        self.graph.insert_node(node_2)
+
+    def lambda_fase(self, instances):
+
+        for instance in instances:
+
+            self.gng_adapt(instance)
+
+            if self.cycle % self.lam == 0:
+               
+                self.create_node()
+
+            self.cycle += 1
+
+    def create_node(self):
+
+        q, f = self.graph.get_q_and_f()
+
+        r = Node(0.5*(q.protype + f.protype), 0, 0)
+
+        link = self.graph.get_link(q, f)
+
+        q.topological_neighbors.remove(f)
+        f.topological_neighbors.remove(q)
+
+        self.graph.links.remove(link)
+
+        self.create_link(q, r)
+        self.create_link(f, r)
+
+        self.decrease_error(q)
+        self.decrease_error(f)
+
+        r.error = 0.5*(q.error + f.error)
+
+        self.graph.nodes.append(r)
+
+
+    def get_best_match(self, instance) -> (Node, Node):
+
+        centers = [node.protype for node in self.graph.nodes]
+        node_distance = []
+
+        for node in self.graph.nodes:
+
+            distance = cdist([instance], [node.protype], "euclidean")[0][0]
+            node_distance.append((node, distance))
+
+        node_distance = sorted(node_distance, key=lambda node: node[1])
+
+        return (node_distance[0][0], node_distance[1][0])
+
+    def gng_adapt(self, instance):
+
+        v, u = self.get_best_match(instance)
+
+        #v.instances.append(instance)
+
+        v.error += np.power(cdist([v.protype],
+                               [instance], "euclidean")[0], 2)[0]
+
+        v.protype += self.epsilon_b*(instance - v.protype)
+
+        for node in v.topological_neighbors:
+
+            node.protype += self.epsilon_n*(instance - node.protype)
+
+        if not self.graph.has_link(v, u):
+
+            self.create_link(v, u)
+
+        link = self.graph.get_link(v, u)
+        link.renew()
+
+        self.update_edges(v)
+
+        self.decrease_all_err()
+
+    def decrease_error(self, v):
+
+        v.error *= self.alpha
+
+    def decrease_all_err(self):
+
+        for node in self.graph.nodes:
+
+            node.error *= self.beta
+
+    def update_edges(self, v):
+
+        for u in v.topological_neighbors:
+
+            link = self.graph.get_link(v, u)
+
+            link.fade()
+
+            if link.age > self.max_age:
+
+                v.topological_neighbors.remove(u)
+                u.topological_neighbors.remove(v)
+
+                self.graph.links.remove(link)
+
+        for node in self.graph.nodes:
+
+            if len(node.topological_neighbors) == 0:
+
+                self.graph.nodes.remove(node)
+
+    def create_link(self, v, u):
+
+        link = Link(v, u)
+
+        self.graph.insert_link(link)
+
+        v.topological_neighbors.append(u)
+        u.topological_neighbors.append(v)
+
+    def plot(self):
+
+        centers = [node.protype for node in self.graph.nodes]
+
+        X_g = [ data[0] for data in centers ]
+        Y_g = [ data[1] for data in centers ]
+
+        seen = []
+
+        for v in self.graph.nodes:
+
+            for u in v.topological_neighbors:
+
+                if ((u, v) not in seen) and ((v, u) not in seen):
+
+                    plt.plot([v.protype[0], u.protype[0]], [v.protype[1], u.protype[1]], 'b')
+                    seen.append((v, u))
+
+        plt.plot(X_g, Y_g, 'ob')
+        plt.show()
+        
+    
+
+
+
+    
