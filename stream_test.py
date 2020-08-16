@@ -16,7 +16,11 @@ import pprint
 import numpy as np
 import pickle as pk
 
-with open('examples/2D_points/0', 'rb') as f:
+import logging
+mpl_logger = logging.getLogger('matplotlib')
+mpl_logger.setLevel(logging.WARNING)
+
+with open('examples/2D_points/for_g_stream_small', 'rb') as f:
 
     stream = pk.load(f)
 
@@ -26,7 +30,7 @@ X = [ data[0] for data in np_stream ]
 Y = [ data[1] for data in np_stream ]
 
 #gstream = GStream(vector_size=2, alpha1=0.05, alpha2=0.0006, beta=200, error_decrease=0.95)
-gng = GNG(0.015, 0.0005, 100, 0.9995, 0.95, 75, 0.1, 1.5, 2)
+gng = GNG(0.9, 0.005, 28, 0.9995, 0.95, 30, 0.1, 1.5, 2)
 
 gng.lambda_fase(np_stream)
 
