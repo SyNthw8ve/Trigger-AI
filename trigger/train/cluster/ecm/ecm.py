@@ -1,4 +1,4 @@
-from typing import Any, List, NamedTuple
+from typing import Any, List, Optional
 from scipy.spatial.distance import euclidean
 
 import numpy as np
@@ -48,15 +48,27 @@ class ECM:
                     cluster = self.clusters[lowest_distance_and_radius_index]
                     direction = instance - cluster.center
 
-                    temp = cluster.center.copy()
-                    temp2 = cluster.radius
-                    
                     cluster.radius = lowest_distance_and_radius/2
 
                     cluster.center = cluster.center + (
                         direction / np.linalg.norm(direction)) * cluster.radius
 
-                    # print("D", direction, "I", instance, "C", temp, "->", cluster.center, "R", temp2, "->", cluster.radius, cluster.instances, "#", len(self.clusters))
+                    cluster.instances.append(instance)
+
+
+    def index_of_cluster_containing(self, instance: Any) -> Optional[int]:
+        for i, cluster in enumerate(self.clusters):
+            for _instance in cluster.instances:
+                if np.array_equal(instance, _instance):
+                    return i
+        return None
+
+    def describe(self) -> str:
+        '''
+        This describes this clustering algortihm's parameters 
+        '''
+
+        return f"ECM (distance_threshold: {self.distance_threshold})"
 
     # def _predict(self, instance: UserInstance) -> int:
 

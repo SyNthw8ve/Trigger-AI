@@ -1,0 +1,8 @@
+{
+    "used algorithm": "ECM (distance_threshold: 10)",
+    "test": "examples/2D_points/0",
+    "clusters": [],
+    "scores": {
+        "sklearn.metrics.cluster.adjusted_rand_score": 0.09810988861865955
+    }
+}

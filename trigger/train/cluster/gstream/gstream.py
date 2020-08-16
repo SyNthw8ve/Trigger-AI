@@ -9,7 +9,6 @@ from scipy.spatial.distance import cdist
 from matplotlib import pyplot as plt 
 
 
-
 class GStream:
 
     def __init__(self, vector_size: int, alpha1: float, alpha2: float, beta: float, error_decrease: float):
@@ -31,7 +30,7 @@ class GStream:
 
         self.is_first_pass = True
 
-    def got_data(self, instances: List[Any]):
+    def got_data(self, instances: List[Any]) -> None:
 
         if self.is_first_pass:
 
@@ -41,7 +40,7 @@ class GStream:
         else:
             self.other_pass(instances)
 
-    def first_pass(self, instances: List[Any]):
+    def first_pass(self, instances: List[Any]) -> None:
 
         for instance in instances:
 
@@ -51,7 +50,7 @@ class GStream:
 
         self.apply_deltas()
 
-    def other_pass(self, instances: List[Any]):
+    def other_pass(self, instances: List[Any]) -> None:
 
         for instance in instances:
 
@@ -65,7 +64,7 @@ class GStream:
 
                 self.cluster(instance, bmu1, bmu2)
 
-    def cluster(self, instance, bmu1: Node, bmu2: Node):
+    def cluster(self, instance, bmu1: Node, bmu2: Node) -> None:
 
         self.cycle += 1
 
@@ -92,7 +91,7 @@ class GStream:
 
         self.decrease_error()
 
-    def apply_deltas(self):
+    def apply_deltas(self) -> None:
 
         for node in self.graph.nodes:
 
@@ -103,21 +102,21 @@ class GStream:
                 distances = cdist([node.protype], node.instances, "euclidean")[0]
             
                 node.delta = max(distances)
-        
-    def do_fadding(self):
+
+    def do_fadding(self) -> None:
         pass
 
-    def decrease_error(self):
-        
+    def decrease_error(self) -> None:
+
         for node in self.graph.nodes:
 
             node.error *= self.error_decrease
 
-    def update_edges(self):
+    def update_edges(self) -> None:
         pass
 
-    def create_nodes(self) -> Node:
-        
+    def create_nodes(self) -> None:
+
         q, f = self.graph.get_q_and_f()
 
         r = Node(0.5*(q.protype + f.protype), 0.5*(q.error + f.error), 0)
@@ -147,7 +146,7 @@ class GStream:
 
 class GNG:
 
-    def __init__(self, epsilon_b, epsilon_n, lam, beta, alpha, max_age, h_t, h_p, vector_size):
+    def __init__(self, epsilon_b: float, epsilon_n: float, lam: int, beta: float, alpha: float, max_age: int, h_t: float, h_p: float, vector_size: int) -> None:
 
         self.graph = Graph()
         self.epsilon_b = epsilon_b
@@ -167,7 +166,7 @@ class GNG:
         self.graph.insert_node(node_1)
         self.graph.insert_node(node_2)
 
-    def lambda_fase(self, instances):
+    def lambda_fase(self, instances: List[Any]) -> None:
 
         for instance in instances:
 
@@ -179,7 +178,7 @@ class GNG:
 
             self.cycle += 1
 
-    def create_node(self):
+    def create_node(self) -> None:
 
         q, f = self.graph.get_q_and_f()
 
@@ -202,8 +201,7 @@ class GNG:
 
         self.graph.nodes.append(r)
 
-
-    def get_best_match(self, instance) -> (Node, Node):
+    def get_best_match(self, instance) -> Tuple[Node, Node]:
 
         centers = [node.protype for node in self.graph.nodes]
         node_distance = []
@@ -217,7 +215,7 @@ class GNG:
 
         return (node_distance[0][0], node_distance[1][0])
 
-    def gng_adapt(self, instance):
+    def gng_adapt(self, instance) -> None:
 
         v, u = self.get_best_match(instance)
 
@@ -243,17 +241,17 @@ class GNG:
 
         self.decrease_all_err()
 
-    def decrease_error(self, v):
+    def decrease_error(self, v: Node) -> None:
 
         v.error *= self.alpha
 
-    def decrease_all_err(self):
+    def decrease_all_err(self) -> None:
 
         for node in self.graph.nodes:
 
             node.error *= self.beta
 
-    def update_edges(self, v):
+    def update_edges(self, v: Node) -> None:
 
         for u in v.topological_neighbors:
 
@@ -274,7 +272,7 @@ class GNG:
 
                 self.graph.nodes.remove(node)
 
-    def create_link(self, v, u):
+    def create_link(self, v: Node, u: Node) -> None:
 
         link = Link(v, u)
 
@@ -283,7 +281,7 @@ class GNG:
         v.topological_neighbors.append(u)
         u.topological_neighbors.append(v)
 
-    def plot(self):
+    def plot(self) -> None:
 
         centers = [node.protype for node in self.graph.nodes]
 
