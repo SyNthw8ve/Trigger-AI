@@ -55,7 +55,6 @@ class ECM:
 
                     cluster.instances.append(instance)
 
-
     def index_of_cluster_containing(self, instance: Any) -> Optional[int]:
         for i, cluster in enumerate(self.clusters):
             for _instance in cluster.instances:
@@ -63,12 +62,17 @@ class ECM:
                     return i
         return None
 
-    def describe(self) -> str:
+    def describe(self) -> object:
         '''
-        This describes this clustering algortihm's parameters 
+        This describes this clustering algortihm's parameters
         '''
 
-        return f"ECM (distance_threshold: {self.distance_threshold})"
+        return {
+            "name": "ECM",
+            "parameters": {
+                "distance threshold": self.distance_threshold
+            }
+        }
 
     # def _predict(self, instance: UserInstance) -> int:
 
