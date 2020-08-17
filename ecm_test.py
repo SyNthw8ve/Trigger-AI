@@ -47,7 +47,7 @@ def test_2d(ecm: ECM, case: TestCase, should_do_plot: bool = True, want_to_know_
 
     toc = time.perf_counter()
 
-    time_taken = toc - tic
+    time_taken = f"{toc - tic:0.4f} seconds"
 
     if should_do_plot:
         # If there are some reds, this means we didn't put them in a cluster, which *SHOULDN'T* happen
