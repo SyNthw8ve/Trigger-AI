@@ -12,7 +12,7 @@
         "inputs": [],
         "correct": []
     },
-    "time": 0.12629979999999819,
+    "time": "0.1231 seconds",
     "clusters": [],
     "scores": {
         "sklearn.metrics.cluster.adjusted_rand_score": 0.13551075311499558
