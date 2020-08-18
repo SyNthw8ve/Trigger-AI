@@ -62,7 +62,7 @@ class ECM:
                     return i
         return None
 
-    def describe(self) -> object:
+    def describe(self) -> Dict[str, Any]:
         '''
         This describes this clustering algortihm's parameters
         '''
