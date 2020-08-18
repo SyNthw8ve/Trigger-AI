@@ -47,7 +47,7 @@ def test_2d(ecm: ECM, case: TestCase, should_do_plot: bool = True, want_to_know_
 
     toc = time.perf_counter()
 
-    time_taken = f"{toc - tic:0.4f} seconds"
+    time_to_add = f"{toc - tic:0.4f} seconds"
 
     if should_do_plot:
         # If there are some reds, this means we didn't put them in a cluster, which *SHOULDN'T* happen
@@ -81,8 +81,14 @@ def test_2d(ecm: ECM, case: TestCase, should_do_plot: bool = True, want_to_know_
 
         plt.show()
 
+    tic = time.perf_counter()
+
     predicted = [ecm.index_of_cluster_containing(
         instance) for instance in case.inputs]
+
+    toc = time.perf_counter()
+
+    time_to_predict = f"{toc - tic:0.4f} seconds"
 
     results = {
         "used algorithm": ecm.describe(),
@@ -93,7 +99,8 @@ def test_2d(ecm: ECM, case: TestCase, should_do_plot: bool = True, want_to_know_
             "inputs": case.inputs if want_to_know_inputs_and_correct else [],
             "correct": case.correct if want_to_know_inputs_and_correct else [],
         },
-        "time": time_taken,
+        "time to add": time_to_add,
+        "time to predict": time_to_predict,
         "clusters": [
             {
                 "#": i,
@@ -121,7 +128,7 @@ def save_results(results: Any, path: str) -> None:
 def compute_filename(base: str, ecm: ECM, case: TestCase, override: bool = False) -> str:
     algorithm = ecm.describe()
 
-    algorithm_name = algorithm["name"]
+    algorithm_name = algorithm["name"] + " v2"
     algorithm_parameters = algorithm["parameters"]
 
     algorithm_parameters_parts = [
