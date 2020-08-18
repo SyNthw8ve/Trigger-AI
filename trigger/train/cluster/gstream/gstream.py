@@ -7,7 +7,7 @@ from trigger.train.cluster.gstream.link import Link
 
 from scipy.spatial.distance import cdist
 from matplotlib import pyplot as plt 
-
+from celluloid import Camera
 
 class GStream:
 
@@ -159,6 +159,7 @@ class GNG:
         self.h_p = h_p
 
         self.cycle = 1
+        self.camera = camera
 
         node_1 = Node(np.random.rand(1, vector_size)[0] + 10, 0, 0)
         node_2 = Node(np.random.rand(1, vector_size)[0] + 10, 0, 0)
@@ -170,6 +171,7 @@ class GNG:
 
         for instance in instances:
 
+            self.plot()
             self.gng_adapt(instance)
 
             if self.cycle % self.lam == 0:
@@ -177,6 +179,8 @@ class GNG:
                 self.create_node()
 
             self.cycle += 1
+
+        self.plot()
 
     def create_node(self) -> None:
 
@@ -219,7 +223,7 @@ class GNG:
 
         v, u = self.get_best_match(instance)
 
-        #v.instances.append(instance)
+        v.instances.append(instance)
 
         v.error += np.power(cdist([v.protype],
                                [instance], "euclidean")[0], 2)[0]
@@ -281,7 +285,7 @@ class GNG:
         v.topological_neighbors.append(u)
         u.topological_neighbors.append(v)
 
-    def plot(self) -> None:
+    def plot(self):
 
         centers = [node.protype for node in self.graph.nodes]
 
@@ -292,15 +296,32 @@ class GNG:
 
         for v in self.graph.nodes:
 
+            v_inst_X = [v.protype[0]]
+            v_inst_Y = [v.protype[1]]
+
+            for instance in v.instances:
+            
+                v_inst_X.append(instance[0])
+                v_inst_Y.append(instance[1])
+
+            plt.scatter(v_inst_X, v_inst_Y, edgecolors='black')
+
+        for v in self.graph.nodes:
+
             for u in v.topological_neighbors:
 
-                if ((u, v) not in seen) and ((v, u) not in seen):
+                    if ((u, v) not in seen) and ((v, u) not in seen):
 
-                    plt.plot([v.protype[0], u.protype[0]], [v.protype[1], u.protype[1]], 'b')
-                    seen.append((v, u))
+                        plt.plot([v.protype[0], u.protype[0]], [v.protype[1], u.protype[1]], 'b')
+                        seen.append((v, u))
 
-        plt.plot(X_g, Y_g, 'ob')
-        plt.show()
+        self.camera.snap()
+
+    def animate(self):
+
+        animation = self.camera.animate()
+        animation.save('animation.mp4')
+        
         
     
 
