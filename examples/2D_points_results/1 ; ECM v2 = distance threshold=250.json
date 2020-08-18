@@ -2,7 +2,7 @@
     "used algorithm": {
         "name": "ECM",
         "parameters": {
-            "distance threshold": 1000
+            "distance threshold": 250
         }
     },
     "test": {
@@ -12,10 +12,10 @@
         "inputs": [],
         "correct": []
     },
-    "time to add": "0.0831 seconds",
-    "time to predict": "47.8212 seconds",
+    "time to add": "0.3408 seconds",
+    "time to predict": "0.0058 seconds",
     "clusters": [],
     "scores": {
-        "sklearn.metrics.cluster.adjusted_rand_score": 0.01811384437727327
+        "sklearn.metrics.cluster.adjusted_rand_score": 0.13735936456968717
     }
 }

@@ -1,14 +1,15 @@
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
 from scipy.spatial.distance import euclidean
 
 import numpy as np
 
 
 class Cluster:
-    def __init__(self, center: Any) -> None:
+    def __init__(self, center: Any, index: int) -> None:
         self.center = center
         self.radius = 0
         self.instances = [center]
+        self.index = index
 
 
 class ECM:
@@ -17,10 +18,13 @@ class ECM:
         self.clusters: List[Cluster] = []
         self.distance_threshold = distance_threshold
         self.did_first_add = False
+        self.instance_to_cluster: Dict[Any, int] = {}
 
     def add(self, instance: Any) -> None:
         if not self.did_first_add:
-            self.clusters.append(Cluster(instance))
+            cluster = Cluster(instance, len(self.clusters))
+            self.clusters.append(cluster)
+            self.instance_to_cluster[tuple(instance)] = cluster.index
             self.did_first_add = True
         else:
             centers = [cluster.center for cluster in self.clusters]
@@ -37,13 +41,18 @@ class ECM:
 
             if min_index is not None:
                 self.clusters[min_index].instances.append(instance)
+                self.instance_to_cluster[tuple(instance)] = min_index
             else:
                 distances_plus_radiuses = np.add(distances, radiuses)
                 lowest_distance_and_radius_index = np.argmin(
                     distances_plus_radiuses)
                 lowest_distance_and_radius = distances_plus_radiuses[lowest_distance_and_radius_index]
+
                 if lowest_distance_and_radius > 2 * self.distance_threshold:
-                    self.clusters.append(Cluster(instance))
+                    cluster = Cluster(instance, len(self.clusters))
+                    self.clusters.append(cluster)
+                    self.instance_to_cluster[tuple(instance)] = cluster.index
+
                 else:
                     cluster = self.clusters[lowest_distance_and_radius_index]
                     direction = instance - cluster.center
@@ -54,15 +63,12 @@ class ECM:
                         direction / np.linalg.norm(direction)) * cluster.radius
 
                     cluster.instances.append(instance)
+                    self.instance_to_cluster[tuple(instance)] = cluster.index
 
     def index_of_cluster_containing(self, instance: Any) -> Optional[int]:
-        for i, cluster in enumerate(self.clusters):
-            for _instance in cluster.instances:
-                if np.array_equal(instance, _instance):
-                    return i
-        return None
+        return self.instance_to_cluster[tuple(instance)]
 
-    def describe(self) -> object:
+    def describe(self) -> Dict[str, Any]:
         '''
         This describes this clustering algortihm's parameters
         '''
