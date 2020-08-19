@@ -8,7 +8,6 @@ from trigger.recommend.controller import Controller
 from trigger.recommend.clusters import Clusters
 from trigger.recommend.opening_transformer import OpeningTransformer
 from trigger.recommend.skill_transformers.soft_skill_transformer import SoftskillTransformer
-from celluloid import Camera
 
 import logging
 
@@ -22,19 +21,16 @@ import pprint
 import numpy as np
 import pickle as pk
 
-with open('examples/2D_points_no_true/4', 'rb') as f:
+with open('examples/2D_points_no_true/0', 'rb') as f:
 
     stream = pk.load(f)
 
-np_stream = [np.array([data[0], data[1]]) for data in stream]
+np_stream = [np.array([data[0], data[1]]).astype('float32') for data in stream]
 
 #gstream = GStream(vector_size=2, alpha1=0.05, alpha2=0.0006, beta=200, error_decrease=0.95)
 
-fig = plt.figure()
-camera = Camera(fig)
-
-gng = GNG(0.1, 0, 5, 0.9995, 0.95, 10, 0.1, 1.5, 2, camera)
+gng = GNG(0.01, 0, 75, 0.9995, 0.95, 75, 2)
 
 gng.lambda_fase(np_stream)
 
-gng.animate()
+gng.plot()

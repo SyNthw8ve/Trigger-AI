@@ -1,5 +1,6 @@
 from typing import Any, List, Tuple
 import numpy as np
+import faiss
 
 from trigger.train.cluster.gstream.graph import Graph
 from trigger.train.cluster.gstream.node import Node
@@ -7,7 +8,6 @@ from trigger.train.cluster.gstream.link import Link
 
 from scipy.spatial.distance import cdist
 from matplotlib import pyplot as plt 
-from celluloid import Camera
 
 class GStream:
 
@@ -146,7 +146,7 @@ class GStream:
 
 class GNG:
 
-    def __init__(self, epsilon_b: float, epsilon_n: float, lam: int, beta: float, alpha: float, max_age: int, h_t: float, h_p: float, vector_size: int) -> None:
+    def __init__(self, epsilon_b: float, epsilon_n: float, lam: int, beta: float, alpha: float, max_age: int, vector_size: int) -> None:
 
         self.graph = Graph()
         self.epsilon_b = epsilon_b
@@ -155,45 +155,55 @@ class GNG:
         self.beta = beta
         self.alpha = alpha
         self.max_age = max_age
-        self.h_t = h_t
-        self.h_p = h_p
+        self.index = faiss.IndexIDMap(faiss.IndexFlatL2(vector_size))
+        self.next_id = 2
 
         self.cycle = 1
-        self.camera = camera
-
-        node_1 = Node(np.random.rand(1, vector_size)[0] + 10, 0, 0)
-        node_2 = Node(np.random.rand(1, vector_size)[0] + 10, 0, 0)
+    
+        node_1 = Node(np.random.rand(1, vector_size).astype('float32')[0], 0, 0, id=0)
+        node_2 = Node(np.random.rand(1, vector_size).astype('float32')[0], 0, 0, id=1)
 
         self.graph.insert_node(node_1)
         self.graph.insert_node(node_2)
 
+        nodes = np.array([node_1.protype, node_2.protype])
+        ids = np.array([0, 1], dtype=int)
+
+        self.index.add_with_ids(nodes, ids)
+    
     def lambda_fase(self, instances: List[Any]) -> None:
 
         for instance in instances:
 
-            self.plot()
             self.gng_adapt(instance)
 
             if self.cycle % self.lam == 0:
                
-                self.create_node()
+                self.gng_grow()
 
             self.cycle += 1
 
-        self.plot()
+    def create_node(self, q: Node, f: Node) -> Node:
 
-    def create_node(self) -> None:
+        r = Node(0.5*(q.protype + f.protype), 0, 0, self.next_id)
+        self.next_id += 1
+
+        self.graph.insert_node(r)
+
+        return r
+
+    def gng_grow(self) -> None:
 
         q, f = self.graph.get_q_and_f()
 
-        r = Node(0.5*(q.protype + f.protype), 0, 0)
+        r = self.create_node(q, f)
 
         link = self.graph.get_link(q, f)
 
-        q.topological_neighbors.remove(f)
-        f.topological_neighbors.remove(q)
+        q.remove_neighbor(f)
+        f.remove_neighbor(q)
 
-        self.graph.links.remove(link)
+        self.graph.remove_link(q, f)
 
         self.create_link(q, r)
         self.create_link(f, r)
@@ -203,21 +213,19 @@ class GNG:
 
         r.error = 0.5*(q.error + f.error)
 
-        self.graph.nodes.append(r)
-
     def get_best_match(self, instance) -> Tuple[Node, Node]:
 
-        centers = [node.protype for node in self.graph.nodes]
-        node_distance = []
+        D, I = self.index.search(np.array([instance]), 2)
 
-        for node in self.graph.nodes:
+        return (self.graph.get_node(I[0][0]), self.graph.get_node(I[0][1]))
 
-            distance = cdist([instance], [node.protype], "euclidean")[0][0]
-            node_distance.append((node, distance))
+    def update_prototype(self, v: Node, scale: float, instance) -> None:
 
-        node_distance = sorted(node_distance, key=lambda node: node[1])
+        self.index.remove_ids(np.array([v.id]))
 
-        return (node_distance[0][0], node_distance[1][0])
+        v.protype += scale*(instance - v.protype)
+
+        self.index.add_with_ids(np.array([v.protype]), np.array([v.id]))
 
     def gng_adapt(self, instance) -> None:
 
@@ -228,11 +236,11 @@ class GNG:
         v.error += np.power(cdist([v.protype],
                                [instance], "euclidean")[0], 2)[0]
 
-        v.protype += self.epsilon_b*(instance - v.protype)
+        self.update_prototype(v, self.epsilon_b, instance)
 
-        for node in v.topological_neighbors:
+        for node in v.topological_neighbors.values():
 
-            node.protype += self.epsilon_n*(instance - node.protype)
+            self.update_prototype(node, self.epsilon_n, instance)
 
         if not self.graph.has_link(v, u):
 
@@ -251,13 +259,16 @@ class GNG:
 
     def decrease_all_err(self) -> None:
 
-        for node in self.graph.nodes:
+        for node in self.graph.nodes.values():
 
             node.error *= self.beta
 
     def update_edges(self, v: Node) -> None:
 
-        for u in v.topological_neighbors:
+        links_to_remove = []
+        nodes_to_remove = []
+
+        for u in v.topological_neighbors.values():
 
             link = self.graph.get_link(v, u)
 
@@ -265,36 +276,45 @@ class GNG:
 
             if link.age > self.max_age:
 
-                v.topological_neighbors.remove(u)
-                u.topological_neighbors.remove(v)
+                links_to_remove.append((v, u))
 
-                self.graph.links.remove(link)
+        for v, u in links_to_remove:
 
-        for node in self.graph.nodes:
+            v.remove_neighbor(u)
+            u.remove_neighbor(v)
+
+            self.graph.remove_link(v, u)
+
+        for node in self.graph.nodes.values():
 
             if len(node.topological_neighbors) == 0:
 
-                self.graph.nodes.remove(node)
+                nodes_to_remove.append(node)
+                
+        for node in nodes_to_remove:
+
+            self.graph.remove_node(node)
+            self.index.remove_ids(np.array([node.id]))
 
     def create_link(self, v: Node, u: Node) -> None:
 
         link = Link(v, u)
 
-        self.graph.insert_link(link)
+        self.graph.insert_link(v, u, link)
 
-        v.topological_neighbors.append(u)
-        u.topological_neighbors.append(v)
+        v.add_neighbor(u)
+        u.add_neighbor(v)
 
     def plot(self):
 
-        centers = [node.protype for node in self.graph.nodes]
+        centers = [node.protype for node in self.graph.nodes.values()]
 
         X_g = [ data[0] for data in centers ]
         Y_g = [ data[1] for data in centers ]
 
         seen = []
 
-        for v in self.graph.nodes:
+        for v in self.graph.nodes.values():
 
             v_inst_X = [v.protype[0]]
             v_inst_Y = [v.protype[1]]
@@ -306,21 +326,16 @@ class GNG:
 
             plt.scatter(v_inst_X, v_inst_Y, edgecolors='black')
 
-        for v in self.graph.nodes:
+        for v in self.graph.nodes.values():
 
-            for u in v.topological_neighbors:
+            for u in v.topological_neighbors.values():
 
                     if ((u, v) not in seen) and ((v, u) not in seen):
 
                         plt.plot([v.protype[0], u.protype[0]], [v.protype[1], u.protype[1]], 'b')
                         seen.append((v, u))
 
-        self.camera.snap()
-
-    def animate(self):
-
-        animation = self.camera.animate()
-        animation.save('animation.mp4')
+        plt.savefig('plot.png')
         
         
     
