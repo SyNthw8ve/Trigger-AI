@@ -2,20 +2,31 @@ from trigger.train.cluster.gstream.link import Link
 from typing import List, Optional, Tuple, Dict
 from trigger.train.cluster.gstream.node import Node
 
+import heapq
+
 class Graph:
 
     def __init__(self) -> None:
 
         self.nodes: Dict[int, Node] = {}
         self.links: Dict[Tuple[int, int], Link] = {}
+        self.heap = []
+
+    def update_heap(self) -> None:
+
+        heapq.heapify(self.heap)
 
     def insert_node(self, node: Node) -> None:
 
         self.nodes[node.id] = node
+        heapq.heappush(self.heap, node)
 
     def remove_node(self, node: Node) -> None:
 
         self.nodes.pop(node.id)
+
+        self.heap.remove(node)
+        heapq.heapify(self.heap)
         
     def get_node(self, id) -> Node:
 
@@ -27,7 +38,7 @@ class Graph:
 
     def remove_link(self, v: Node, u: Node) -> None:
 
-        if self.links.get((v.id, u.id), -1) != -1:
+        if self.links.get((v.id, u.id), None) != None:
 
             self.links.pop((v.id, u.id))
 
@@ -37,21 +48,21 @@ class Graph:
 
     def has_link(self, v: Node, u: Node) -> bool:
 
-        return (self.links.get((v.id, u.id), -1) != -1) or (self.links.get((u.id, v.id), -1) != -1)
+        return (self.links.get((v.id, u.id), None) != None) or (self.links.get((u.id, v.id), None) != None)
             
     def get_link(self, v: Node, u: Node) -> Optional[Link]:
 
-        link = self.links.get((v.id, u.id), -1)
+        link = self.links.get((v.id, u.id), None)
 
-        if link != -1:
+        if link != None:
 
             return link
 
-        return self.links.get((u.id, v.id), -1)
+        return self.links.get((u.id, v.id), None)
 
     def get_q_and_f(self) -> Tuple[Node, Node]:
 
-        q = sorted(self.nodes.values(), key=lambda node: node.error, reverse=True)[0]
+        q = self.heap[0]
         f = sorted(q.topological_neighbors.values(), 
                                     key=lambda node: node.error, reverse=True)[0]
 

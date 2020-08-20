@@ -143,7 +143,6 @@ class GStream:
 
         return (self.graph.nodes[top_results[0]], self.graph.nodes[top_results[1]])
 
-
 class GNG:
 
     def __init__(self, epsilon_b: float, epsilon_n: float, lam: int, beta: float, alpha: float, max_age: int, vector_size: int) -> None:
@@ -158,18 +157,16 @@ class GNG:
         self.index = faiss.IndexIDMap(faiss.IndexFlatL2(vector_size))
         self.next_id = 2
 
-        self.cycle = 1
+        self.cycle = 0
+        self.step = 1
     
-        node_1 = Node(np.random.rand(1, vector_size).astype('float32')[0], 0, 0, id=0)
-        node_2 = Node(np.random.rand(1, vector_size).astype('float32')[0], 0, 0, id=1)
+        node_1 = Node(np.random.rand(1, vector_size).astype('float32')[0], 0, 0, id=0, error_cycle=0)
+        node_2 = Node(np.random.rand(1, vector_size).astype('float32')[0], 0, 0, id=1, error_cycle=0)
 
         self.graph.insert_node(node_1)
         self.graph.insert_node(node_2)
 
-        nodes = np.array([node_1.protype, node_2.protype])
-        ids = np.array([0, 1], dtype=int)
-
-        self.index.add_with_ids(nodes, ids)
+        self.index.add_with_ids(np.array([node_1.protype, node_2.protype]), np.array([0, 1]))
     
     def lambda_fase(self, instances: List[Any]) -> None:
 
@@ -177,23 +174,28 @@ class GNG:
 
             self.gng_adapt(instance)
 
-            if self.cycle % self.lam == 0:
+            if self.step == self.lam - 1:
                
                 self.gng_grow()
+                self.cycle += 1
+                self.step = 0
 
-            self.cycle += 1
+            else:
+            
+                self.step += 1
 
     def create_node(self, q: Node, f: Node) -> Node:
 
-        r = Node(0.5*(q.protype + f.protype), 0, 0, self.next_id)
+        r = Node(0.5*(q.protype + f.protype), 0, 0, self.next_id, self.cycle)
         self.next_id += 1
 
         self.graph.insert_node(r)
+        self.index.add_with_ids(np.array([r.protype]), np.array([r.id]))
 
         return r
 
     def gng_grow(self) -> None:
-
+       
         q, f = self.graph.get_q_and_f()
 
         r = self.create_node(q, f)
@@ -212,12 +214,25 @@ class GNG:
         self.decrease_error(f)
 
         r.error = 0.5*(q.error + f.error)
+        self.graph.update_heap()
 
     def get_best_match(self, instance) -> Tuple[Node, Node]:
 
         D, I = self.index.search(np.array([instance]), 2)
-
+        
         return (self.graph.get_node(I[0][0]), self.graph.get_node(I[0][1]))
+
+    def increment_error(self, node: Node, value: float) -> None:
+
+        self.fix_error(node)
+        node.error = node.error*(np.power(self.beta, self.lam - self.step)) + value
+
+        self.graph.update_heap()
+
+    def fix_error(self, node: Node) -> None:
+
+        node.error = np.power(self.beta, self.lam*(self.cycle - node.error_cycle))*node.error
+        node.update_error_cycle(self.cycle)
 
     def update_prototype(self, v: Node, scale: float, instance) -> None:
 
@@ -233,8 +248,10 @@ class GNG:
 
         v.instances.append(instance)
 
-        v.error += np.power(cdist([v.protype],
+        error_value = np.power(cdist([v.protype],
                                [instance], "euclidean")[0], 2)[0]
+
+        self.increment_error(v, error_value)
 
         self.update_prototype(v, self.epsilon_b, instance)
 
@@ -251,17 +268,12 @@ class GNG:
 
         self.update_edges(v)
 
-        self.decrease_all_err()
-
     def decrease_error(self, v: Node) -> None:
 
+        self.fix_error(v)
+
         v.error *= self.alpha
-
-    def decrease_all_err(self) -> None:
-
-        for node in self.graph.nodes.values():
-
-            node.error *= self.beta
+        self.graph.update_heap()
 
     def update_edges(self, v: Node) -> None:
 
@@ -325,6 +337,7 @@ class GNG:
                 v_inst_Y.append(instance[1])
 
             plt.scatter(v_inst_X, v_inst_Y, edgecolors='black')
+            #plt.plot(v_inst_X, v_inst_Y, 'or')
 
         for v in self.graph.nodes.values():
 
@@ -332,8 +345,10 @@ class GNG:
 
                     if ((u, v) not in seen) and ((v, u) not in seen):
 
-                        plt.plot([v.protype[0], u.protype[0]], [v.protype[1], u.protype[1]], 'b')
+                        plt.plot([v.protype[0], u.protype[0]], [v.protype[1], u.protype[1]], 'r')
                         seen.append((v, u))
+            
+            plt.plot([v.protype[0]], [v.protype[1]], 'or')
 
         plt.savefig('plot.png')
         
