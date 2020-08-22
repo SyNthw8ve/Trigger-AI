@@ -3,8 +3,8 @@ import random
 import pickle as pk
 
 centers = []
-centers_num = 100
-max_distance = 500
+centers_num = 500
+max_distance = 2000
 
 for i in range(centers_num):
 
@@ -15,7 +15,7 @@ for i in range(centers_num):
 
 max_points = 100
 min_points = 10
-max_offset = 100
+max_offset = 200
 points = []
 
 for c, (x, y) in enumerate(centers):
@@ -25,7 +25,7 @@ for c, (x, y) in enumerate(centers):
         points.append((x + offset_point_x, y + offset_point_y, c))
 
 
-path = sys.argv[1]
+#path = sys.argv[1]
 
-with open(path, 'wb') as f:
+with open('../examples/2D_points/2', 'wb') as f:
     pk.dump(points, f)

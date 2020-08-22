@@ -1,36 +1,48 @@
-from trigger.models.opening import Opening
-from trigger.models.softskill import Softskill
-from trigger.models.hardskill import Hardskill
-from trigger.models.language import Language
-from trigger.models.user import User
-from trigger.recommend import smart
-from trigger.recommend.controller import Controller
-from trigger.recommend.clusters import Clusters
-from trigger.recommend.opening_transformer import OpeningTransformer
-from trigger.recommend.skill_transformers.soft_skill_transformer import SoftskillTransformer
-
+import pprint
+import numpy as np
+import pickle as pk
 import logging
 
 logger = logging.getLogger('matplotlib')
 logger.setLevel(logging.WARNING)
 
-from trigger.train.cluster.gstream.gstream import GStream, GNG
+from util.stream.stream_generator import StreamGeneratorUniformDelay
+from util.stream.stream_processor import StreamProcessor
+
+from sklearn.metrics.cluster import adjusted_rand_score
+
+from trigger.train.cluster.gstream.gstream import GNG
 from matplotlib import pyplot as plt 
 
-import pprint
-import numpy as np
-import pickle as pk
+def get_stream(delay, values, path, new_stream=False):
 
-with open('examples/2D_points_no_true/5', 'rb') as f:
+    stream = []
 
-    stream = pk.load(f)
+    if new_stream:
 
-np_stream = [np.array([data[0], data[1]]).astype('float32') for data in stream]
+        stream_generator = StreamGeneratorUniformDelay(delay=delay, stream_values_interval=values)
 
-#gstream = GStream(vector_size=2, alpha1=0.05, alpha2=0.0006, beta=200, error_decrease=0.95)
+        stream = stream_generator.generate_stream(num_items=10000)
+        stream_generator.save_stream(path)
 
-gng = GNG(0.01, 0, 200, 0.9995, 0.95, 200, 2)
+    else:
 
-gng.lambda_fase(np_stream)
+        with open(path, 'rb') as f:
 
-gng.plot()
+            stream = pk.load(f)
+
+    return stream
+
+if __name__ == "__main__":
+    
+    stream = get_stream(0.005, 10000, './examples/2D_stream/1', new_stream=False)
+
+    gng = GNG(epsilon_b=0.05, epsilon_n=0, lam=300, beta=0.9995, 
+                alpha=0.95, max_age=350, aging='time', lambda_2=0.2, 
+                dimensions=2, nodes_per_cycle=3)
+
+    stream_processor = StreamProcessor(processor=gng, instances=stream)
+
+    stream_processor.process(apply_delay=True)
+
+    gng.plot(path='./results/1_time_3_node.png')
