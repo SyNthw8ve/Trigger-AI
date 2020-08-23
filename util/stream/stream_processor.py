@@ -16,13 +16,13 @@ class StreamProcessor():
 
         for instance in self.instances:
 
-            np_instance = np.array([instance[0], instance[1]]).astype('float32')
+            np_instance = instance[0]
             
             self.processor.process(np_instance)
 
             if apply_delay:
 
-                delay = instance[2]
+                delay = instance[1]
                 time.sleep(delay)
 
     

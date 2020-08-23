@@ -23,6 +23,10 @@ class Graph:
 
     def remove_node(self, node: Node) -> None:
 
+        for u in node.topological_neighbors.values():
+
+            self.remove_link(node, u)
+
         self.nodes.pop(node.id)
 
         self.heap.remove(node)
@@ -42,7 +46,7 @@ class Graph:
 
             self.links.pop((v.id, u.id))
 
-        else:
+        elif self.links.get((u.id, v.id), None) != None:
             self.links.pop((u.id, v.id))
             
 
@@ -67,3 +71,11 @@ class Graph:
                                     key=lambda node: node.error, reverse=True)[0]
 
         return (q, f)
+
+    def partial_reset(self):
+
+        for node in self.nodes.values():
+
+            node.partial_reset()
+        
+        self.links = {}

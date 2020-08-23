@@ -1,5 +1,6 @@
 import random
 import pickle as pk
+import numpy as np
 
 from abc import ABC, abstractmethod
 from typing import List
@@ -16,12 +17,14 @@ class StreamGenerator(ABC):
 
 class StreamGeneratorRandomDelay(StreamGenerator):
 
-    def __init__(self, stream_values_interval: float, max_delay: float, min_delay: float):
+    def __init__(self, stream_values_interval: float, max_delay: float, min_delay: float, 
+                    dimensions: int=2):
 
         self.stream_values_interval = stream_values_interval
         self.max_delay = max_delay
         self.min_delay = min_delay
         self.stream = []
+        self.dimensions = dimensions
 
     def generate_stream(self, num_items: int) -> List:
 
@@ -31,11 +34,10 @@ class StreamGeneratorRandomDelay(StreamGenerator):
 
         for i in range(num_items):
 
-            x = random.uniform(-max_distance, max_distance)
-            y = random.uniform(-max_distance, max_distance)
+            vector = np.random.uniform(low=-max_distance, high=max_distance, size=self.dimensions).astype('float32')
             delay = random.uniform(self.min_delay, self.max_delay)
 
-            stream.append((x, y, delay))
+            stream.append((vector, delay))
 
         self.stream = stream
 
@@ -48,9 +50,10 @@ class StreamGeneratorRandomDelay(StreamGenerator):
 
 class StreamGeneratorUniformDelay(StreamGenerator):
 
-    def __init__(self, delay: float, stream_values_interval: float):
+    def __init__(self, delay: float, stream_values_interval: float, dimensions: int=2):
 
         self.delay = delay
+        self.dimensions = dimensions
         self.stream_values_interval = stream_values_interval
         self.stream = []
 
@@ -62,10 +65,8 @@ class StreamGeneratorUniformDelay(StreamGenerator):
 
         for i in range(num_items):
 
-            x = random.uniform(-max_distance, max_distance)
-            y = random.uniform(-max_distance, max_distance)
-
-            stream.append((x, y, self.delay))
+            vector = np.random.uniform(low=-max_distance, high=max_distance, size=self.dimensions).astype('float32')
+            stream.append((vector, self.delay))
 
         self.stream = stream
 

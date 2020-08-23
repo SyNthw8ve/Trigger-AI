@@ -1,6 +1,7 @@
 from typing import Any, List, Tuple
 import numpy as np
 import faiss
+import time
 
 from trigger.train.cluster.gstream.graph import Graph
 from trigger.train.cluster.gstream.node import Node
@@ -9,32 +10,37 @@ from util.stream.processor import Processor
 
 from scipy.spatial.distance import cdist
 from matplotlib import pyplot as plt 
+from mpl_toolkits.mplot3d import Axes3D
 
 class GNG(Processor):
 
     def __init__(self, epsilon_b: float, epsilon_n: float, lam: int, beta: float, 
-                    alpha: float, lambda_2: float, max_age: float, aging: str='counter', 
-                    dimensions: int=2, nodes_per_cycle=1) -> None:
+                    alpha: float, lambda_2: float, max_age: float, off_max_age: int,
+                    aging: str='counter', dimensions: int=2, nodes_per_cycle=1) -> None:
 
         self.graph = Graph()
+
         self.epsilon_b = epsilon_b
         self.epsilon_n = epsilon_n
         self.lam = lam
         self.beta = beta
         self.alpha = alpha
         self.max_age = max_age
+        self.off_max_age = off_max_age
         self.aging = aging
         self.lambda_2 = lambda_2
         self.nodes_per_cycle = nodes_per_cycle
+
         self.index = faiss.IndexIDMap(faiss.IndexFlatL2(dimensions))
         self.next_id = 2
         self.point_to_cluster = {}
+        self.instances = []
 
         self.cycle = 0
         self.step = 1
     
-        node_1 = Node(np.random.rand(1, dimensions).astype('float32')[0], 0, 0, id=0, error_cycle=0)
-        node_2 = Node(np.random.rand(1, dimensions).astype('float32')[0], 0, 0, id=1, error_cycle=0)
+        node_1 = Node(np.random.rand(1, dimensions).astype('float32')[0], 0, id=0, error_cycle=0)
+        node_2 = Node(np.random.rand(1, dimensions).astype('float32')[0], 0, id=1, error_cycle=0)
 
         self.graph.insert_node(node_1)
         self.graph.insert_node(node_2)
@@ -43,9 +49,9 @@ class GNG(Processor):
     
     def process(self, instance):
 
-        self.lambda_fase(instance)
+        self.online_fase(instance)
 
-    def lambda_fase(self, instance: Any) -> None:
+    def online_fase(self, instance: Any) -> None:
 
         self.gng_adapt(instance)
 
@@ -61,7 +67,7 @@ class GNG(Processor):
 
     def create_node(self, q: Node, f: Node) -> Node:
 
-        r = Node(0.5*(q.protype + f.protype), 0, 0, self.next_id, self.cycle)
+        r = Node(0.5*(q.protype + f.protype), 0, self.next_id, self.cycle)
         self.next_id += 1
 
         self.graph.insert_node(r)
@@ -84,8 +90,8 @@ class GNG(Processor):
 
             self.graph.remove_link(q, f)
 
-            self.create_link(q, r)
-            self.create_link(f, r)
+            self.create_link(q, r, self.aging)
+            self.create_link(f, r, self.aging)
 
             self.decrease_error(q)
             self.decrease_error(f)
@@ -124,6 +130,7 @@ class GNG(Processor):
         v, u = self.get_best_match(instance)
 
         v.instances.append(instance)
+        self.instances.append(instance)
 
         self.point_to_cluster[tuple(instance)] = v.id
 
@@ -142,12 +149,12 @@ class GNG(Processor):
 
         if not self.graph.has_link(v, u):
 
-            self.create_link(v, u)
+            self.create_link(v, u, self.aging)
 
         link = self.graph.get_link(v, u)
         link.renew()
 
-        self.update_edges(v)
+        self.update_edges(v, False)
         self.update_nodes()
 
     def decrease_error(self, v: Node) -> None:
@@ -157,13 +164,13 @@ class GNG(Processor):
         v.error *= self.alpha
         self.graph.update_heap()
 
-    def update_nodes(self):
+    def update_nodes(self) -> None:
 
         nodes_to_remove = []
 
         for node in self.graph.nodes.values():
 
-            if len(node.topological_neighbors) == 0:
+            if len(node.topological_neighbors) == 0 and len(node.instances) == 0:
 
                 nodes_to_remove.append(node)
                 
@@ -171,7 +178,7 @@ class GNG(Processor):
 
             self.graph.remove_node(node)
             self.index.remove_ids(np.array([node.id]))
-
+        
     def age_links(self, v: Node) -> None:
 
         for u in v.topological_neighbors.values():
@@ -180,7 +187,7 @@ class GNG(Processor):
 
             link.fade(lambda_2=self.lambda_2)
 
-    def update_edges(self, v: Node) -> None:
+    def update_edges(self, v: Node, offline: bool) -> None:
 
         links_to_remove = []
         
@@ -188,7 +195,7 @@ class GNG(Processor):
 
             link = self.graph.get_link(v, u)
 
-            if link.age > self.max_age:
+            if (not offline and link.age > self.max_age) or (offline and link.age > self.off_max_age):
 
                 links_to_remove.append((v, u))
 
@@ -199,23 +206,19 @@ class GNG(Processor):
 
             self.graph.remove_link(v, u)  
 
-    def create_link(self, v: Node, u: Node) -> None:
+    def create_link(self, v: Node, u: Node, age_type: str) -> None:
 
-        link = Link(v, u, self.aging)
+        link = Link(v, u, age_type)
 
         self.graph.insert_link(v, u, link)
 
         v.add_neighbor(u)
         u.add_neighbor(v)
 
-    def plot(self, path):
-
-        centers = [node.protype for node in self.graph.nodes.values()]
-
-        X_g = [ data[0] for data in centers ]
-        Y_g = [ data[1] for data in centers ]
+    def plot2D(self, path):
 
         seen = []
+        plt.clf()
 
         for v in self.graph.nodes.values():
 
@@ -228,8 +231,7 @@ class GNG(Processor):
                 v_inst_Y.append(instance[1])
 
             plt.scatter(v_inst_X, v_inst_Y, edgecolors='black')
-            #plt.plot(v_inst_X, v_inst_Y, 'or')
-
+        
         for v in self.graph.nodes.values():
 
             for u in v.topological_neighbors.values():
@@ -239,10 +241,109 @@ class GNG(Processor):
                         plt.plot([v.protype[0], u.protype[0]], [v.protype[1], u.protype[1]], 'r')
                         seen.append((v, u))
             
-            plt.plot([v.protype[0]], [v.protype[1]], 'or')
+            plt.plot(v.protype[0], v.protype[1], 'or')
 
         plt.savefig(path)
+
+    def plot3D(self, path):
+
+        seen = []
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+
+        for v in self.graph.nodes.values():
+
+            v_inst_X = [v.protype[0]]
+            v_inst_Y = [v.protype[1]]
+            v_inst_Z = [v.protype[2]]
+
+            for instance in v.instances:
+            
+                v_inst_X.append(instance[0])
+                v_inst_Y.append(instance[1])
+                v_inst_Z.append(instance[2])
+
+            ax.scatter(v_inst_X, v_inst_Y, v_inst_Z)
+        
+        for v in self.graph.nodes.values():
+
+            for u in v.topological_neighbors.values():
+
+                    if ((u, v) not in seen) and ((v, u) not in seen):
+
+                        ax.plot([v.protype[0], u.protype[0]], [v.protype[1], u.protype[1]],
+                                    [v.protype[2], u.protype[2]], 'r')
+                        seen.append((v, u))
+            
+            ax.plot([v.protype[0]], [v.protype[1]], [v.protype[2]], 'or')
+
+        plt.show()
+        plt.savefig(path)
+        plt.clf()
+
 
     def get_cluster(self, instance) -> int:
 
         return self.point_to_cluster.get(tuple(instance))
+
+    def offline_fase(self):
+
+        self.graph.partial_reset()
+    
+        for instance in self.instances:
+
+            v, u = self.get_best_match(instance)
+
+            v.instances.append(instance)
+
+            self.point_to_cluster[tuple(instance)] = v.id
+
+            self.update_prototype(v, self.epsilon_b, instance)
+
+            for node in v.topological_neighbors.values():
+
+                self.update_prototype(node, self.epsilon_n, instance)
+
+            self.age_links(v)
+
+            if not self.graph.has_link(v, u):
+
+                self.create_link(v, u, 'counter')
+
+            link = self.graph.get_link(v, u)
+            link.renew()
+
+            self.update_edges(v, True)
+
+        self.offline_node_update()
+        self.offline_link_update()
+
+    def offline_node_update(self):
+
+        to_remove = []
+
+        for node in self.graph.nodes.values():
+
+            if len(node.instances) == 0:
+
+                to_remove.append(node)
+
+        for node in to_remove:
+
+            for u in node.topological_neighbors.values():
+
+                u.remove_neighbor(node)
+                self.graph.remove_link(node, u)
+
+            self.graph.remove_node(node)
+            self.index.remove_ids(np.array([node.id]))
+
+    def offline_link_update(self):
+
+        creation_time = time.time()
+
+        for link in self.graph.links.values():
+
+            link.age = 0
+            link.aging = 'time'
+            link.creation_time = creation_time

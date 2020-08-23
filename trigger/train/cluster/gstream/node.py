@@ -1,14 +1,16 @@
+import time
+import numpy as np
+
 from typing import List, Dict
 
 class Node:
 
-    def __init__(self, protype, error: float, delta: float, id: int, error_cycle: int) -> None:
+    def __init__(self, protype, error: float, id: int, error_cycle: int) -> None:
 
         self.protype = protype
         self.error = error
-        self.delta = delta
         self.topological_neighbors: Dict[int, "Node"] = {}
-        self.instances = []
+        self.instances: List[Instance] = []
         self.error_cycle = error_cycle
         self.id = id
 
@@ -31,3 +33,8 @@ class Node:
     def update_error_cycle(self, cycle: int) -> None:
 
         self.error_cycle = cycle
+
+    def partial_reset(self):
+
+        self.instances = []
+        self.topological_neighbors = {}
