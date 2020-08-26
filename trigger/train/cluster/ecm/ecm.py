@@ -1,9 +1,11 @@
 from typing import Any, Dict, List, Optional
-from scipy.spatial.distance import seuclidean
+from scipy.spatial.distance import cdist, seuclidean
 
 import math
 
 import numpy as np
+
+import time
 
 
 class Cluster:
@@ -26,49 +28,97 @@ class ECM:
         if not self.did_first_add:
             cluster = Cluster(instance, len(self.clusters))
             self.clusters.append(cluster)
+            cluster.instances.append(instance)
             self.instance_to_cluster[tuple(instance)] = cluster.index
+
             self.did_first_add = True
+
+            self.min_t = 0
+            self.centers_t = 0
+            self.shape_t = 0
+            self.distances_t = 0
+            self.radiuses_t = 0
+            self.diffs_t = 0
+            self.possible_t = 0
+
+            return
+
+        tic = time.perf_counter()
+
+        centers = [cluster.center for cluster in self.clusters]
+
+        toc = time.perf_counter()
+        self.centers_t += toc - tic
+
+        tic = time.perf_counter()
+
+        distances = cdist(
+            np.array([instance]),
+            np.array(centers),
+            'euclidean'
+        )[0]
+
+        toc = time.perf_counter()
+        self.distances_t += toc - tic
+
+        tic = time.perf_counter()
+
+        radiuses = [cluster.radius for cluster in self.clusters]
+
+        toc = time.perf_counter()
+        self.radiuses_t += toc - tic
+
+        tic = time.perf_counter()
+
+        diffs = distances - radiuses
+
+        toc = time.perf_counter()
+        self.diffs_t += toc - tic
+
+        tic = time.perf_counter()
+
+        possible = np.where(diffs <= 0)[0]
+
+        toc = time.perf_counter()
+        self.possible_t += toc - tic
+
+        tic = time.perf_counter()
+
+        min_index = None if possible.size == 0 else distances.argmin()
+
+        # print("I", instance, "Ds", distances, "Cs", centers, "Rs", radiuses, "min_index", min_index)
+
+        toc = time.perf_counter()
+
+        self.min_t += toc - tic
+
+        if min_index is not None:
+            self.clusters[min_index].instances.append(instance)
+            self.instance_to_cluster[tuple(instance)] = min_index
+
+            return
+
+        distances_plus_radiuses = np.add(distances, radiuses)
+        lowest_distance_and_radius_index = np.argmin(
+            distances_plus_radiuses)
+        lowest_distance_and_radius = distances_plus_radiuses[lowest_distance_and_radius_index]
+
+        if lowest_distance_and_radius > 2 * self.distance_threshold:
+            cluster = Cluster(instance, len(self.clusters))
+            self.clusters.append(cluster)
+            self.instance_to_cluster[tuple(instance)] = cluster.index
+
         else:
-            centers = [cluster.center for cluster in self.clusters]
+            cluster = self.clusters[lowest_distance_and_radius_index]
+            direction = instance - cluster.center
 
-            distances = [np.linalg.norm(
-                center - instance) / math.sqrt(center.shape[0]) for center in centers]
+            cluster.radius = lowest_distance_and_radius/2
 
-            radiuses = [cluster.radius for cluster in self.clusters]
+            cluster.center = instance - (
+                direction / np.linalg.norm(direction)) * cluster.radius
 
-            # if D min is less than any cluster radius then
-            min_value = 999999999
-            min_index = None
-            for index, (distance, radius) in enumerate(zip(distances, radiuses)):
-                if distance <= radius and distance < min_value:
-                    min_index = index
-                    min_value = distance
-
-            if min_index is not None:
-                self.clusters[min_index].instances.append(instance)
-                self.instance_to_cluster[tuple(instance)] = min_index
-            else:
-                distances_plus_radiuses = np.add(distances, radiuses)
-                lowest_distance_and_radius_index = np.argmin(
-                    distances_plus_radiuses)
-                lowest_distance_and_radius = distances_plus_radiuses[lowest_distance_and_radius_index]
-
-                if lowest_distance_and_radius > 2 * self.distance_threshold:
-                    cluster = Cluster(instance, len(self.clusters))
-                    self.clusters.append(cluster)
-                    self.instance_to_cluster[tuple(instance)] = cluster.index
-
-                else:
-                    cluster = self.clusters[lowest_distance_and_radius_index]
-                    direction = instance - cluster.center
-
-                    cluster.radius = lowest_distance_and_radius/2
-
-                    cluster.center = instance - (
-                        direction / np.linalg.norm(direction)) * cluster.radius
-
-                    cluster.instances.append(instance)
-                    self.instance_to_cluster[tuple(instance)] = cluster.index
+            cluster.instances.append(instance)
+            self.instance_to_cluster[tuple(instance)] = cluster.index
 
     def index_of_cluster_containing(self, instance: Any) -> Optional[int]:
         return self.instance_to_cluster[tuple(instance)]
