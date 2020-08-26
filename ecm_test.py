@@ -1,10 +1,9 @@
-from typing import Any, List
-
-from dataclasses import dataclass
+from typing import Any, List, Tuple
 
 from trigger.train.cluster.ecm.ecm import ECM
 from matplotlib import pyplot as plt
 from sklearn.metrics.cluster import adjusted_rand_score
+from sklearn.metrics import silhouette_score, calinski_harabasz_score
 
 import numpy as np
 import pickle as pk
@@ -14,35 +13,29 @@ import os
 import time
 
 
-@dataclass
-class TestCase:
-    inputs: List[Any]
-    correct: List[Any]
-    path: str = ""
-    name: str = ""
-    description: str = ""
-
-
-def read_pkl(input_path: str, name: str = "", description: str = "") -> TestCase:
+def read_pkl(input_path: str) -> Tuple[List, List]:
     with open(input_path, 'rb') as f:
         stream = pk.load(f)
 
-    return TestCase(
-        inputs=[np.array([data[0], data[1]]) for data in stream],
-        correct=[data[2] for data in stream],
-        path=input_path,
-        name=name,
-        description=description,
-    )
+    return [np.array([data[0], data[1]]) for data in stream], [data[2] for data in stream]
 
 
-def test_2d(ecm: ECM, case: TestCase, should_do_plot: bool = True, want_to_know_clusters: bool = False, want_to_know_inputs_and_correct: bool = False) -> object:
-    X = [data[0] for data in case.inputs]
-    Y = [data[1] for data in case.inputs]
+def test_2d_with_labels(ecm: ECM,
+                        inputs: List[Any],
+                        correct: List[Any],
+                        name: str,
+                        description: str,
+                        path: str,
+                        plot_name: str,
+                        should_do_plot: bool = True,
+                        want_to_know_clusters: bool = False,
+                        want_to_know_inputs_and_correct: bool = False) -> object:
+    X = [data[0] for data in inputs]
+    Y = [data[1] for data in inputs]
 
     tic = time.perf_counter()
 
-    for v in case.inputs:
+    for v in inputs:
         ecm.add(v)
 
     toc = time.perf_counter()
@@ -67,9 +60,6 @@ def test_2d(ecm: ECM, case: TestCase, should_do_plot: bool = True, want_to_know_
             #                     color=color, fill=False, linestyle="--")
             # plt.gcf().gca().add_artist(circle)
 
-            plt.scatter(position[0], position[1], c=color,
-                        edgecolors='black', marker='D', linewidths=2)
-
             _X = []
             _Y = []
 
@@ -78,13 +68,16 @@ def test_2d(ecm: ECM, case: TestCase, should_do_plot: bool = True, want_to_know_
                 _Y.append(instance[1])
 
             plt.scatter(_X, _Y, c=color, edgecolors='black')
+            plt.scatter(position[0], position[1], c=color,
+                        edgecolors='black', marker='D', linewidths=2)
 
         plt.show()
+        plt.savefig(plot_name)
 
     tic = time.perf_counter()
 
     predicted = [ecm.index_of_cluster_containing(
-        instance) for instance in case.inputs]
+        instance) for instance in inputs]
 
     toc = time.perf_counter()
 
@@ -93,11 +86,11 @@ def test_2d(ecm: ECM, case: TestCase, should_do_plot: bool = True, want_to_know_
     results = {
         "used algorithm": ecm.describe(),
         "test": {
-            "name": case.name,
-            "path": case.path,
-            "description": case.description,
-            "inputs": case.inputs if want_to_know_inputs_and_correct else [],
-            "correct": case.correct if want_to_know_inputs_and_correct else [],
+            "name": name,
+            "path": path,
+            "description": description,
+            "inputs": inputs if want_to_know_inputs_and_correct else [],
+            "correct": correct if want_to_know_inputs_and_correct else [],
         },
         "time to add": time_to_add,
         "time to predict": time_to_predict,
@@ -110,8 +103,11 @@ def test_2d(ecm: ECM, case: TestCase, should_do_plot: bool = True, want_to_know_
             } for i, cluster in enumerate(ecm.clusters)
         ] if want_to_know_clusters else [],
         "scores": {
-            "sklearn.metrics.cluster.adjusted_rand_score": adjusted_rand_score(case.correct, predicted),
-        }
+            "sklearn.metrics.cluster.adjusted_rand_score": adjusted_rand_score(correct, predicted),
+            "sklearn.metrics.silhouette_score": silhouette_score(inputs, predicted),
+            "sklearn.metrics.calinski_harabasz_score": calinski_harabasz_score(inputs, predicted),
+        },
+        "figure": plot_name if should_do_plot else "",
 
     }
 
@@ -125,23 +121,28 @@ def save_results(results: Any, path: str) -> None:
         json.dump(results, outfile, indent=4)
 
 
-def compute_filename(base: str, ecm: ECM, case: TestCase, override: bool = False) -> str:
+def compute_filename(base: str,
+                     ecm: ECM,
+                     name: str,
+                     version: str = "",
+                     override: bool = False) -> str:
+
     algorithm = ecm.describe()
 
-    algorithm_name = algorithm["name"] + " v2"
+    algorithm_name = algorithm["name"] + version
     algorithm_parameters = algorithm["parameters"]
 
     algorithm_parameters_parts = [
-        f"{name}={value}" for name, value in algorithm_parameters.items()
+        f"{param_name}={param_value}" for param_name, param_value in algorithm_parameters.items()
     ]
 
-    wanted = f"{case.name} ; {algorithm_name} = {';'.join(algorithm_parameters_parts)}"
-    proposed = wanted + ".json"
+    wanted = f"{name} ; {algorithm_name} = {';'.join(algorithm_parameters_parts)}"
+    proposed = wanted
 
     if not override:
         extra = 0
-        while os.path.exists(f"{base}/{proposed}"):
-            proposed = wanted + f"_{extra}.json"
+        while os.path.exists(f"{base}/{proposed}.json"):
+            proposed = wanted + f"_{extra}"
             extra += 1
 
     return proposed
@@ -149,23 +150,40 @@ def compute_filename(base: str, ecm: ECM, case: TestCase, override: bool = False
 
 if __name__ == "__main__":
 
-    cases = [read_pkl("examples/2D_points/0", "0",
-                      "20 2D points generated by util/2dgenerator_with_true"),
-
-            #  read_pkl("examples/2D_points/1", "1",
-            #           "2D points generated by util/2dgenerator_with_true")
-             ]
-
     dts = [1000, 100, 10, 250]
 
-    for case in cases:
+    cases = [("examples/2D_points/0", "0",
+              "20 2D points with true labels; Generated by util/2dgenerator_with_true")]
+
+    base = "results/2D/ecm"
+
+    for filepath, name, description in cases:
+
+        print("\nDoing test ", filepath)
+
         for dt in dts:
+
+            print("\tWith dt =", dt)
+
             ecm = ECM(distance_threshold=dt)
 
-            results = test_2d(ecm, case, False, False, False)
+            inputs, correct = read_pkl(filepath)
 
-            base = "results/2D/ecm"
+            filename = compute_filename(base, ecm, name, " v2", True)
 
-            filename = compute_filename(base, ecm, case, True)
+            results = test_2d_with_labels(
+                ecm,
+                inputs,
+                correct,
+                name,
+                description,
+                filepath,
+                f"{base}/{filename}.png",
+                should_do_plot=True,
+                want_to_know_clusters=False,
+                want_to_know_inputs_and_correct=False,
+            )
 
-            save_results(results, base + "/" + filename)
+            save_results(results, f"{base}/{filename}.json")
+
+            print("\tResults: ", results['scores'])
