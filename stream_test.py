@@ -45,7 +45,7 @@ def eval_cluster(gng: GNG):
 
 if __name__ == "__main__":
     
-    path = './results/3D/'
+    path = './results/3D/gstream/'
 
     stream_generator = StreamGeneratorRandomDelay(max_delay=0.005, min_delay=0.001, stream_values_interval=100000, dimensions=2)
 
