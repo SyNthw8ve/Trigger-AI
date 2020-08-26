@@ -71,8 +71,10 @@ def test_2d_with_labels(ecm: ECM,
             plt.scatter(position[0], position[1], c=color,
                         edgecolors='black', marker='D', linewidths=2)
 
+        figure = plt.gcf()
+        figure.set_size_inches(19, 9, forward=True)
+        plt.savefig(plot_name, dpi=100)
         plt.show()
-        plt.savefig(plot_name)
 
     tic = time.perf_counter()
 
@@ -178,7 +180,7 @@ if __name__ == "__main__":
                 name,
                 description,
                 filepath,
-                f"{base}/{filename}.png",
+                f"{base}/{filename}.jpg",
                 should_do_plot=True,
                 want_to_know_clusters=False,
                 want_to_know_inputs_and_correct=False,
