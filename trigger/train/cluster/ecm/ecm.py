@@ -1,5 +1,7 @@
 from typing import Any, Dict, List, Optional
-from scipy.spatial.distance import euclidean
+from scipy.spatial.distance import seuclidean
+
+import math
 
 import numpy as np
 
@@ -28,7 +30,10 @@ class ECM:
             self.did_first_add = True
         else:
             centers = [cluster.center for cluster in self.clusters]
-            distances = [euclidean(center, instance) for center in centers]
+
+            distances = [np.linalg.norm(
+                center - instance) / math.sqrt(center.shape[0]) for center in centers]
+
             radiuses = [cluster.radius for cluster in self.clusters]
 
             # if D min is less than any cluster radius then
@@ -59,7 +64,7 @@ class ECM:
 
                     cluster.radius = lowest_distance_and_radius/2
 
-                    cluster.center = cluster.center + (
+                    cluster.center = instance - (
                         direction / np.linalg.norm(direction)) * cluster.radius
 
                     cluster.instances.append(instance)
