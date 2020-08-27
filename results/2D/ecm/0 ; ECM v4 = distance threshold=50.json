@@ -12,13 +12,13 @@
         "inputs": [],
         "correct": []
     },
-    "time to add": "0.6194 seconds",
-    "time to predict": "0.0055 seconds",
+    "time to add": "0.1906 seconds",
+    "time to predict": "0.0017 seconds",
     "clusters": [],
     "scores": {
-        "sklearn.metrics.cluster.adjusted_rand_score": 0.4835429071501413,
-        "sklearn.metrics.silhouette_score": 0.30633837272721737,
-        "sklearn.metrics.calinski_harabasz_score": 2641.7611877491413
+        "sklearn.metrics.cluster.adjusted_rand_score": 0.4529580254262966,
+        "sklearn.metrics.silhouette_score": 0.2381179456132996,
+        "sklearn.metrics.calinski_harabasz_score": 2446.9690585102035
     },
     "figure": "results/2D/ecm/0 ; ECM v4 = distance threshold=50.jpg"
 }
