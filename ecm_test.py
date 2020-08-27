@@ -1,16 +1,19 @@
-from typing import Any, List, Tuple
+import time
+import os
+import json
+import pickle as pk
+import numpy as np
+from sklearn.metrics import silhouette_score, calinski_harabasz_score
+from sklearn.metrics.cluster import adjusted_rand_score
+
+import matplotlib
+
+from matplotlib import pyplot as plt
+from typing import Any, List, Tuple, Union
+import typing
+from util.stream.stream_processor import StreamProcessor
 
 from trigger.train.cluster.ecm.ecm import ECM
-from matplotlib import pyplot as plt
-from sklearn.metrics.cluster import adjusted_rand_score
-from sklearn.metrics import silhouette_score, calinski_harabasz_score
-
-import numpy as np
-import pickle as pk
-import json
-import os
-
-import time
 
 
 def read_pkl(input_path: str) -> Tuple[List, List]:
@@ -20,72 +23,21 @@ def read_pkl(input_path: str) -> Tuple[List, List]:
     return [np.array([data[0], data[1]]) for data in stream], [data[2] for data in stream]
 
 
-def test_2d_with_labels(ecm: ECM,
-                        inputs: List[Any],
-                        correct: List[Any],
-                        name: str,
-                        description: str,
-                        path: str,
-                        plot_name: str,
-                        should_do_plot: bool = True,
-                        want_to_know_clusters: bool = False,
-                        want_to_know_inputs_and_correct: bool = False) -> object:
-    X = [data[0] for data in inputs]
-    Y = [data[1] for data in inputs]
+def construct_results(ecm: ECM,
+                      inputs: List[Any],
+                      correct: Union[List[Any], None],
+                      predicted: List[Any],
+                      time_to_add: str,
+                      time_to_predict: str,
+                      path: str,
+                      name: str,
+                      description: str,
+                      plot_name: str,
+                      should_do_plot,
+                      want_to_know_clusters,
+                      want_to_know_inputs_and_correct) -> object:
 
-    tic = time.perf_counter()
-
-    for v in inputs:
-        ecm.add(v)
-
-    toc = time.perf_counter()
-
-    time_to_add = f"{toc - tic:0.4f} seconds"
-
-    if should_do_plot:
-        # If there are some reds, this means we didn't put them in a cluster, which *SHOULDN'T* happen
-        plt.scatter(X, Y, c='red', edgecolors='black', marker='o')
-
-        colors = ['#6b6b6b', '#ff2994', '#b3b3b3', '#ffd1e8',
-                  '#6b00bd', '#0000f0', '#c880ff', '#8080ff',
-                  '#005757', '#00b300', '#00b3b3', '#005700',
-                  '#ada800', '#bd7b00', '#fff957', '#ff974d',
-                  '#ff4d4d']
-
-        for i, cluster in enumerate(sorted(ecm.clusters, key=lambda cluster: cluster.center[0])):
-            color = colors[i % len(colors)]
-            position = (cluster.center[0], cluster.center[1])
-
-            # circle = plt.Circle(position, cluster.radius,
-            #                     color=color, fill=False, linestyle="--")
-            # plt.gcf().gca().add_artist(circle)
-
-            _X = []
-            _Y = []
-
-            for instance in cluster.instances:
-                _X.append(instance[0])
-                _Y.append(instance[1])
-
-            plt.scatter(_X, _Y, c=color, edgecolors='black')
-            plt.scatter(position[0], position[1], c=color,
-                        edgecolors='black', marker='D', linewidths=2)
-
-        figure = plt.gcf()
-        figure.set_size_inches(19, 9, forward=True)
-        plt.savefig(plot_name, dpi=100)
-        plt.show()
-
-    tic = time.perf_counter()
-
-    predicted = [ecm.index_of_cluster_containing(
-        instance) for instance in inputs]
-
-    toc = time.perf_counter()
-
-    time_to_predict = f"{toc - tic:0.4f} seconds"
-
-    results = {
+    return {
         "used algorithm": ecm.describe(),
         "test": {
             "name": name,
@@ -105,15 +57,174 @@ def test_2d_with_labels(ecm: ECM,
             } for i, cluster in enumerate(ecm.clusters)
         ] if want_to_know_clusters else [],
         "scores": {
-            "sklearn.metrics.cluster.adjusted_rand_score": adjusted_rand_score(correct, predicted),
-            "sklearn.metrics.silhouette_score": silhouette_score(inputs, predicted),
+            "sklearn.metrics.cluster.adjusted_rand_score": adjusted_rand_score(correct, predicted) if correct is not None else "-",
+            "sklearn.metrics.silhouette_score": str(silhouette_score(inputs, predicted)),
             "sklearn.metrics.calinski_harabasz_score": calinski_harabasz_score(inputs, predicted),
         },
         "figure": plot_name if should_do_plot else "",
-
     }
 
-    return results
+
+def plot(ecm: ECM, do_radius: bool = False) -> None:
+
+    print("Plotting")
+
+    colors = ['#6b6b6b', '#ff2994', '#ffd1e8',
+              '#6b00bd', '#0000f0', '#c880ff', '#8080ff',
+              '#005757', '#00b300', '#00b3b3', '#005700',
+              '#ada800', '#bd7b00', '#fff957', '#ff974d',
+              '#ff4d4d']
+
+    sorted_by_x = sorted(ecm.clusters, key=lambda cluster: cluster.center[0])
+    
+    _X = []
+    _Y = []
+    _colors = []
+    _X_positions = []
+    _Y_positions = []
+    _colors_positions = []
+
+    for cluster in sorted_by_x:
+
+        color = colors[cluster.index % len(colors)]
+
+        for instance in cluster.instances:
+            _X.append(instance[0])
+            _Y.append(instance[1])
+            _colors.append(color)
+
+        _colors_positions.append(color)
+        _X_positions.append(cluster.center[0])
+        _Y_positions.append(cluster.center[1])
+
+    plt.scatter(_X, _Y, c=_colors, edgecolors='black')
+
+    plt.scatter(_X_positions, _Y_positions, c=_colors_positions,
+                    edgecolors='black', marker='D', linewidths=2)
+
+
+def test_2d_with_labels(ecm: ECM,
+                        inputs: List[Any],
+                        correct: List[Any],
+                        name: str,
+                        description: str,
+                        path: str,
+                        plot_name: str,
+                        should_do_plot: bool = False,
+                        want_to_know_clusters: bool = False,
+                        want_to_know_inputs_and_correct: bool = False) -> object:
+    time_to_add = 0
+
+    animate = False
+
+    if animate and should_do_plot:
+        plt.ion()
+
+    for v in inputs:
+        tic = time.perf_counter()
+        ecm.add(v)
+        toc = time.perf_counter()
+        time_to_add += toc - tic
+
+        if animate and should_do_plot:
+            plot(ecm)
+            plt.draw()
+            while not plt.waitforbuttonpress():
+                pass
+            plt.clf()
+
+    print("Δt", ecm.faiss_t)
+
+    time_to_add = f"{time_to_add:0.4f} seconds"
+
+    if should_do_plot:
+        plot(ecm)
+        figure = plt.gcf()
+        figure.set_size_inches(19, 9, forward=True)
+        plt.savefig(plot_name, dpi=100)
+        plt.show()
+
+    tic = time.perf_counter()
+
+    predicted = [ecm.index_of_cluster_containing(
+        instance) for instance in inputs]
+
+    toc = time.perf_counter()
+
+    time_to_predict = f"{toc - tic:0.4f} seconds"
+
+    return construct_results(
+        ecm,
+        inputs,
+        correct,
+        predicted,
+        time_to_add,
+        time_to_predict,
+        path,
+        name,
+        description,
+        plot_name,
+        should_do_plot,
+        want_to_know_clusters,
+        want_to_know_inputs_and_correct
+    )
+
+
+def test_2d_stream(stream_processor: StreamProcessor,
+                   name: str,
+                   description: str,
+                   test_filepath: str,
+                   plot_filepath: str,
+                   apply_delay: bool,
+                   should_do_plot: bool = False,
+                   want_to_know_clusters: bool = False,
+                   want_to_know_inputs_and_correct: bool = False):
+
+    if not apply_delay:
+        tic = time.perf_counter()
+
+    stream_processor.process(apply_delay)
+
+    if not apply_delay:
+        toc = time.perf_counter()
+        time_to_add = f"{toc - tic:0.4f} seconds"
+    else:
+        time_to_add = "-"
+
+    if should_do_plot:
+        figure = plt.gcf()
+        figure.set_size_inches(19, 9, forward=True)
+        plot(stream_processor.processor)
+        plt.savefig(plot_filepath, dpi=100)
+        # plt.show()
+        plt.clf()
+
+    tic = time.perf_counter()
+
+    inputs = [instance[0] for instance in stream_processor.instances]
+
+    predicted = [typing.cast(ECM, stream_processor.processor).index_of_cluster_containing(
+        _input) for _input in inputs]
+
+    toc = time.perf_counter()
+
+    time_to_predict = f"{toc - tic:0.4f} seconds"
+
+    return construct_results(
+        typing.cast(ECM, stream_processor.processor),
+        inputs,
+        None,
+        predicted,
+        time_to_add,
+        time_to_predict,
+        test_filepath,
+        name,
+        description,
+        plot_filepath,
+        should_do_plot,
+        want_to_know_clusters,
+        want_to_know_inputs_and_correct
+    )
 
 
 def save_results(results: Any, path: str) -> None:
@@ -123,11 +234,9 @@ def save_results(results: Any, path: str) -> None:
         json.dump(results, outfile, indent=4)
 
 
-def compute_filename(base: str,
-                     ecm: ECM,
+def compute_filename(ecm: ECM,
                      name: str,
-                     version: str = "",
-                     override: bool = False) -> str:
+                     version: str = "") -> str:
 
     algorithm = ecm.describe()
 
@@ -138,24 +247,21 @@ def compute_filename(base: str,
         f"{param_name}={param_value}" for param_name, param_value in algorithm_parameters.items()
     ]
 
-    wanted = f"{name} ; {algorithm_name} = {';'.join(algorithm_parameters_parts)}"
-    proposed = wanted
-
-    if not override:
-        extra = 0
-        while os.path.exists(f"{base}/{proposed}.json"):
-            proposed = wanted + f"_{extra}"
-            extra += 1
-
-    return proposed
+    return f"{name} ; {algorithm_name} = {';'.join(algorithm_parameters_parts)}"
 
 
 if __name__ == "__main__":
 
-    dts = [20, 50, 100]
+    dts = [2000, 2500, 7500, 12000, 12500]
 
-    cases = [("examples/2D_points/0", "0",
-              "20 2D points with true labels; Generated by util/2dgenerator_with_true")]
+    cases = [
+        # ("examples/2D_points/0", "0",
+        #  "2D points with true labels; Generated by util/2dgenerator_with_true"),
+        # ("examples/2D_points/1", "1",
+        #  "2D points with true labels; Generated by util/2dgenerator_with_true"),
+        # ("examples/2D_points/2", "2",
+        #  "2D points with true labels; Generated by util/2dgenerator_with_true"),
+    ]
 
     base = "results/2D/ecm"
 
@@ -167,11 +273,13 @@ if __name__ == "__main__":
 
             print("\tWith dt =", dt)
 
-            ecm = ECM(distance_threshold=dt)
+            ecm = ECM(distance_threshold=dt, dimensions=2)
 
             inputs, correct = read_pkl(filepath)
 
-            filename = compute_filename(base, ecm, name, " v4", True)
+            # np.random.shuffle(inputs)
+
+            filename = compute_filename(ecm, name, " v4")
 
             results = test_2d_with_labels(
                 ecm,
@@ -181,7 +289,7 @@ if __name__ == "__main__":
                 description,
                 filepath,
                 f"{base}/{filename}.jpg",
-                should_do_plot=True,
+                should_do_plot=False,
                 want_to_know_clusters=False,
                 want_to_know_inputs_and_correct=False,
             )
@@ -189,3 +297,61 @@ if __name__ == "__main__":
             save_results(results, f"{base}/{filename}.json")
 
             print("\tResults: ", results['scores'])
+
+    with open('./examples/2D_stream/1_r', 'rb') as f:
+        stream = pk.load(f)
+
+    with open('./examples/2D_stream/2_r', 'rb') as f:
+        stream2 = pk.load(f)
+
+    base = "results/2D_stream/ecm"
+
+    for dt in dts:
+        ecm = ECM(dt, 2)
+        stream_processor = StreamProcessor(processor=ecm, instances=stream)
+
+        print("Doing stream 1")
+
+        name = "1_r"
+
+        filename = compute_filename(ecm, name, " v4")
+
+        results = test_2d_stream(
+            stream_processor,
+            name,
+            "",
+            './examples/2D_stream/1_r',
+            f"{base}/{filename}.jpg",
+            apply_delay=False,
+            should_do_plot=True,
+            want_to_know_clusters=False,
+            want_to_know_inputs_and_correct=False
+        )
+
+        save_results(results, f"{base}/{filename}.json")
+
+        print("\tResults: ", results['scores'])
+
+        name = "1_r + 2_r"
+
+        filename = compute_filename(ecm, name, " v4")
+
+        print("Doing stream 2")
+
+        stream_processor = StreamProcessor(processor=ecm, instances=stream2)
+
+        results = test_2d_stream(
+            stream_processor,
+            name,
+            "",
+            './examples/2D_stream/2_r',
+            f"{base}/{filename}.jpg",
+            apply_delay=False,
+            should_do_plot=True,
+            want_to_know_clusters=False,
+            want_to_know_inputs_and_correct=False
+        )
+
+        save_results(results, f"{base}/{filename}.json")
+
+        print("\tResults: ", results['scores'])
