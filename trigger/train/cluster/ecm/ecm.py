@@ -1,4 +1,5 @@
 from typing import Any, Dict, List, Optional
+from util.stream.processor import Processor
 from scipy.spatial.distance import cdist, seuclidean
 
 import math
@@ -16,13 +17,16 @@ class Cluster:
         self.index = index
 
 
-class ECM:
+class ECM(Processor):
 
-    def __init__(self, distance_threshold: float) -> None:
+    def __init__(self, distance_threshold: float, d) -> None:
         self.clusters: List[Cluster] = []
         self.distance_threshold = distance_threshold
         self.did_first_add = False
         self.instance_to_cluster: Dict[Any, int] = {}
+    
+    def process(self, instance: Any) -> None:
+        return self.add(instance)
 
     def add(self, instance: Any) -> None:
         if not self.did_first_add:
