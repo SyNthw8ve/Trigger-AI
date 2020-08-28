@@ -12,8 +12,8 @@
         "inputs": [],
         "correct": []
     },
-    "time to add": "7.9386 seconds",
-    "time to predict": "0.0164 seconds",
+    "time to add": "8.1724 seconds",
+    "time to predict": "0.0147 seconds",
     "clusters": [],
     "scores": {
         "sklearn.metrics.cluster.adjusted_rand_score": "-",

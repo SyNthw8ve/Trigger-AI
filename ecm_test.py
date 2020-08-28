@@ -84,9 +84,9 @@ def plot(ecm: ECM, do_radius: bool = False) -> None:
     _Y_positions = []
     _colors_positions = []
 
-    for cluster in sorted_by_x:
+    for i, cluster in enumerate(sorted_by_x):
 
-        color = colors[cluster.index % len(colors)]
+        color = colors[i % len(colors)]
 
         for instance in cluster.instances:
             _X.append(instance[0])
