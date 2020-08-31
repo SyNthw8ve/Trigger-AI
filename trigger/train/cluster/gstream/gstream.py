@@ -46,7 +46,7 @@ class GNG(Processor):
         self.graph.insert_node(node_2)
 
         self.index.add_with_ids(np.array([node_1.protype, node_2.protype]), np.array([0, 1]))
-    
+
     def process(self, instance):
 
         self.online_fase(instance)
@@ -280,7 +280,6 @@ class GNG(Processor):
         plt.show()
         plt.savefig(path)
         plt.clf()
-
 
     def get_cluster(self, instance) -> int:
 

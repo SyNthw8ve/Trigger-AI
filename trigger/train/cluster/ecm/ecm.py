@@ -1,8 +1,9 @@
 from typing import Any, Dict, List, Optional
 from scipy.spatial.distance import euclidean
 
-import numpy as np
+from util.stream.processor import Processor
 
+import numpy as np
 
 class Cluster:
     def __init__(self, center: Any, index: int) -> None:
@@ -12,13 +13,22 @@ class Cluster:
         self.index = index
 
 
-class ECM:
+class ECM(Processor):
 
     def __init__(self, distance_threshold: float) -> None:
         self.clusters: List[Cluster] = []
         self.distance_threshold = distance_threshold
         self.did_first_add = False
         self.instance_to_cluster: Dict[Any, int] = {}
+        self.instances = []
+
+    def process(self, instance):
+
+        self.add(instance)
+
+    def get_cluster(self, instance):
+
+        return self.index_of_cluster_containing(instance)
 
     def add(self, instance: Any) -> None:
         if not self.did_first_add:
@@ -64,6 +74,8 @@ class ECM:
 
                     cluster.instances.append(instance)
                     self.instance_to_cluster[tuple(instance)] = cluster.index
+
+            self.instances.append(instance)
 
     def index_of_cluster_containing(self, instance: Any) -> Optional[int]:
         return self.instance_to_cluster[tuple(instance)]
