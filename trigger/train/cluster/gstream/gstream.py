@@ -9,14 +9,15 @@ from trigger.train.cluster.gstream.link import Link
 from util.stream.processor import Processor
 
 from scipy.spatial.distance import cdist
-from matplotlib import pyplot as plt 
+from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+
 
 class GNG(Processor):
 
-    def __init__(self, epsilon_b: float, epsilon_n: float, lam: int, beta: float, 
-                    alpha: float, lambda_2: float, max_age: float, off_max_age: int,
-                    aging: str='counter', dimensions: int=2, nodes_per_cycle=1) -> None:
+    def __init__(self, epsilon_b: float, epsilon_n: float, lam: int, beta: float,
+                 alpha: float, lambda_2: float, max_age: float, off_max_age: int,
+                 dimensions: int = 2, nodes_per_cycle=1) -> None:
 
         self.graph = Graph()
 
@@ -27,9 +28,9 @@ class GNG(Processor):
         self.alpha = alpha
         self.max_age = max_age
         self.off_max_age = off_max_age
-        self.aging = aging
         self.lambda_2 = lambda_2
         self.nodes_per_cycle = nodes_per_cycle
+        self.aging = 'time'
 
         self.index = faiss.IndexIDMap(faiss.IndexFlatL2(dimensions))
         self.next_id = 2
@@ -38,14 +39,17 @@ class GNG(Processor):
 
         self.cycle = 0
         self.step = 1
-    
-        node_1 = Node(np.random.rand(1, dimensions).astype('float32')[0], 0, id=0, error_cycle=0)
-        node_2 = Node(np.random.rand(1, dimensions).astype('float32')[0], 0, id=1, error_cycle=0)
+
+        node_1 = Node(np.random.rand(1, dimensions).astype(
+            'float32')[0], 0, id=0, error_cycle=0)
+        node_2 = Node(np.random.rand(1, dimensions).astype(
+            'float32')[0], 0, id=1, error_cycle=0)
 
         self.graph.insert_node(node_1)
         self.graph.insert_node(node_2)
 
-        self.index.add_with_ids(np.array([node_1.protype, node_2.protype]), np.array([0, 1]))
+        self.index.add_with_ids(
+            np.array([node_1.protype, node_2.protype]), np.array([0, 1]))
 
     def process(self, instance):
 
@@ -56,13 +60,13 @@ class GNG(Processor):
         self.gng_adapt(instance)
 
         if self.step == self.lam - 1:
-            
+
             self.gng_grow()
             self.cycle += 1
             self.step = 0
 
         else:
-        
+
             self.step += 1
 
     def create_node(self, q: Node, f: Node) -> Node:
@@ -76,7 +80,7 @@ class GNG(Processor):
         return r
 
     def gng_grow(self) -> None:
-       
+
         for i in range(self.nodes_per_cycle):
 
             q, f = self.graph.get_q_and_f()
@@ -102,19 +106,21 @@ class GNG(Processor):
     def get_best_match(self, instance) -> Tuple[Node, Node]:
 
         D, I = self.index.search(np.array([instance]), 2)
-        
+
         return (self.graph.get_node(I[0][0]), self.graph.get_node(I[0][1]))
 
     def increment_error(self, node: Node, value: float) -> None:
 
         self.fix_error(node)
-        node.error = node.error*(np.power(self.beta, self.lam - self.step)) + value
+        node.error = node.error * \
+            (np.power(self.beta, self.lam - self.step)) + value
 
         self.graph.update_heap()
 
     def fix_error(self, node: Node) -> None:
 
-        node.error = np.power(self.beta, self.lam*(self.cycle - node.error_cycle))*node.error
+        node.error = np.power(self.beta, self.lam *
+                              (self.cycle - node.error_cycle))*node.error
         node.update_error_cycle(self.cycle)
 
     def update_prototype(self, v: Node, scale: float, instance) -> None:
@@ -135,7 +141,7 @@ class GNG(Processor):
         self.point_to_cluster[tuple(instance)] = v.id
 
         error_value = np.power(cdist([v.protype],
-                               [instance], "euclidean")[0], 2)[0]
+                                     [instance], "euclidean")[0], 2)[0]
 
         self.increment_error(v, error_value)
 
@@ -173,12 +179,12 @@ class GNG(Processor):
             if len(node.topological_neighbors) == 0 and len(node.instances) == 0:
 
                 nodes_to_remove.append(node)
-                
+
         for node in nodes_to_remove:
 
             self.graph.remove_node(node)
             self.index.remove_ids(np.array([node.id]))
-        
+
     def age_links(self, v: Node) -> None:
 
         for u in v.topological_neighbors.values():
@@ -190,7 +196,7 @@ class GNG(Processor):
     def update_edges(self, v: Node, offline: bool) -> None:
 
         links_to_remove = []
-        
+
         for u in v.topological_neighbors.values():
 
             link = self.graph.get_link(v, u)
@@ -204,7 +210,7 @@ class GNG(Processor):
             v.remove_neighbor(u)
             u.remove_neighbor(v)
 
-            self.graph.remove_link(v, u)  
+            self.graph.remove_link(v, u)
 
     def create_link(self, v: Node, u: Node, age_type: str) -> None:
 
@@ -226,21 +232,22 @@ class GNG(Processor):
             v_inst_Y = [v.protype[1]]
 
             for instance in v.instances:
-            
+
                 v_inst_X.append(instance[0])
                 v_inst_Y.append(instance[1])
 
             plt.scatter(v_inst_X, v_inst_Y, edgecolors='black')
-        
+
         for v in self.graph.nodes.values():
 
             for u in v.topological_neighbors.values():
 
-                    if ((u, v) not in seen) and ((v, u) not in seen):
+                if ((u, v) not in seen) and ((v, u) not in seen):
 
-                        plt.plot([v.protype[0], u.protype[0]], [v.protype[1], u.protype[1]], 'r')
-                        seen.append((v, u))
-            
+                    plt.plot([v.protype[0], u.protype[0]], [
+                             v.protype[1], u.protype[1]], 'r')
+                    seen.append((v, u))
+
             plt.plot(v.protype[0], v.protype[1], 'or')
 
         plt.savefig(path)
@@ -258,23 +265,23 @@ class GNG(Processor):
             v_inst_Z = [v.protype[2]]
 
             for instance in v.instances:
-            
+
                 v_inst_X.append(instance[0])
                 v_inst_Y.append(instance[1])
                 v_inst_Z.append(instance[2])
 
             ax.scatter(v_inst_X, v_inst_Y, v_inst_Z)
-        
+
         for v in self.graph.nodes.values():
 
             for u in v.topological_neighbors.values():
 
-                    if ((u, v) not in seen) and ((v, u) not in seen):
+                if ((u, v) not in seen) and ((v, u) not in seen):
 
-                        ax.plot([v.protype[0], u.protype[0]], [v.protype[1], u.protype[1]],
-                                    [v.protype[2], u.protype[2]], 'r')
-                        seen.append((v, u))
-            
+                    ax.plot([v.protype[0], u.protype[0]], [v.protype[1], u.protype[1]],
+                            [v.protype[2], u.protype[2]], 'r')
+                    seen.append((v, u))
+
             ax.plot([v.protype[0]], [v.protype[1]], [v.protype[2]], 'or')
 
         plt.show()
@@ -288,7 +295,7 @@ class GNG(Processor):
     def offline_fase(self):
 
         self.graph.partial_reset()
-    
+
         for instance in self.instances:
 
             v, u = self.get_best_match(instance)
@@ -346,3 +353,20 @@ class GNG(Processor):
             link.age = 0
             link.aging = 'time'
             link.creation_time = creation_time
+
+    def describe(self):
+
+        return {
+
+            "name": "GNG",
+            "parameters": {
+                "epsilon_b": self.epsilon_b,
+                "epsilon_n": self.epsilon_n,
+                "lam": self.lam,
+                "beta": self. beta,
+                "alpha": self.alpha,
+                "max_age_online": self.max_age,
+                "off_max_age": self.off_max_age,
+                "time_decay": self.lambda_2,
+                "nodes_per_cycle": self.nodes_per_cycle}
+        }
