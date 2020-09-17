@@ -3,6 +3,10 @@ import numpy as np
 import faiss
 import time
 
+from scipy.spatial.distance import cosine
+
+from trigger.models.match import Match
+
 from trigger.train.cluster.gstream.graph import Graph
 from trigger.train.cluster.gstream.node import Node
 from trigger.train.cluster.gstream.link import Link
@@ -303,7 +307,6 @@ class GNG(Processor):
             v.instances.append(instance)
 
             self.point_to_cluster[tuple(instance)] = v.id
-
             self.update_prototype(v, self.epsilon_b, instance)
 
             for node in v.topological_neighbors.values():
@@ -370,3 +373,7 @@ class GNG(Processor):
                 "time_decay": self.lambda_2,
                 "nodes_per_cycle": self.nodes_per_cycle}
         }
+
+    def predict(self, instance) -> int:
+
+        return self.get_best_match(instance)[0].id

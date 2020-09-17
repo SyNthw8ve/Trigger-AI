@@ -32,7 +32,6 @@ def get_stream(stream_generator, path, new_stream=False, num_items=100):
 
     return stream
 
-
 def get_test_name(base_name, gng: GNG) -> str:
 
     algorithm = gng.describe()
@@ -45,7 +44,6 @@ def get_test_name(base_name, gng: GNG) -> str:
     ]
 
     return f"{base_name} ; {algorithm_name} = {';'.join(algorithm_parameters_parts)}"
-
 
 def test_gng(streams: List, gng: GNG, results_path: str,
              apply_offline: bool, test_name: str):
@@ -88,7 +86,6 @@ def test_gng(streams: List, gng: GNG, results_path: str,
 
     with open(results_path + final_name + '.json', 'w') as outfile:
         json.dump(results, outfile, indent=4)
-
 
 def eval_cluster(gng: GNG) -> Tuple[float, float]:
 

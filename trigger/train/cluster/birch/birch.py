@@ -19,7 +19,7 @@ class Cluster:
         self.index = index
 
 
-class Birch(Processor):
+class Birch():
 
     def __init__(self, threshold: float = 0.5, branching_factor: int = 50, compute_labels=True, copy=True) -> None:
         self.model = SBirch(

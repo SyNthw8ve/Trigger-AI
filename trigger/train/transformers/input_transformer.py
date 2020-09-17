@@ -11,4 +11,4 @@ class SentenceEmbedder:
 
     def generateEmbeddings(self, sentence: str) -> numpy.array:
 
-        return self.model.encode(sentence)[0]
+        return self.model.encode(sentence)
