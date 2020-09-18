@@ -21,7 +21,7 @@ class GNG(Processor):
 
     def __init__(self, epsilon_b: float, epsilon_n: float, lam: int, beta: float,
                  alpha: float, lambda_2: float, max_age: float, off_max_age: int,
-                 dimensions: int = 2, nodes_per_cycle=1) -> None:
+                 dimensions: int = 2, nodes_per_cycle=1, index_type: str = 'L2') -> None:
 
         self.graph = Graph()
 
@@ -35,8 +35,18 @@ class GNG(Processor):
         self.lambda_2 = lambda_2
         self.nodes_per_cycle = nodes_per_cycle
         self.aging = 'time'
+        self.dimensions = dimensions
+        self.index_type = index_type
 
-        self.index = faiss.IndexIDMap(faiss.IndexFlatL2(dimensions))
+        if index_type == 'L2':
+            self.index = faiss.IndexIDMap(faiss.IndexFlatL2(dimensions))
+
+        elif index_type == 'IP':
+            self.index = faiss.IndexIDMap(faiss.IndexFlatIP(dimensions))
+
+        else:
+            raise Exception('Index must be of type L2 or IP')
+
         self.next_id = 2
         self.point_to_cluster = {}
         self.instances = []
@@ -144,8 +154,15 @@ class GNG(Processor):
 
         self.point_to_cluster[tuple(instance)] = v.id
 
-        error_value = np.power(cdist([v.protype],
-                                     [instance], "euclidean")[0], 2)[0]
+        if self.index_type == 'L2':
+
+            error_value = np.power(cdist([v.protype],
+                                        [instance], "euclidean")[0], 2)[0]
+
+        elif self.index_type == 'IP':
+
+            error_value = np.power(cdist([v.protype],
+                                        [instance], "cosine")[0], 2)[0]
 
         self.increment_error(v, error_value)
 
@@ -225,7 +242,21 @@ class GNG(Processor):
         v.add_neighbor(u)
         u.add_neighbor(v)
 
-    def plot2D(self, path):
+    def plot(self, path: str):
+
+        if self.dimensions == 2:
+
+            self._plot2D(path)
+
+        elif self.dimensions == 3:
+
+            self._plot3D(path)
+
+        else:
+
+            print("To many dimensions to plot")
+
+    def _plot2D(self, path):
 
         seen = []
         plt.clf()
@@ -256,7 +287,7 @@ class GNG(Processor):
 
         plt.savefig(path)
 
-    def plot3D(self, path):
+    def _plot3D(self, path):
 
         seen = []
         fig = plt.figure()

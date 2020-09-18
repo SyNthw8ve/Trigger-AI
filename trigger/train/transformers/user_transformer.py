@@ -4,6 +4,8 @@ import pickle
 
 from typing import List
 from trigger.models.user import User
+from trigger.models.hardskill import Hardskill
+from trigger.models.softskill import Softskill
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 
 class UserInstance:
@@ -15,15 +17,18 @@ class UserInstance:
 
     def _transformUser(self, sentenceEmbedder: SentenceEmbedder) -> numpy.array:
 
-        hardSkillsSentence = ' '.join([hardSkill.name for hardSkill in self.user.hardSkills])
-        hardSkillsEmbedding = sentenceEmbedder.generateEmbeddings(hardSkillsSentence)
+        hardSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.user.hardSkills)
 
-        softSkillsSentence = ' '.join([softSkill.name for softSkill in self.user.softSkills])
-        softSkillsEmbedding = sentenceEmbedder.generateEmbeddings(softSkillsSentence)
+        softSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.user.softSkills)
 
         averageEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
+        #averageEmbedding = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
+
+        resultingEmbedding = averageEmbedding.numpy()
+        resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
 
         return averageEmbedding.numpy()
+
 
     @staticmethod
     def save_instances(filename, instances: List["UserInstance"]) -> None:

@@ -37,9 +37,11 @@ openings_path = './examples/openings_users/openings'
 instances_path = './data/instances'
 results_path = './results/openings_users'
 
+
 def computeScore(userInstance: UserInstance, openingInstance: OpeningInstance) -> float:
 
     return 1 - cosine(userInstance.embedding, openingInstance.embedding)
+
 
 def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], threshold: float) -> List[Match]:
 
@@ -49,6 +51,7 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
     return [Match(user.user, computeScore(user, openingInstance), openingInstance.opening)
             for openingInstance in openingsOfInterest
             if computeScore(user, openingInstance) >= threshold]
+
 
 def eval_cluster(gng: GNG) -> Tuple[float, float]:
 
@@ -61,6 +64,7 @@ def eval_cluster(gng: GNG) -> Tuple[float, float]:
 
     return (silhouette_score(X, labels), calinski_harabasz_score(X, labels))
 
+
 def eval_birch(birch: Birch) -> Tuple[float, float]:
 
     X = birch.instances
@@ -71,6 +75,61 @@ def eval_birch(birch: Birch) -> Tuple[float, float]:
         labels.append(birch.index_of_cluster_containing(x))
 
     return (silhouette_score(X, labels), calinski_harabasz_score(X, labels))
+
+
+def quality_metric(user: User, opening: OpeningInstance):
+
+    u_h = set(user.hardSkills)
+    u_s = set(user.softSkills)
+
+    o_h = set(opening.hardSkills)
+    o_s = set(opening.softSkills)
+
+    if len(o_h) == 0:
+        HS_s = 0
+
+    else:
+        HS_s = len(o_h.intersection(u_h))/len(o_h)
+
+    if len(o_s) == 0:
+        SS_s = 0
+
+    else:
+        SS_s = len(o_s.intersection(u_s))/len(o_s)
+
+    Mq = 0.6*HS_s + 0.4*SS_s
+
+    return Mq
+
+
+def opening_to_json(opening: Opening):
+
+    return {'hard_skills': opening.hardSkills, 'soft_skills': opening.softSkills}
+
+
+def user_to_json(user: User, matches: List[Match]):
+
+    user_json = {'name': user.name, 'hard_skills': user.hardSkills,
+                 'soft_skills': user.softSkills, 'matches': []}
+
+    user_matches = []
+
+    for match in matches:
+
+        quality = quality_metric(user, match.opening)
+        real_score = 0.5*(match.score + quality)
+
+        user_match = {'score': str(match.score), 'quality':  str(
+            quality), 'real_score': str(real_score), 'opening': opening_to_json(match.opening)}
+
+        user_matches.append(user_match)
+
+    user_matches = sorted(
+        user_matches, key=lambda match: match['score'], reverse=True)
+
+    user_json['matches'] = user_matches
+
+    return user_json
 
 
 if __name__ == "__main__":
@@ -151,8 +210,9 @@ if __name__ == "__main__":
               max_age=10,
               off_max_age=10,
               lambda_2=0.2,
-              nodes_per_cycle=3,
-              dimensions=1024)
+              nodes_per_cycle=1,
+              dimensions=1024,
+              index_type='L2')
 
     for opening_instance in openings_instances:
 
@@ -160,29 +220,20 @@ if __name__ == "__main__":
         opening_instance.cluster_index = gng.get_cluster(
             opening_instance.embedding)
 
-    print(eval_cluster(gng))
-    
+    results = {'scores': str(eval_cluster(gng)), 'user_matches': []}
+    user_matches = []
+
     for user_instance in users_instances:
 
         cluster_id = gng.predict(user_instance.embedding)
+        matches = getOpenings(cluster_id, user_instance,
+                              openings_instances, 0.5)
 
-        matches = getOpenings(cluster_id, user_instance, openings_instances, 0.5)
-        pprint.pprint(matches)
+        user_result = user_to_json(user_instance.user, matches)
+        user_matches.append(user_result)
 
-    logging.info("Birch Testing")
+    results['user_matches'] = user_matches
 
-    birch = Birch(threshold=7, branching_factor=50)
+    with open('quality_l2_avg_norm.json', 'w') as f:
 
-    for opening_instance in openings_instances:
-
-        birch.add(opening_instance.embedding)
-        opening_instance.cluster_index = birch.index_of_cluster_containing(opening_instance.embedding)
-
-    print(eval_birch(birch))
-
-    for user_instance in users_instances:
-
-        cluster_id = birch.index_of_cluster_containing(user_instance.embedding)
-
-        matches = getOpenings(cluster_id, user_instance, openings_instances, 0.5)
-        
+        json.dump(results, f)

@@ -17,13 +17,15 @@ class OpeningInstance:
 
     def _transformOpening(self, sentenceEmbedder: SentenceEmbedder) -> numpy.array:
 
-        hardSkillsSentence = ' '.join([hardSkill.name for hardSkill in self.opening.hardSkills])
-        hardSkillsEmbedding = sentenceEmbedder.generateEmbeddings(hardSkillsSentence)
+        hardSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.opening.hardSkills)
 
-        softSkillsSentence = ' '.join([softSkill.name for softSkill in self.opening.softSkills])
-        softSkillsEmbedding = sentenceEmbedder.generateEmbeddings(softSkillsSentence)
+        softSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.opening.softSkills)
 
         averageEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
+        #averageEmbedding = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
+
+        resultingEmbedding = averageEmbedding.numpy()
+        resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
 
         return averageEmbedding.numpy()
 
