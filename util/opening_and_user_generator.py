@@ -1,5 +1,3 @@
-# ss = [
-# ]
 import sys
 from pathlib import Path
 
@@ -8,22 +6,23 @@ if __name__ == "__main__":
     sys.path.append(str(Path('..').absolute().parent))
 
 from util.readers.reader import DataReaderOpenings, DataReaderUsers
-from trigger.models.user import User
 import os
 import random
 
-base = r"examples\openings_users\openings"
+base = r"examples\openings_users\users"
+base_ = os.path.join(Path('..').absolute(), base)
 
 users = [
-    DataReaderUsers.populate(os.path.join(base, file))
-    for file in os.listdir(base)
+    DataReaderUsers.populate(os.path.join(base_, file))
+    for file in os.listdir(base_)
 ]
 
 base = r"examples\openings_users\openings"
+base_ = os.path.join(Path('..').absolute(), base)
 
 openings = [
-    DataReaderOpenings.populate(os.path.join(base, file))
-    for file in os.listdir(base)
+    DataReaderOpenings.populate(os.path.join(base_, file))
+    for file in os.listdir(base_)
 ]
 
 set_ss = set()
@@ -62,7 +61,7 @@ set_ss.add("Self Motivated")
 set_ss.add("Dependability")
 
 # Me
-set_ss.add("Echo-friendly")
+set_ss.add("Eco-friendly")
 
 # https://pdf4pro.com/fullscreen/hard-skills-list-excel-centre-keith-to-seminars-56a89b.html
 
@@ -149,10 +148,10 @@ marketing = [("Detail-Oriented", 70),
              ("Creativity", 50), ("Perceptiveness", 70)]
 
 ss_map = {
-    "Archaeology": [("Echo-friendly", 50), ("Hard-working", 50), ("Detail-Oriented", 50)],
+    "Archaeology": [("Eco-friendly", 50), ("Hard-working", 50), ("Detail-Oriented", 50)],
     "Security": [("Physically Fit", 95), ("Hard-working", 50), ("Perceptiveness", 50), ("Dependability", 70)],
-    "Military": [("Leadership", 40), ("Echo-friendly", 10), ("Physically Fit", 50), ("Self Motivated", 70), ("Hard-working", 50)],
-    "Environment": [("Echo-friendly", 80), ("Positive Attitude", 40), ("Individuality", 40)],
+    "Military": [("Leadership", 40), ("Eco-friendly", 10), ("Physically Fit", 50), ("Self Motivated", 70), ("Hard-working", 50)],
+    "Environment": [("Eco-friendly", 80), ("Positive Attitude", 40), ("Individuality", 40)],
     "Management": [("Leadership", 50), ("Decision Making", 60), ("Time Management", 30), ("Compassion", 40), ("Communication", 50)],
     "Operations": [("Perceptiveness", 60), ("Time Management", 50), ("Critical Thinking", 30)],
     "Production": [("Decision Making", 50), ("Time Management", 20), ("Detail-Oriented", 60), ("Hard-working", 40), ("Autonomy", 60)],
@@ -186,11 +185,16 @@ ss_map = {
     "Agriculture": [("Detail-Oriented", 50), ("Self Motivated", 20), ("Hard-working", 70), ("Perceptiveness", 30)],
 }
 
-with open(r"txt&downloadcode=yes.txt", 'r') as f:
+base = r"files.php_f=names.txt&downloadcode=yes.txt"
+base_ = os.path.join(Path('..').absolute(), base)
+
+with open(base_, 'r') as f:
     names = [line.strip() for line in f.readlines()]
 
+base = r"users.txt"
+base_ = os.path.join(Path('..').absolute(), base)
 
-with open(r"users.txt", 'w') as f:
+with open(base_, 'w') as f:
     for i in range(100):
         name = random.choice(names)
         f.write("User: " + name + "\n")
@@ -206,7 +210,10 @@ with open(r"users.txt", 'w') as f:
         f.write("Softskills: " + ','.join(softskills) + "\n")
         f.write("\n")
 
-with open(r"openings.txt", 'w') as f:
+base = r"openings.txt"
+base_ = os.path.join(Path('..').absolute(), base)
+
+with open(base_, 'w') as f:
     for i in range(2000):
         sector = random.choice(["Public", "Private"])
         f.write("Sector: " + sector + "\n")
