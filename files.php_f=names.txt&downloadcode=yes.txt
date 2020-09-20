@@ -7,7 +7,6 @@ Jennifer
 Joshua
 Amanda
 Daniel
-David
 James
 Robert
 John
@@ -4191,7 +4190,7 @@ Edmundo
 Darrion
 Darcey
 Daquan
-Daivd
+David
 Daiel
 Courtni
 Cardell
