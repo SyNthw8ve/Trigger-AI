@@ -5,8 +5,6 @@ import time
 
 from scipy.spatial.distance import cosine
 
-from trigger.models.match import Match
-
 from trigger.train.cluster.gstream.graph import Graph
 from trigger.train.cluster.gstream.node import Node
 from trigger.train.cluster.gstream.link import Link
@@ -21,7 +19,8 @@ class GNG(Processor):
 
     def __init__(self, epsilon_b: float, epsilon_n: float, lam: int, beta: float,
                  alpha: float, lambda_2: float, max_age: float, off_max_age: int,
-                 dimensions: int = 2, nodes_per_cycle=1, index_type: str = 'L2') -> None:
+                 dimensions: int = 2, nodes_per_cycle=1, index_type: str = 'L2', 
+                 random_state: int = 42) -> None:
 
         self.graph = Graph()
 
@@ -53,6 +52,8 @@ class GNG(Processor):
 
         self.cycle = 0
         self.step = 1
+
+        np.random.seed(random_state)
 
         node_1 = Node(np.random.rand(1, dimensions).astype(
             'float32')[0], 0, id=0, error_cycle=0)
