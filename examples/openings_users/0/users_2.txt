@@ -1,400 +1,400 @@
-User: Shree
-Hardskills: Business Systems Planning,Construction
-Softskills: Self Motivated,Individuality,Autonomy,Organization
+User: Jinelle
+Hardskills: Medicine,Design & Specification
+Softskills: Dependability,Individuality,Communication
 
-User: Distin
-Hardskills: Investor Presentations
-Softskills: Decision Making,Autonomy,Listening
+User: Tekoa
+Hardskills: Patent Application,System Analysis System Design,Government Relations
+Softskills: Organization,Detail-Oriented,Creativity,Physically Fit
 
-User: Lesley
-Hardskills: Strategic Partnership,Java,Fund Management Profit Planning
-Softskills: Compassion,Decision Making,Time Management
-
-User: Johniece
-Hardskills: Project Co-ordination Project Management,Shareholder proxies Stock Administration
-Softskills: Positive Attitude,Time Management,Decision Making
-
-User: Kinzie
-Hardskills: Financial Reporting
-Softskills: Eco-friendly,Physically Fit,Creativity,Active Learning,Critical Thinking
-
-User: Tamieka
-Hardskills: Stockholder Relations Tax
-Softskills: Compassion,Active Learning,Physically Fit,Time Management
-
-User: Christa
-Hardskills: Integration Software
-Softskills: Creativity,Organization,Communication
-
-User: Keno
-Hardskills: Telemarketing,Physics
-Softskills: Creativity,Self-Motivated,Communication,Leadership
-
-User: Tammera
-Hardskills: User Interface Vendor Sourcing
-Softskills: Physically Fit,Individuality,Communication,Dependability
-
-User: Annalissa
-Hardskills: New Account Development,Typescript
-Softskills: Critical Thinking,Organization,Teamwork
-
-User: Jamon
-Hardskills: Strategic Partnership,Shareholder proxies Stock Administration
-Softskills: Eco-friendly,Leadership,Compassion,Detail-Oriented
-
-User: Antwann
-Hardskills: Web Server
-Softskills: Communication,Physically Fit,Persuasion
-
-User: Shawntee
-Hardskills: Community Relations,Call Centre Operations
-Softskills: Leadership,Eco-friendly,Compassion
-
-User: Nichlas
-Hardskills: Developing Policies
-Softskills: Self-Motivated,Perceptiveness,Physically Fit,Teamwork
-
-User: Johnna
-Hardskills: Investor Collateral Media Presentations
-Softskills: Self-Motivated,Positive Attitude,Persuasion,Leadership
-
-User: Marquita
-Hardskills: Application Database Administration Applications Development,Merchandising New Product Development,Payroll
-Softskills: Communication,Compassion,Eco-friendly
-
-User: Markela
-Hardskills: Human Resources Management Industrial Relations,Photoshop Picasa
-Softskills: Listening,Individuality,Creativity,Organization
-
-User: Franklin
-Hardskills: Typography Print Design & Layout,Actuarial/Rating Analysis Auditing
-Softskills: Organization,Hard-working,Positive Attitude
-
-User: Jennah
-Hardskills: B2B Communication,Eletronical Engineering
-Softskills: Perceptiveness,Compassion,Listening,Positive Attitude,Persuasion
-
-User: Yun
-Hardskills: Eletronical Engineering
-Softskills: Hard-working,Eco-friendly,Dependability,Creativity
-
-User: Seqouia
-Hardskills: Corporate Culture
-Softskills: Eco-friendly,Echo-friendly,Compassion,Perceptiveness
-
-User: Ikeisha
-Hardskills: Intranet Development Languages – JAVA
-Softskills: Dependability,Listening,Creativity,Individuality,Teamwork
-
-User: Jaja
-Hardskills: International Management
-Softskills: Time Management,Decision Making,Teamwork
-
-User: Riva
-Hardskills: Plant Design & Layout,Licensing Mergers & Acquisitions
-Softskills: Decision Making,Individuality,Active Learning,Eco-friendly,Communication
-
-User: Djuan
-Hardskills: Multi-sites Management
-Softskills: Individuality,Listening,Persuasion,Hard-working
-
-User: Latressa
-Hardskills: Business Planning,International Management
-Softskills: Active Learning,Teamwork,Positive Attitude,Listening,Autonomy
-
-User: Opal
-Hardskills: Internet,Business Planning
-Softskills: Time Management,Perceptiveness,Persuasion,Creativity
-
-User: Emmet
-Hardskills: Copyrights & Trademarks
-Softskills: Organization,Autonomy,Self Motivated
-
-User: Tylisha
-Hardskills: Reception,Telemarketing,Psychology
-Softskills: Self-Motivated,Autonomy,Physically Fit,Teamwork
-
-User: Nesa
-Hardskills: ISO 9XXX / 1XXXXX,Word Processing ,Economics
-Softskills: Perceptiveness,Self-Motivated,Self Motivated,Detail-Oriented
-
-User: Boone
-Hardskills: TQM Order Processing
-Softskills: Echo-friendly,Decision Making,Teamwork,Perceptiveness,Leadership
-
-User: Detrick
-Hardskills: Application Database Administration Applications Development
-Softskills: Listening,Individuality,Self Motivated,Detail-Oriented,Decision Making
-
-User: Branon
-Hardskills: Financing Forecasting,Training Administration,Risk Management
-Softskills: Decision Making,Physically Fit,Detail-Oriented,Listening
-
-User: Anjulie
-Hardskills: Plant Design & Layout,Organizational Development,Economics
-Softskills: Time Management,Detail-Oriented,Listening
-
-User: Chapin
-Hardskills: Human Resources Management Industrial Relations,Financial Reporting
-Softskills: Decision Making,Active Learning,Individuality,Teamwork,Critical Thinking
-
-User: Tiffney
-Hardskills: Money,Web Site Editor Capacity Planning
-Softskills: Decision Making,Echo-friendly,Creativity,Self Motivated,Perceptiveness
-
-User: Jolanta
-Hardskills: Lines of Credit Management Reporting
-Softskills: Time Management,Self-Motivated,Critical Thinking,Organization
-
-User: Cutberto
-Hardskills: CRM,Market Research & Analysis Marketing Communication
-Softskills: Compassion,Communication,Creativity
-
-User: Jannell
-Hardskills: CSS,Statistical Analysis
-Softskills: Compassion,Teamwork,Self Motivated,Hard-working
-
-User: Anastazia
-Hardskills: Internet
-Softskills: Persuasion,Critical Thinking,Autonomy,Teamwork,Self Motivated
-
-User: Johnisha
-Hardskills: Policies & Procedures,E-Commerce
-Softskills: Perceptiveness,Echo-friendly,Decision Making,Eco-friendly
-
-User: Reann
-Hardskills: Mailroom Management,Distribution
-Softskills: Active Learning,Persuasion,Organization,Self-Motivated,Compassion
-
-User: Rhianon
-Hardskills: Press Release,Word Processing,Algorithm Development
-Softskills: Creativity,Active Learning,Self Motivated,Decision Making
-
-User: Lorianne
-Hardskills: Product Launch,System Analysis System Design,Technical Writing
-Softskills: Perceptiveness,Decision Making,Compassion,Self-Motivated,Communication
-
-User: Curtis
-Hardskills: Press Release
-Softskills: Echo-friendly,Persuasion,Organization
-
-User: Aramis
-Hardskills: Negotiation Profit & Loss,Art,Workforce Forecast/Planning Compensation & Benefits
-Softskills: Self-Motivated,Self Motivated,Autonomy
-
-User: Abie
-Hardskills: Direct Sales Distributor Relations,Money
-Softskills: Hard-working,Organization,Autonomy
-
-User: Tenica
+User: Shavannah
 Hardskills: Bidding
-Softskills: Listening,Echo-friendly,Teamwork,Compassion,Hard-working
+Softskills: Hard-working,Individuality,Organization,Perceptiveness
 
-User: Janiesha
-Hardskills: Corporate Law Company Secretary
-Softskills: Teamwork,Organization,Leadership,Communication,Compassion
+User: Loyal
+Hardskills: Cost Control
+Softskills: Creativity,Detail-Oriented,Dependability
 
-User: Colette
-Hardskills: Web Site Editor Capacity Planning,Packaging Pricing
-Softskills: Perceptiveness,Autonomy,Leadership
+User: Jervon
+Hardskills: Corporate Publications Corporate Relations,ISO 9XXX / 1XXXXX
+Softskills: Teamwork,Persuasion,Compassion
 
-User: Leia
-Hardskills: Online Marketing,Equipment Maintenance & Repair,Typography Print Design & Layout
-Softskills: Autonomy,Persuasion,Communication,Dependability
+User: Curtisha
+Hardskills: Labour Relations Merger & Acquisitions,Math
+Softskills: Organization,Eco-friendly,Hard-working,Detail-Oriented
 
-User: Lyndie
-Hardskills: Online Marketing
-Softskills: Hard-working,Active Learning,Detail-Oriented,Echo-friendly
+User: Avni
+Hardskills: C+++
+Softskills: Critical Thinking,Individuality,Eco-friendly
 
-User: Manuella
-Hardskills: Financial Reporting,Marketing Plan
-Softskills: Persuasion,Creativity,Time Management,Organization
+User: Rodrickus
+Hardskills: Sales Kits Sales Management
+Softskills: Persuasion,Organization,Perceptiveness,Dependability
 
-User: Moriah
-Hardskills: Statistical Analysis,Safety Engineering
-Softskills: Self Motivated,Autonomy,Eco-friendly,Persuasion
+User: Catalina
+Hardskills: Usability Engineering User Education,Budgeting,Prototype Development
+Softskills: Critical Thinking,Dependability,Autonomy
 
-User: Rakesh
-Hardskills: Labour Negotiations Outplacement,Shareholder proxies Stock Administration
-Softskills: Autonomy,Creativity,Teamwork
+User: Vinay
+Hardskills: Character Development
+Softskills: Active Learning,Physically Fit,Organization
 
-User: Shakeda
-Hardskills: Facility Management Inventory Control,Character Development
-Softskills: Positive Attitude,Active Learning,Self Motivated,Critical Thinking
+User: Elwood
+Hardskills: Career Counseling,Colour Theory
+Softskills: Leadership,Detail-Oriented,Individuality,Persuasion,Self Motivated
 
-User: Zacharie
-Hardskills: Business Planning,Cash Management Cost Accounting,ISO 9XXX / 1XXXXX
-Softskills: Communication,Critical Thinking,Self-Motivated,Echo-friendly,Leadership
+User: Zonia
+Hardskills: Copyrights & Trademarks,Bidding
+Softskills: Autonomy,Active Learning,Listening
 
-User: Catarino
-Hardskills: Venture Capital Relations Accounts Receivable
-Softskills: Communication,Time Management,Detail-Oriented
+User: Nicoletta
+Hardskills: Lab Management,Archaeology,Feasibility StudiesFinancial Analysis
+Softskills: Decision Making,Time Management,Self Motivated,Eco-friendly,Leadership
 
-User: Rashaan
-Hardskills: Voice & Data Communications Web Development/Design
-Softskills: Listening,Creativity,Echo-friendly
+User: Alban
+Hardskills: Story Line Development,Quality Assurance
+Softskills: Physically Fit,Teamwork,Organization
 
-User: Jalil
+User: Kiera
+Hardskills: Patents
+Softskills: Critical Thinking,Teamwork,Hard-working
+
+User: Naheed
+Hardskills: Investor Relations IPO,Feasibility Studies Field Studies
+Softskills: Autonomy,Teamwork,Physically Fit,Persuasion,Organization
+
+User: Katelyn
+Hardskills: Project Management Staff Development,System Development,Medicine
+Softskills: Perceptiveness,Creativity,Autonomy
+
+User: Romel
+Hardskills: Chemistry,Flash Freehand,Manpower Planning
+Softskills: Perceptiveness,Organization,Autonomy
+
+User: Aram
+Hardskills: Speech Writing Corporate Image
+Softskills: Compassion,Eco-friendly,Leadership
+
+User: Latisa
+Hardskills: Labour Relations Merger & Acquisitions,Market Research & Analysis Marketing Communication
+Softskills: Compassion,Active Learning,Teamwork
+
+User: Nickie
+Hardskills: International Business Development International Expansion,User Interface Vendor Sourcing,Employee Discipline
+Softskills: Compassion,Dependability,Leadership,Eco-friendly
+
+User: Fantasia
+Hardskills: Enterprise Asset Management,Visual Composition
+Softskills: Listening,Perceptiveness,Communication
+
+User: Jin
+Hardskills: Art,Performance Appraisal
+Softskills: Self Motivated,Detail-Oriented,Eco-friendly
+
+User: Hannan
+Hardskills: Corporate Philanthropy
+Softskills: Leadership,Individuality,Teamwork,Dependability,Hard-working
+
+User: Jamorris
+Hardskills: Story Line Development,Archaeology,Illustrator
+Softskills: Self Motivated,Individuality,Dependability
+
+User: Rashel
+Hardskills: Press Release,User Interface Vendor Sourcing
+Softskills: Individuality,Decision Making,Self Motivated,Creativity
+
+User: Kania
+Hardskills: User Documentation
+Softskills: Hard-working,Critical Thinking,Persuasion
+
+User: Sacha
+Hardskills: Capital Investment,Trade Shows
+Softskills: Self Motivated,Listening,Leadership,Eco-friendly
+
+User: Ty
+Hardskills: Joint Ventures,Physics
+Softskills: Organization,Positive Attitude,Eco-friendly,Communication,Perceptiveness
+
+User: Derell
+Hardskills: Colour Theory
+Softskills: Eco-friendly,Leadership,Active Learning,Communication,Physically Fit
+
+User: Mauri
+Hardskills: Biology,Foreign Exchange,Investor Collateral Media Presentations
+Softskills: Perceptiveness,Detail-Oriented,Autonomy
+
+User: Tallon
+Hardskills: Cash Management Cost Accounting
+Softskills: Active Learning,Individuality,Hard-working,Communication
+
+User: Alishea
+Hardskills: Mechanical Engineering,Risk Management
+Softskills: Communication,Organization,Time Management,Active Learning
+
+User: Akhil
+Hardskills: Employee Selection,Manpower Planning
+Softskills: Eco-friendly,Communication,Leadership,Decision Making
+
+User: Cartney
+Hardskills: Civil Engineering
+Softskills: Persuasion,Listening,Physically Fit,Autonomy
+
+User: Athena
+Hardskills: Team Building,Organizational Development
+Softskills: Leadership,Detail-Oriented,Active Learning,Decision Making,Hard-working
+
+User: Silvio
+Hardskills: General Ledger Insurance,Market Research & Analysis Marketing Communication
+Softskills: Perceptiveness,Active Learning,Teamwork,Hard-working
+
+User: Marilu
+Hardskills: etc
+Softskills: Teamwork,Hard-working,Persuasion
+
+User: Donivan
+Hardskills: Show Room Management Sales Support,Copywriting,Sociology
+Softskills: Persuasion,Detail-Oriented,Listening,Decision Making
+
+User: Jesslyn
+Hardskills: Product Development Product Testing,Corporate Identity Image Development
+Softskills: Detail-Oriented,Persuasion,Individuality,Eco-friendly,Leadership
+
+User: Oracio
+Hardskills: Lab Design New Equipment Design,Equipment Design
+Softskills: Dependability,Active Learning,Compassion,Time Management
+
+User: Shawona
+Hardskills: Lab Design New Equipment Design
+Softskills: Autonomy,Persuasion,Communication
+
+User: Alesandro
+Hardskills: Accounting Management,Algorithm Development,Market Research & Analysis Marketing Communication
+Softskills: Organization,Decision Making,Physically Fit
+
+User: Maurisha
+Hardskills: Feasibility StudiesFinancial Analysis,Developing Policies
+Softskills: Critical Thinking,Leadership,Teamwork
+
+User: Corneilius
+Hardskills: Risk Management
+Softskills: Physically Fit,Autonomy,Compassion,Self Motivated
+
+User: Julieanna
+Hardskills: Sales Administration,Marketing promotions Media Buying/Evaluation Media Relations
+Softskills: Hard-working,Leadership,Critical Thinking,Individuality,Compassion
+
+User: Kiante
+Hardskills: Biology
+Softskills: Dependability,Compassion,Positive Attitude,Organization
+
+User: Alvaro
+Hardskills: Trade Shows
+Softskills: Critical Thinking,Active Learning,Listening,Creativity,Decision Making
+
+User: Lakenya
+Hardskills: Business Planning,Team Building
+Softskills: Creativity,Individuality,Dependability,Organization
+
+User: Zayra
+Hardskills: Labour Negotiations Outplacement,Training 
+Softskills: Dependability,Physically Fit,Persuasion,Active Learning
+
+User: Jacquese
+Hardskills: Consolidation
+Softskills: Detail-Oriented,Perceptiveness,Critical Thinking,Dependability,Teamwork
+
+User: Dawson
+Hardskills: Employee Selection,Account Management
+Softskills: Self Motivated,Perceptiveness,Persuasion,Creativity,Critical Thinking
+
+User: Zebulon
 Hardskills: Channel Marketing Competitive Analysis
-Softskills: Echo-friendly,Detail-Oriented,Dependability
+Softskills: Communication,Perceptiveness,Eco-friendly,Positive Attitude
 
-User: Oswald
-Hardskills: Financing
-Softskills: Decision Making,Eco-friendly,Persuasion
+User: Gerson
+Hardskills: Records Management Security
+Softskills: Eco-friendly,Leadership,Persuasion,Autonomy,Detail-Oriented
 
-User: Nydia
-Hardskills: Salary Administration Succession Planning,Economics,Web Site Editor Capacity Planning
-Softskills: Persuasion,Eco-friendly,Hard-working,Dependability,Organization
+User: Domenic
+Hardskills: Negotiation Profit & Loss,Joint Ventures,Career Counseling
+Softskills: Autonomy,Listening,Hard-working,Eco-friendly
 
-User: Dontray
-Hardskills: Training,Gastronomy
-Softskills: Critical Thinking,Communication,Self-Motivated,Detail-Oriented,Dependability
+User: Fallen
+Hardskills: Call Centre Operations
+Softskills: Listening,Physically Fit,Compassion,Detail-Oriented
 
-User: Kali
-Hardskills: Feasibility StudiesFinancial Analysis
-Softskills: Self-Motivated,Leadership,Compassion,Hard-working
+User: Chia
+Hardskills: Cost Control Decision Making,Space Planning,Human Resources Management Industrial Relations
+Softskills: Critical Thinking,Compassion,Autonomy,Eco-friendly
 
-User: Kitt
-Hardskills: TQM Order Processing
-Softskills: Decision Making,Detail-Oriented,Self Motivated
+User: Elizabethanne
+Hardskills: Online Marketing
+Softskills: Communication,Organization,Positive Attitude
 
-User: Auston
-Hardskills: JIT Purchasing & Procurement Shipping,Contract Preparation
-Softskills: Critical Thinking,Time Management,Positive Attitude
+User: Meta
+Hardskills: Equipment Maintenance & Repair
+Softskills: Teamwork,Individuality,Hard-working
 
-User: Jamye
-Hardskills: JIT Purchasing & Procurement Shipping
-Softskills: Teamwork,Critical Thinking,Communication
+User: Allia
+Hardskills: Speech Writing Corporate Image
+Softskills: Communication,Dependability,Compassion,Leadership,Eco-friendly
 
-User: Ashtyn
-Hardskills: Traffic Management Warehousing ,Software Development
-Softskills: Listening,Teamwork,Dependability,Individuality
+User: Melissia
+Hardskills: Hardware Management Information Management,Performance Appraisal
+Softskills: Persuasion,Teamwork,Leadership
 
-User: Jorel
-Hardskills: Product Launch,Government Relations,Job Analysis
-Softskills: Positive Attitude,Listening,Hard-working
+User: Rito
+Hardskills: International Management,Sociology
+Softskills: Eco-friendly,Active Learning,Creativity,Self Motivated,Hard-working
 
-User: Gia
-Hardskills: Psychology
-Softskills: Physically Fit,Organization,Leadership,Perceptiveness
+User: Javarius
+Hardskills: Software Development
+Softskills: Eco-friendly,Communication,Perceptiveness
 
-User: Mareo
-Hardskills: Mailroom Management
-Softskills: Compassion,Dependability,Teamwork
+User: Natane
+Hardskills: Product Launch,Sales Analysis
+Softskills: Detail-Oriented,Positive Attitude,Persuasion,Active Learning
 
-User: Gerad
-Hardskills: Marketing Plan,Negotiation Profit & Loss
-Softskills: Echo-friendly,Persuasion,Detail-Oriented,Creativity
+User: Jonthan
+Hardskills: International Management,Event Planning Fund Raising,Safety Engineering 
+Softskills: Leadership,Teamwork,Physically Fit,Hard-working
 
-User: Jaunita
-Hardskills: Foreign Exchange,Lab Management
-Softskills: Critical Thinking,Detail-Oriented,Teamwork
+User: Shawnise
+Hardskills: Equipment Maintenance & Repair,Employee Communication
+Softskills: Teamwork,Individuality,Critical Thinking,Eco-friendly
 
-User: Ysenia
-Hardskills: Foreign Exchange,Eletronical Engineering
-Softskills: Persuasion,Active Learning,Creativity
+User: Demetrie
+Hardskills: Risk Management,Licensing Mergers & Acquisitions
+Softskills: Leadership,Physically Fit,Detail-Oriented,Dependability
 
-User: Dorrie
-Hardskills: Sales Analysis,Salary Administration Succession Planning
-Softskills: Self Motivated,Critical Thinking,Hard-working,Individuality
+User: Chameka
+Hardskills: Project Co-ordination Project Management,Computer Science
+Softskills: Perceptiveness,Persuasion,Compassion,Teamwork,Individuality
 
-User: Artemus
-Hardskills: Investor Collateral Media Presentations
-Softskills: Positive Attitude,Physically Fit,Hard-working,Autonomy,Echo-friendly
+User: Devina
+Hardskills: Design & Specification,Consolidation,Corporate Publications Corporate Relations
+Softskills: Self Motivated,Autonomy,Critical Thinking,Active Learning
 
-User: Briton
-Hardskills: Traffic Management Warehousing
-Softskills: Creativity,Communication,Listening,Dependability
+User: Anamarie
+Hardskills: EAP Enterprise Resource Planning ERP,Dreamweaver
+Softskills: Critical Thinking,Persuasion,Teamwork
 
-User: Rylee
-Hardskills: Employee Selection,Distribution,Telemarketing
-Softskills: Organization,Self Motivated,Eco-friendly,Teamwork
+User: Jenniefer
+Hardskills: Sales Training,Advertising
+Softskills: Eco-friendly,Compassion,Leadership
 
-User: Egan
+User: Jessilyn
+Hardskills: Corporate Publications Corporate Relations
+Softskills: Time Management,Critical Thinking,Hard-working,Communication
+
+User: Anupama
+Hardskills: Design,Project Management Staff Development
+Softskills: Dependability,Positive Attitude,Listening,Teamwork
+
+User: Chassie
+Hardskills: Plant Design & Layout
+Softskills: Detail-Oriented,Eco-friendly,Creativity,Teamwork,Perceptiveness
+
+User: Lorie
+Hardskills: Bidding,Government Relations
+Softskills: Persuasion,Organization,Individuality,Dependability
+
+User: Kenosha
+Hardskills: Telemarketing,Patent Application
+Softskills: Compassion,Leadership,Positive Attitude
+
+User: Nyomi
+Hardskills: ISO 9XXX / 1XXXXX
+Softskills: Listening,Perceptiveness,Autonomy,Persuasion
+
+User: Chrystina
+Hardskills: Actuarial/Rating Analysis Auditing,Corporate Publications Corporate Relations
+Softskills: Communication,Physically Fit,Creativity
+
+User: Snow
+Hardskills: Salary Administration Succession Planning,UNIX
+Softskills: Compassion,Self Motivated,Leadership
+
+User: Marvin
 Hardskills: Computer Engineering
-Softskills: Critical Thinking,Decision Making,Physically Fit,Perceptiveness
+Softskills: Physically Fit,Detail-Oriented,Compassion
 
-User: Kendel
-Hardskills: CAD EDI
-Softskills: Active Learning,Self-Motivated,Detail-Oriented,Eco-friendly
+User: Kriste
+Hardskills: Sociology
+Softskills: Active Learning,Leadership,Organization,Dependability
 
-User: Savana
-Hardskills: Manpower Planning
-Softskills: Eco-friendly,Decision Making,Autonomy
+User: Tanishia
+Hardskills: Online Marketing,Government Relations Hiring,Application Database Administration Applications Development
+Softskills: Listening,Individuality,Compassion,Hard-working
 
-User: Karlo
-Hardskills: Drawing Musical Composition,Contract Preparation,Photoshop Picasa
-Softskills: Critical Thinking,Detail-Oriented,Time Management
+User: Meosha
+Hardskills: Acquisitions & Mergers,Flash Freehand,Cash Management Cost Accounting
+Softskills: Eco-friendly,Communication,Persuasion,Physically Fit,Time Management
 
-User: Raychelle
-Hardskills: Business Re-engineering Change Management,Sales Training
-Softskills: Organization,Autonomy,Time Management
+User: Desirea
+Hardskills: Foreign Exchange
+Softskills: Individuality,Critical Thinking,Dependability,Compassion
 
-User: Chole
-Hardskills: Construction,Equipment Management
-Softskills: Communication,Perceptiveness,Persuasion,Listening,Decision Making
+User: Jenelle
+Hardskills: Photoshop Picasa,Employee Communication
+Softskills: Positive Attitude,Leadership,Individuality
 
-User: Corianna
-Hardskills: Training ,Business Systems Planning
-Softskills: Perceptiveness,Listening,Active Learning,Physically Fit
+User: Nickia
+Hardskills: Account Management
+Softskills: Creativity,Perceptiveness,Dependability,Time Management
 
-User: Lancer
-Hardskills: Lines of Credit Management Reporting,Account Management,Government Relations
-Softskills: Organization,Individuality,Compassion,Eco-friendly
+User: Barkley
+Hardskills: Corporate Identity Image Development,Risk Management,Investor Relations IPO
+Softskills: Organization,Positive Attitude,Creativity,Listening
 
-User: Judi
-Hardskills: Project Co-ordination Project Management,Law
-Softskills: Perceptiveness,Positive Attitude,Dependability,Eco-friendly,Physically Fit
+User: Keita
+Hardskills: Government Relations,Biology,User Interface Vendor Sourcing
+Softskills: Autonomy,Individuality,Persuasion,Leadership
 
-User: Ishia
-Hardskills: Corporate Identity Image Development,Contract Preparation
-Softskills: Detail-Oriented,Communication,Creativity,Listening
+User: Rogers
+Hardskills: Integration Software,Corporate Publications Corporate Relations,Venture Capital Relations Accounts Receivable
+Softskills: Leadership,Hard-working,Self Motivated
 
-User: Demareo
-Hardskills: Merchandising New Product Development
-Softskills: Compassion,Eco-friendly,Critical Thinking
+User: Karleen
+Hardskills: Fund Management Profit Planning
+Softskills: Critical Thinking,Physically Fit,Hard-working,Perceptiveness
 
-User: Kaveh
-Hardskills: Telecommunications Tracking System,Eletronical Engineering
-Softskills: Physically Fit,Autonomy,Listening
+User: Timeka
+Hardskills: Investor Relations IPO
+Softskills: Organization,Autonomy,Self Motivated,Creativity,Perceptiveness
 
-User: Malerie
-Hardskills: Architecture
-Softskills: Organization,Perceptiveness,Dependability,Listening,Positive Attitude
+User: Chane
+Hardskills: Consolidation
+Softskills: Detail-Oriented,Perceptiveness,Self Motivated,Autonomy
 
-User: Rebekka
-Hardskills: Business Systems Planning,Account Management
-Softskills: Autonomy,Listening,Perceptiveness,Time Management
+User: Chrystopher
+Hardskills: Logo Development
+Softskills: Eco-friendly,Physically Fit,Perceptiveness,Hard-working
 
-User: Khia
-Hardskills: HTML
-Softskills: Critical Thinking,Teamwork,Eco-friendly,Autonomy
+User: Terese
+Hardskills: Investor Presentations
+Softskills: Self Motivated,Critical Thinking,Creativity,Leadership
 
-User: Jesika
-Hardskills: Web Server,International Agreements,Capital Investment
-Softskills: Organization,Individuality,Creativity
+User: Shelene
+Hardskills: Colour Theory,Technical Writing
+Softskills: Critical Thinking,Time Management,Detail-Oriented,Dependability,Persuasion
 
-User: Lamel
-Hardskills: Equity/Debt Management,Web
-Softskills: Leadership,Teamwork,Active Learning,Decision Making,Detail-Oriented
+User: Theotis
+Hardskills: Copywriting
+Softskills: Positive Attitude,Time Management,Dependability
 
-User: Ave
-Hardskills: Payroll,Traffic Management Warehousing ,Safety Engineering 
-Softskills: Eco-friendly,Individuality,Teamwork,Creativity
+User: Lenee
+Hardskills: Corporate Philanthropy
+Softskills: Self Motivated,Time Management,Active Learning,Perceptiveness
 
-User: Jeree
-Hardskills: User Interface Vendor Sourcing,Equity/Debt Management
-Softskills: Active Learning,Teamwork,Hard-working
+User: Jenelle
+Hardskills: Corporate Law Company Secretary
+Softskills: Hard-working,Detail-Oriented,Listening,Eco-friendly,Physically Fit
 
-User: Cassaundra
-Hardskills: Office Management Policies & Procedures,Executive Recruiting Grievance Resolution,Channel Marketing Competitive Analysis
-Softskills: Active Learning,Organization,Hard-working,Detail-Oriented
+User: Narah
+Hardskills: Mechanical Engineering
+Softskills: Persuasion,Positive Attitude,Self Motivated,Creativity
 
-User: Louann
-Hardskills: Workforce Forecast/Planning Compensation & Benefits
-Softskills: Physically Fit,Teamwork,Persuasion,Individuality
-
-User: Jaclynne
-Hardskills: Marketing Plan,Mechanical Engineering,Trade Shows
-Softskills: Persuasion,Autonomy,Hard-working,Self-Motivated
+User: Megyn
+Hardskills: Corporate Publications Corporate Relations,Civil Engineering
+Softskills: Dependability,Creativity,Time Management,Decision Making
 
