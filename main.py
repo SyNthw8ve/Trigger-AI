@@ -2,16 +2,16 @@ import os
 import pprint
 import logging
 import json
+import copy
 
 from typing import List, Tuple
 from scipy.spatial.distance import cosine
 
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
 
-from trigger.models.match import Match
+from trigger.models.Match import Match
 
 from trigger.models.opening import Opening
-from trigger.models.softskill import Softskill
 from trigger.models.hardskill import Hardskill
 from trigger.models.language import Language
 from trigger.models.user import User
@@ -31,6 +31,7 @@ from trigger.train.transformers.opening_transformer import OpeningInstance
 
 from trigger.train.cluster.gstream.gstream import GNG
 from trigger.train.cluster.birch.birch import Birch
+from test import train
 
 users_path = './examples/openings_users/users'
 openings_path = './examples/openings_users/openings'
@@ -220,7 +221,10 @@ if __name__ == "__main__":
         opening_instance.cluster_index = gng.get_cluster(
             opening_instance.embedding)
 
-    results = {'scores': str(eval_cluster(gng)), 'user_matches': []}
+    train(gng)
+    print(eval_cluster(gng))
+    
+    """ results = {'scores': str(eval_cluster(gng)), 'user_matches': []}
     user_matches = []
 
     for user_instance in users_instances:
@@ -236,4 +240,4 @@ if __name__ == "__main__":
 
     with open('quality_l2_avg_norm.json', 'w') as f:
 
-        json.dump(results, f)
+        json.dump(results, f) """

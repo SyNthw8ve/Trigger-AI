@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+import copy
 
 from tf_agents.environments import py_environment
 from tf_agents.environments import tf_environment
@@ -16,7 +17,7 @@ from trigger.train.cluster.gstream.gstream import GNG
 
 class GNGParameterEnvironment(py_environment.PyEnvironment):
 
-    def __init__(self):
+    def __init__(self, gng: GNG):
         self._action_spec = array_spec.BoundedArraySpec(
             shape=(), dtype=np.int32, minimum=0, maximum=11, name='action')
 
@@ -24,20 +25,17 @@ class GNGParameterEnvironment(py_environment.PyEnvironment):
             shape=(2,), dtype=np.float64, name='scores'
         )
 
-        self._state = GNG(epsilon_b=0.001,
-                          epsilon_n=0,
-                          lam=5,
-                          beta=0.9995,
-                          alpha=0.95,
-                          max_age=10,
-                          off_max_age=10,
-                          lambda_2=0.2,
-                          nodes_per_cycle=1,
-                          dimensions=1024,
-                          index_type='L2')
+        self._state = gng
+        self.reset_gng = gng
+        self.t_step = 0
 
-        self.Sst = 0
-        self.CHst = 0
+        first_metrics = eval_cluster(gng)
+
+        self.Sst = first_metrics[0]
+        self.CHst = first_metrics[1]
+
+        self._reset_Sst = first_metrics[0]
+        self._reset_CHst = first_metrics[1]
 
         self._episode_ended = False
 
@@ -48,19 +46,14 @@ class GNGParameterEnvironment(py_environment.PyEnvironment):
         return self._observation_spec
 
     def _reset(self):
-        self._state = GNG(epsilon_b=0.001,
-                          epsilon_n=0,
-                          lam=5,
-                          beta=0.9995,
-                          alpha=0.95,
-                          max_age=10,
-                          off_max_age=10,
-                          lambda_2=0.2,
-                          nodes_per_cycle=1,
-                          dimensions=1024,
-                          index_type='L2')
+
+        self._state = self.reset_gng
+        self.Sst = self._reset_Sst
+        self.CHst = self._reset_CHst
+        self.t_step = 0
+
         self._episode_ended = False
-        return ts.restart(np.array([0, 0], dtype=np.float))
+        return ts.restart(np.array([self.Sst, self.CHst], dtype=np.float))
 
     def _step(self, action):
 
@@ -77,12 +70,14 @@ class GNGParameterEnvironment(py_environment.PyEnvironment):
         elif action == 1:
 
             self._state.lam += 1
+            self._state = self._state.update_gng()
 
         elif action == 2:
 
             if self._state.lam >= 2:
 
                 self._state.lam -= 1
+                self._state = self._state.update_gng()
 
         elif action == 3:
 
@@ -91,12 +86,14 @@ class GNGParameterEnvironment(py_environment.PyEnvironment):
         elif action == 4:
 
             self._state.epsilon_b += 0.001
+            self._state = self._state.update_gng()
 
         elif action == 5:
 
             if self._state.epsilon_b >= 0.001:
 
                 self._state.epsilon_b -= 0.001
+                self._state = self._state.update_gng()
 
         elif action == 6:
 
@@ -105,12 +102,14 @@ class GNGParameterEnvironment(py_environment.PyEnvironment):
         elif action == 7:
 
             self._state.nodes_per_cycle += 1
+            self._state = self._state.update_gng()
 
         elif action == 8:
 
             if self._state.nodes_per_cycle > 0:
 
                 self._state.nodes_per_cycle -= 1
+                self._state = self._state.update_gng()
 
         elif action == 9:
 
@@ -119,12 +118,14 @@ class GNGParameterEnvironment(py_environment.PyEnvironment):
         elif action == 10:
 
             self._state.max_age += 1
+            self._state = self._state.update_gng()
 
         elif action == 11:
 
             if self._state.max_age > 0:
 
                 self._state.max_age -= 1
+                self._state = self._state.update_gng()
 
         else:
             raise ValueError('`action` should be 0 or 1.')
@@ -132,8 +133,10 @@ class GNGParameterEnvironment(py_environment.PyEnvironment):
         results = eval_cluster(self._state)
         Ss = results[0]
         CHs = results[1]
+        
+        self.t_step += 1
 
-        if Ss < 0:
+        if Ss < 0 or self.t_step >= 200:
 
             self._episode_ended = True
             return ts.termination(np.array([Ss, CHs], dtype=np.float), 0)
@@ -144,7 +147,7 @@ class GNGParameterEnvironment(py_environment.PyEnvironment):
             self.CHst = CHs
 
             return ts.transition(
-                np.array([Ss, CHs], dtype=np.float), reward=0.5, discount=1.0)
+                np.array([Ss, CHs], dtype=np.float), reward=1.0, discount=1.0)
 
         elif Ss < self.Sst:
 

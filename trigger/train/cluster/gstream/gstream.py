@@ -19,7 +19,7 @@ class GNG(Processor):
 
     def __init__(self, epsilon_b: float, epsilon_n: float, lam: int, beta: float,
                  alpha: float, lambda_2: float, max_age: float, off_max_age: int,
-                 dimensions: int = 2, nodes_per_cycle=1, index_type: str = 'L2', 
+                 dimensions: int = 2, nodes_per_cycle=1, index_type: str = 'L2',
                  random_state: int = 42) -> None:
 
         self.graph = Graph()
@@ -158,12 +158,12 @@ class GNG(Processor):
         if self.index_type == 'L2':
 
             error_value = np.power(cdist([v.protype],
-                                        [instance], "euclidean")[0], 2)[0]
+                                         [instance], "euclidean")[0], 2)[0]
 
         elif self.index_type == 'IP':
 
             error_value = np.power(cdist([v.protype],
-                                        [instance], "cosine")[0], 2)[0]
+                                         [instance], "cosine")[0], 2)[0]
 
         self.increment_error(v, error_value)
 
@@ -409,3 +409,15 @@ class GNG(Processor):
     def predict(self, instance) -> int:
 
         return self.get_best_match(instance)[0].id
+
+    def update_gng(self) -> "GNG":
+
+        new_gng = GNG(self.epsilon_b, self.epsilon_n, self.lam,
+                      self.beta, self.alpha, self.lambda_2, self.max_age, 
+                      self.off_max_age, self.dimensions, self.nodes_per_cycle, self.index_type)
+
+        for instance in self.instances:
+
+            new_gng.gng_adapt(instance)
+
+        return new_gng

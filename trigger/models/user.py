@@ -1,6 +1,6 @@
 from typing import NamedTuple, List
 
-from trigger.models.softskill import Softskill
+from trigger.models.SoftSkill import Softskill
 from trigger.models.hardskill import Hardskill
 
 

@@ -4,8 +4,7 @@ import pickle
 
 from typing import List
 from trigger.models.user import User
-from trigger.models.hardskill import Hardskill
-from trigger.models.softskill import Softskill
+
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 
 class UserInstance:
