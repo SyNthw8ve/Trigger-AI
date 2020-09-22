@@ -1,3 +1,4 @@
+from server.database.opening_model import OpeningModel
 from trigger.models.server_match import ServerMatch
 from flask import Flask
 from rq import Queue
@@ -15,6 +16,7 @@ import json
 import sys
 from pathlib import Path
 
+from trigger.train.transformers.opening_transformer import OpeningInstance
 from trigger.train.transformers.user_transformer import UserInstance
 
 sys.path.append(str(Path('.').absolute().parent))
@@ -47,16 +49,19 @@ with open(config_path) as f:
 client = pymongo.MongoClient(config["host"])
 database = client[config["database"]]
 
+# TODO: Add quality score
+
 
 def calculate_score(user_instance: Any, opening_instance: Any) -> float:
     return 1 - cosine(user_instance, opening_instance)
+
+# TODO: Add quality score
 
 
 def calculate_matches(user_id: str, user_instance: UserInstance) -> List[ServerMatch]:
     would_be_cluster_id = clusterer.predict(user_instance.embedding)
 
-    instances, tags = clusterer.get_instances_and_tags_in_cluster(
-        would_be_cluster_id)
+    instances, tags = clusterer.get_instances_and_tags_in_cluster(would_be_cluster_id)
 
     matches = [
         ServerMatch(
@@ -82,7 +87,7 @@ def compute_user_matches(user_id: str):
 
     # TODO: cache user instance?
     matches = calculate_matches(user_id, UserInstance(user, sentence_embedder))
-    
+
     # TODO: save matches
     return str(matches)
 
@@ -100,17 +105,21 @@ def update_user_matches(user_id: str):
 
 @app.route('/opening/<opening_id>', methods=['POST'])
 def insert_opening_to_cluster(opening_id: str):
-
-    pass
+    opening = OpeningModel.get_opening(opening_id, database)
+    # FIXME: always online here?
+    clusterer.online_fase(
+        opening_id, OpeningInstance(opening, sentence_embedder).embedding)
+    return "Ok"
 
 
 @app.route('/opening/<opening_id>', methods=['PUT'])
 def update_opening(opening_id: str):
-
-    pass
+    opening = OpeningModel.get_opening(opening_id, database)
+    clusterer.update(opening_id, OpeningInstance(opening, sentence_embedder).embedding)
+    return "Ok"
 
 
 @app.route('/opening/<opening_id>', methods=['DELETE'])
 def remove_opening_from_cluster(opening_id: str):
-
-    pass
+    clusterer.remove(opening_id)
+    return "Ok"
