@@ -89,8 +89,13 @@ def compute_user_matches(user_id: str):
 
 @app.route('/user_match/<user_id>', methods=['PUT'])
 def update_user_matches(user_id: str):
+    user = UserModel.get_user_data(user_id, database)
 
-    pass
+    # TODO: cache user instance?
+    matches = calculate_matches(user_id, UserInstance(user, sentence_embedder))
+
+    # TODO: save matches
+    return str(matches)
 
 
 @app.route('/opening/<opening_id>', methods=['POST'])
