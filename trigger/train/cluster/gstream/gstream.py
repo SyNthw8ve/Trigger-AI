@@ -68,6 +68,15 @@ class GNG(Processor):
     def process(self, tag: str, instance) -> None:
         self.online_fase(tag, instance)
 
+    def update(self, tag:str, instance: Any) -> None:
+        self.remove(tag)
+        # FIXME: always online here?
+        self.online_fase(tag, instance)
+
+    def remove(self, tag: str) -> None:
+        # TODO: implement remove
+        pass
+
     def online_fase(self, tag: str, instance: Any) -> None:
 
         self.gng_adapt(tag, instance)
