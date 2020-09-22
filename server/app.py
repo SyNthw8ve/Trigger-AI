@@ -1,3 +1,4 @@
+from trigger.models.server_match import ServerMatch
 from flask import Flask
 from rq import Queue
 from scipy.spatial.distance import cosine
@@ -5,7 +6,6 @@ from server.database.user_model import UserModel
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 from trigger.train.cluster.gstream.gstream import GNG
 import os
-from trigger.models.match import Match
 from typing import Any, List
 import pymongo
 import redis
@@ -15,7 +15,6 @@ import json
 import sys
 from pathlib import Path
 
-from trigger.train.cluster.gstream.node import Node
 from trigger.train.transformers.user_transformer import UserInstance
 
 sys.path.append(str(Path('.').absolute().parent))
@@ -49,26 +48,20 @@ client = pymongo.MongoClient(config["host"])
 database = client[config["database"]]
 
 
-def computeScore(user_instance: Any, opening_instance: Any) -> float:
+def calculate_score(user_instance: Any, opening_instance: Any) -> float:
     return 1 - cosine(user_instance, opening_instance)
 
 
-@app.route('/user_match/<user_id>', methods=['POST'])
-def compute_user_matches(user_id: str):
-    user = UserModel.get_user_data(user_id, database)
-
-    # TODO: cache user instance?
-    user_instance = UserInstance(user, sentence_embedder)
-
+def calculate_matches(user_id: str, user_instance: UserInstance) -> List[ServerMatch]:
     would_be_cluster_id = clusterer.predict(user_instance.embedding)
 
     instances, tags = clusterer.get_instances_and_tags_in_cluster(
         would_be_cluster_id)
 
     matches = [
-        Match(
+        ServerMatch(
             user_id,
-            computeScore(user, instance),
+            calculate_score(user_instance.embedding, instance),
             tag
         )
         for instance, tag in zip(instances, tags)
@@ -80,10 +73,18 @@ def compute_user_matches(user_id: str):
         if match.score > score_to_be_match
     ]
 
-    print(good_matches)
-    # TODO: save matches
+    return good_matches
 
-    return str(good_matches)
+
+@app.route('/user_match/<user_id>', methods=['POST'])
+def compute_user_matches(user_id: str):
+    user = UserModel.get_user_data(user_id, database)
+
+    # TODO: cache user instance?
+    matches = calculate_matches(user_id, UserInstance(user, sentence_embedder))
+    
+    # TODO: save matches
+    return str(matches)
 
 
 @app.route('/user_match/<user_id>', methods=['PUT'])
