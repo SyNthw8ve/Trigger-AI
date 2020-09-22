@@ -81,7 +81,7 @@ class DataReaderUsers:
                         Hardskill(name=hardskill) for hardskill in hardskills]
 
                     user = User(name=username, hardSkills=user_hardskills,
-                                softSkills=user_softskills, interests=["Eating"])
+                                softSkills=user_softskills)
 
                     username = ''
                     hardskills = []
