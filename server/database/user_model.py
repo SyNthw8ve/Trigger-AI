@@ -43,7 +43,7 @@ class UserModel:
                 hardskill_from_db = hardskills_collection.find_one({"_id": ObjectId(hs_ref)})
                 hardskills.append(Hardskill(name=hardskill_from_db["name"]))
 
-        return User(user_from_db["name"], softskills, hardskills, [])
+        return User(user_from_db["name"], softskills, hardskills)
 
     @staticmethod
     def insert_user_matches(user_id: str, matches: List[Match]):
