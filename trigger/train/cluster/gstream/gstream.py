@@ -326,6 +326,10 @@ class GNG(Processor):
 
         return self.point_to_cluster.get(tuple(instance))
 
+    def get_instances_and_tags_in_cluster(self, cluster_id: int) -> Tuple[List[Any], List[str]]:
+        node = self.graph.get_node(cluster_id)
+        return node.instances, node.tags
+
     def get_all_instances_with_tags(self) -> Tuple[List[Any], List[str]]:
         instances = []
         tags = []
