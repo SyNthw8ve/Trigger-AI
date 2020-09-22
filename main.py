@@ -216,7 +216,7 @@ if __name__ == "__main__":
 
     for opening_instance in openings_instances:
 
-        gng.online_fase(opening_instance.embedding)
+        gng.online_fase(opening_instance.opening.entityId, opening_instance.embedding)
         opening_instance.cluster_index = gng.get_cluster(
             opening_instance.embedding)
 

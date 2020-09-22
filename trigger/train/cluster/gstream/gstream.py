@@ -65,13 +65,12 @@ class GNG(Processor):
         self.index.add_with_ids(
             np.array([node_1.protype, node_2.protype]), np.array([0, 1]))
 
-    def process(self, instance):
+    def process(self, tag: str, instance) -> None:
+        self.online_fase(tag, instance)
 
-        self.online_fase(instance)
+    def online_fase(self, tag: str, instance: Any) -> None:
 
-    def online_fase(self, instance: Any) -> None:
-
-        self.gng_adapt(instance)
+        self.gng_adapt(tag, instance)
 
         if self.step == self.lam - 1:
 
@@ -145,11 +144,11 @@ class GNG(Processor):
 
         self.index.add_with_ids(np.array([v.protype]), np.array([v.id]))
 
-    def gng_adapt(self, instance) -> None:
+    def gng_adapt(self, tag: str, instance) -> None:
 
         v, u = self.get_best_match(instance)
 
-        v.instances.append(instance)
+        v.add_instance(tag, instance)
         self.instances.append(instance)
 
         self.point_to_cluster[tuple(instance)] = v.id
@@ -327,15 +326,26 @@ class GNG(Processor):
 
         return self.point_to_cluster.get(tuple(instance))
 
+    def get_all_instances_with_tags(self) -> Tuple[List[Any], List[str]]:
+        instances = []
+        tags = []
+        for node in self.graph.nodes.values():
+            instances.extend(node.instances)
+            tags.extend(node.tags)
+
+        return instances, tags
+
     def offline_fase(self):
+
+        instances, tags = self.get_all_instances_with_tags()
 
         self.graph.partial_reset()
 
-        for instance in self.instances:
+        for instance, tag in zip(instances, tags):
 
             v, u = self.get_best_match(instance)
 
-            v.instances.append(instance)
+            v.add_instance(tag, instance)
 
             self.point_to_cluster[tuple(instance)] = v.id
             self.update_prototype(v, self.epsilon_b, instance)
