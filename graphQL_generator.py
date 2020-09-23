@@ -12,7 +12,7 @@ from bson.objectid import ObjectId
 client = GraphqlClient(endpoint="http://localhost:3000/graphql")
 
 users_path = "examples/openings_users/users/users_2.txt"
-openings_path = "examples/openings_users/users/users_2.txt"
+openings_path = "examples/openings_users/openings/openings_2.txt"
 
 users = DataReaderUsers.populate(filename=users_path)
 openings = DataReaderOpenings.populate(filename=openings_path)
