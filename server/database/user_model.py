@@ -1,4 +1,7 @@
+from pymongo.collection import Collection
+
 from trigger.models.hardskill import Hardskill
+from trigger.models.server_match import ServerMatch
 from trigger.models.softskill import Softskill
 from trigger.models.user import User
 
@@ -8,7 +11,7 @@ from typing import List
 from pymongo.database import Database
 
 
-from server.database.names import hardskills_collection_name, softskills_collection_name
+from server.database.names import hardskills_collection_name, softskills_collection_name, matches_collection_name
 
 from pymongo.mongo_client import MongoClient
 from trigger.models.match import Match
@@ -46,14 +49,39 @@ class UserModel:
         return User(user_from_db["name"], softskills, hardskills)
 
     @staticmethod
-    def insert_user_matches(user_id: str, matches: List[Match]):
-
-        pass
+    def is_super_match(_database: Database, match: ServerMatch):
+        # TODO: Implement this
+        user_likes_project = False
+        manager_likes_user = False
+        return user_likes_project and manager_likes_user
 
     @staticmethod
-    def update_user_matches(user_id: str, matches: List[Match]):
+    def insert_user_matches(user_id: str, _database: Database, matches: List[ServerMatch]):
+        UserModel._insert_user_matches_impl(user_id, _database, matches)
 
-        pass
+    @staticmethod
+    def _insert_user_matches_impl(user_id: str, _database: Database, matches: List[ServerMatch]):
+        matches_collection = _database[matches_collection_name]
 
+        match_documents = [
+            {
+                "type": "opening",
+                "user": ObjectId(user_id),
+                "matching": ObjectId(match.opening_id_string),
+                "superMatch": UserModel.is_super_match(_database, match),
+                "score": match.score
+            }
+            for match in matches
+        ]
 
+        matches_collection.insert_many(match_documents)
 
+    @staticmethod
+    def update_user_matches(user_id: str, _database: Database, matches: List[ServerMatch]):
+        matches_collection = _database[matches_collection_name]
+
+        matches_collection.delete_many(
+            { "user": ObjectId(user_id) }
+        )
+
+        UserModel._insert_user_matches_impl(user_id, _database, matches)
