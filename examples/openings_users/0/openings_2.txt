@@ -550,7 +550,7 @@ Softskills: Communication,Eco-friendly,Detail-Oriented
 
 Sector: Private
 Area: Information Technology
-Hardskills: CRM,Hardware Management Information Management,Application Database Administration Applications Development,Portal Design/Development Software Customization,User Interface Vendor Sourcing,Software Development,Telecommunications Tracking System,Word Processing,Technical Evangelism Technical Support,Algorithm Development,Usability Engineering User Education,Web Site Content Writer,Intranet Development Languages – JAVA,Integration Software,System Analysis System Design,C+++,EAP Enterprise Resource Planning ERP,etc,CAD EDI,Web Site Editor Capacity Planning
+Hardskills: CRM,Hardware Management Information Management,Application Database Administration Applications Development,Portal Design/Development Software Customization,User Interface Vendor Sourcing,Software Development,Telecommunications Tracking System,Word Processing,Technical Evangelism Technical Support,Algorithm Development,Usability Engineering User Education,Web Site Content Writer,Intranet Development Languages - JAVA,Integration Software,System Analysis System Design,C+++,EAP Enterprise Resource Planning ERP,etc,CAD EDI,Web Site Editor Capacity Planning
 Softskills: Creativity,Active Learning,Dependability
 
 Sector: Public
@@ -615,7 +615,7 @@ Softskills: Perceptiveness,Organization,Decision Making
 
 Sector: Public
 Area: Information Technology
-Hardskills: Hardware Management Information Management,Word Processing,Intranet Development Languages – JAVA,Web Site Editor Capacity Planning,Web Site Content Writer,Integration Software,Voice & Data Communications Web Development/Design,Portal Design/Development Software Customization,Technical Evangelism Technical Support,Usability Engineering User Education,Telecommunications Tracking System
+Hardskills: Hardware Management Information Management,Word Processing,Intranet Development Languages - JAVA,Web Site Editor Capacity Planning,Web Site Content Writer,Integration Software,Voice & Data Communications Web Development/Design,Portal Design/Development Software Customization,Technical Evangelism Technical Support,Usability Engineering User Education,Telecommunications Tracking System
 Softskills: Hard-working,Listening,Autonomy
 
 Sector: Private
@@ -780,7 +780,7 @@ Softskills: Individuality,Creativity,Time Management
 
 Sector: Private
 Area: Information Technology
-Hardskills: Web Site Content Writer,System Development,Intranet Development Languages – JAVA,Software Development,Application Database Administration Applications Development,C+++,Integration Software,Technical Writing,etc,Enterprise Asset Management,CAD EDI,Word Processing,Business Systems Planning,Web Site Editor Capacity Planning,Portal Design/Development Software Customization,Hardware Management Information Management,EAP Enterprise Resource Planning ERP,User Interface Vendor Sourcing,User Documentation,Technical Evangelism Technical Support
+Hardskills: Web Site Content Writer,System Development,Intranet Development Languages - JAVA,Software Development,Application Database Administration Applications Development,C+++,Integration Software,Technical Writing,etc,Enterprise Asset Management,CAD EDI,Word Processing,Business Systems Planning,Web Site Editor Capacity Planning,Portal Design/Development Software Customization,Hardware Management Information Management,EAP Enterprise Resource Planning ERP,User Interface Vendor Sourcing,User Documentation,Technical Evangelism Technical Support
 Softskills: Leadership,Creativity,Active Learning
 
 Sector: Private
@@ -975,7 +975,7 @@ Softskills: Creativity,Active Learning,Teamwork
 
 Sector: Public
 Area: Information Technology
-Hardskills: C+++,System Development,Portal Design/Development Software Customization,Word Processing,Telecommunications Tracking System,Intranet Development Languages – JAVA,CRM,UNIX,Enterprise Asset Management,Technical Writing,Business Systems Planning,Integration Software,Application Database Administration Applications Development,Hardware Management Information Management,Software Development,etc,User Interface Vendor Sourcing,System Analysis System Design
+Hardskills: C+++,System Development,Portal Design/Development Software Customization,Word Processing,Telecommunications Tracking System,Intranet Development Languages - JAVA,CRM,UNIX,Enterprise Asset Management,Technical Writing,Business Systems Planning,Integration Software,Application Database Administration Applications Development,Hardware Management Information Management,Software Development,etc,User Interface Vendor Sourcing,System Analysis System Design
 Softskills: Leadership,Creativity,Autonomy,Teamwork,Active Learning
 
 Sector: Private
@@ -1115,7 +1115,7 @@ Softskills: Hard-working,Creativity,Decision Making
 
 Sector: Public
 Area: Information Technology
-Hardskills: Enterprise Asset Management,Algorithm Development,etc,EAP Enterprise Resource Planning ERP,Web Site Content Writer,Application Database Administration Applications Development,Business Systems Planning,Word Processing,Usability Engineering User Education,Portal Design/Development Software Customization,Intranet Development Languages – JAVA,UNIX,Technical Writing,Integration Software,Web Site Editor Capacity Planning,CAD EDI,User Documentation,C+++,Telecommunications Tracking System,Technical Evangelism Technical Support,System Development,Software Development,Voice & Data Communications Web Development/Design,System Analysis System Design
+Hardskills: Enterprise Asset Management,Algorithm Development,etc,EAP Enterprise Resource Planning ERP,Web Site Content Writer,Application Database Administration Applications Development,Business Systems Planning,Word Processing,Usability Engineering User Education,Portal Design/Development Software Customization,Intranet Development Languages - JAVA,UNIX,Technical Writing,Integration Software,Web Site Editor Capacity Planning,CAD EDI,User Documentation,C+++,Telecommunications Tracking System,Technical Evangelism Technical Support,System Development,Software Development,Voice & Data Communications Web Development/Design,System Analysis System Design
 Softskills: Leadership,Organization,Detail-Oriented
 
 Sector: Public
@@ -1395,7 +1395,7 @@ Softskills: Communication,Creativity,Compassion,Teamwork
 
 Sector: Private
 Area: Information Technology
-Hardskills: Word Processing,EAP Enterprise Resource Planning ERP,UNIX,Business Systems Planning,Web Site Content Writer,Technical Evangelism Technical Support,Algorithm Development,Application Database Administration Applications Development,C+++,etc,Web Site Editor Capacity Planning,Technical Writing,User Documentation,System Development,Voice & Data Communications Web Development/Design,Integration Software,Hardware Management Information Management,Intranet Development Languages – JAVA,Software Development,System Analysis System Design,CRM,Portal Design/Development Software Customization,Usability Engineering User Education
+Hardskills: Word Processing,EAP Enterprise Resource Planning ERP,UNIX,Business Systems Planning,Web Site Content Writer,Technical Evangelism Technical Support,Algorithm Development,Application Database Administration Applications Development,C+++,etc,Web Site Editor Capacity Planning,Technical Writing,User Documentation,System Development,Voice & Data Communications Web Development/Design,Integration Software,Hardware Management Information Management,Intranet Development Languages - JAVA,Software Development,System Analysis System Design,CRM,Portal Design/Development Software Customization,Usability Engineering User Education
 Softskills: Creativity,Active Learning,Autonomy
 
 Sector: Private
@@ -1670,7 +1670,7 @@ Softskills: Leadership,Compassion,Decision Making
 
 Sector: Public
 Area: Information Technology
-Hardskills: Word Processing,User Interface Vendor Sourcing,CAD EDI,Application Database Administration Applications Development,Intranet Development Languages – JAVA,CRM
+Hardskills: Word Processing,User Interface Vendor Sourcing,CAD EDI,Application Database Administration Applications Development,Intranet Development Languages - JAVA,CRM
 Softskills: Leadership,Creativity,Decision Making
 
 Sector: Public
@@ -1940,7 +1940,7 @@ Softskills: Critical Thinking,Time Management,Teamwork
 
 Sector: Private
 Area: Information Technology
-Hardskills: User Interface Vendor Sourcing,Integration Software,Technical Evangelism Technical Support,Technical Writing,Web Site Content Writer,Usability Engineering User Education,Software Development,Telecommunications Tracking System,Word Processing,User Documentation,Intranet Development Languages – JAVA,EAP Enterprise Resource Planning ERP,Web Site Editor Capacity Planning,Portal Design/Development Software Customization,Voice & Data Communications Web Development/Design,Algorithm Development,C+++,etc,Application Database Administration Applications Development,Enterprise Asset Management,CAD EDI,System Development,Hardware Management Information Management,System Analysis System Design,CRM
+Hardskills: User Interface Vendor Sourcing,Integration Software,Technical Evangelism Technical Support,Technical Writing,Web Site Content Writer,Usability Engineering User Education,Software Development,Telecommunications Tracking System,Word Processing,User Documentation,Intranet Development Languages - JAVA,EAP Enterprise Resource Planning ERP,Web Site Editor Capacity Planning,Portal Design/Development Software Customization,Voice & Data Communications Web Development/Design,Algorithm Development,C+++,etc,Application Database Administration Applications Development,Enterprise Asset Management,CAD EDI,System Development,Hardware Management Information Management,System Analysis System Design,CRM
 Softskills: Creativity,Persuasion,Dependability
 
 Sector: Private
@@ -2110,7 +2110,7 @@ Softskills: Communication,Listening,Compassion,Teamwork
 
 Sector: Private
 Area: Information Technology
-Hardskills: Intranet Development Languages – JAVA,Telecommunications Tracking System,etc,Software Development,Hardware Management Information Management,Application Database Administration Applications Development,Web Site Content Writer,Business Systems Planning,EAP Enterprise Resource Planning ERP,Usability Engineering User Education,User Interface Vendor Sourcing,C+++
+Hardskills: Intranet Development Languages - JAVA,Telecommunications Tracking System,etc,Software Development,Hardware Management Information Management,Application Database Administration Applications Development,Web Site Content Writer,Business Systems Planning,EAP Enterprise Resource Planning ERP,Usability Engineering User Education,User Interface Vendor Sourcing,C+++
 Softskills: Leadership,Organization,Active Learning
 
 Sector: Private
@@ -2210,7 +2210,7 @@ Softskills: Perceptiveness,Creativity,Teamwork
 
 Sector: Public
 Area: Information Technology
-Hardskills: Hardware Management Information Management,Software Development,Usability Engineering User Education,UNIX,Technical Writing,User Documentation,Web Site Content Writer,Portal Design/Development Software Customization,Enterprise Asset Management,CAD EDI,Voice & Data Communications Web Development/Design,etc,Business Systems Planning,C+++,User Interface Vendor Sourcing,Algorithm Development,System Analysis System Design,Integration Software,Technical Evangelism Technical Support,Word Processing,Intranet Development Languages – JAVA,Web Site Editor Capacity Planning
+Hardskills: Hardware Management Information Management,Software Development,Usability Engineering User Education,UNIX,Technical Writing,User Documentation,Web Site Content Writer,Portal Design/Development Software Customization,Enterprise Asset Management,CAD EDI,Voice & Data Communications Web Development/Design,etc,Business Systems Planning,C+++,User Interface Vendor Sourcing,Algorithm Development,System Analysis System Design,Integration Software,Technical Evangelism Technical Support,Word Processing,Intranet Development Languages - JAVA,Web Site Editor Capacity Planning
 Softskills: Leadership,Creativity,Active Learning
 
 Sector: Public
@@ -2305,7 +2305,7 @@ Softskills: Leadership,Listening,Compassion
 
 Sector: Public
 Area: Information Technology
-Hardskills: Integration Software,UNIX,System Development,Hardware Management Information Management,Technical Evangelism Technical Support,Intranet Development Languages – JAVA,Application Database Administration Applications Development,etc,Business Systems Planning,Technical Writing,System Analysis System Design,Portal Design/Development Software Customization,CRM,CAD EDI,Algorithm Development,Software Development,C+++,Enterprise Asset Management,Web Site Editor Capacity Planning,Usability Engineering User Education,Voice & Data Communications Web Development/Design,EAP Enterprise Resource Planning ERP,Word Processing
+Hardskills: Integration Software,UNIX,System Development,Hardware Management Information Management,Technical Evangelism Technical Support,Intranet Development Languages - JAVA,Application Database Administration Applications Development,etc,Business Systems Planning,Technical Writing,System Analysis System Design,Portal Design/Development Software Customization,CRM,CAD EDI,Algorithm Development,Software Development,C+++,Enterprise Asset Management,Web Site Editor Capacity Planning,Usability Engineering User Education,Voice & Data Communications Web Development/Design,EAP Enterprise Resource Planning ERP,Word Processing
 Softskills: Leadership,Creativity,Active Learning,Teamwork
 
 Sector: Private
@@ -2630,7 +2630,7 @@ Softskills: Perceptiveness,Creativity,Detail-Oriented
 
 Sector: Private
 Area: Information Technology
-Hardskills: System Analysis System Design,C+++,CAD EDI,Word Processing,etc,CRM,Hardware Management Information Management,Telecommunications Tracking System,User Documentation,Technical Writing,Usability Engineering User Education,EAP Enterprise Resource Planning ERP,Application Database Administration Applications Development,UNIX,Portal Design/Development Software Customization,User Interface Vendor Sourcing,Intranet Development Languages – JAVA,Algorithm Development
+Hardskills: System Analysis System Design,C+++,CAD EDI,Word Processing,etc,CRM,Hardware Management Information Management,Telecommunications Tracking System,User Documentation,Technical Writing,Usability Engineering User Education,EAP Enterprise Resource Planning ERP,Application Database Administration Applications Development,UNIX,Portal Design/Development Software Customization,User Interface Vendor Sourcing,Intranet Development Languages - JAVA,Algorithm Development
 Softskills: Leadership,Creativity,Autonomy,Teamwork,Active Learning
 
 Sector: Private
@@ -2915,7 +2915,7 @@ Softskills: Creativity,Active Learning,Teamwork
 
 Sector: Private
 Area: Information Technology
-Hardskills: Algorithm Development,Telecommunications Tracking System,CAD EDI,Integration Software,User Interface Vendor Sourcing,Hardware Management Information Management,Software Development,Enterprise Asset Management,C+++,EAP Enterprise Resource Planning ERP,Intranet Development Languages – JAVA,Word Processing,etc,User Documentation
+Hardskills: Algorithm Development,Telecommunications Tracking System,CAD EDI,Integration Software,User Interface Vendor Sourcing,Hardware Management Information Management,Software Development,Enterprise Asset Management,C+++,EAP Enterprise Resource Planning ERP,Intranet Development Languages - JAVA,Word Processing,etc,User Documentation
 Softskills: Leadership,Creativity,Autonomy,Teamwork,Active Learning
 
 Sector: Public
@@ -3105,7 +3105,7 @@ Softskills: Decision Making,Eco-friendly,Active Learning,Detail-Oriented
 
 Sector: Private
 Area: Information Technology
-Hardskills: User Documentation,Telecommunications Tracking System,Web Site Content Writer,EAP Enterprise Resource Planning ERP,Business Systems Planning,Voice & Data Communications Web Development/Design,Intranet Development Languages – JAVA,UNIX,Application Database Administration Applications Development,Technical Evangelism Technical Support,Software Development,Enterprise Asset Management,etc,Algorithm Development,Web Site Editor Capacity Planning,Technical Writing,CAD EDI,System Analysis System Design,CRM,User Interface Vendor Sourcing,C+++,System Development,Hardware Management Information Management
+Hardskills: User Documentation,Telecommunications Tracking System,Web Site Content Writer,EAP Enterprise Resource Planning ERP,Business Systems Planning,Voice & Data Communications Web Development/Design,Intranet Development Languages - JAVA,UNIX,Application Database Administration Applications Development,Technical Evangelism Technical Support,Software Development,Enterprise Asset Management,etc,Algorithm Development,Web Site Editor Capacity Planning,Technical Writing,CAD EDI,System Analysis System Design,CRM,User Interface Vendor Sourcing,C+++,System Development,Hardware Management Information Management
 Softskills: Leadership,Creativity,Active Learning
 
 Sector: Private
@@ -3195,7 +3195,7 @@ Softskills: Hard-working,Physically Fit,Dependability
 
 Sector: Private
 Area: Information Technology
-Hardskills: UNIX,CAD EDI,Telecommunications Tracking System,User Documentation,System Development,Web Site Editor Capacity Planning,etc,Enterprise Asset Management,Usability Engineering User Education,Portal Design/Development Software Customization,Web Site Content Writer,System Analysis System Design,Intranet Development Languages – JAVA,Business Systems Planning,EAP Enterprise Resource Planning ERP,Word Processing,User Interface Vendor Sourcing,Hardware Management Information Management,Voice & Data Communications Web Development/Design,Integration Software,Algorithm Development,Technical Evangelism Technical Support
+Hardskills: UNIX,CAD EDI,Telecommunications Tracking System,User Documentation,System Development,Web Site Editor Capacity Planning,etc,Enterprise Asset Management,Usability Engineering User Education,Portal Design/Development Software Customization,Web Site Content Writer,System Analysis System Design,Intranet Development Languages - JAVA,Business Systems Planning,EAP Enterprise Resource Planning ERP,Word Processing,User Interface Vendor Sourcing,Hardware Management Information Management,Voice & Data Communications Web Development/Design,Integration Software,Algorithm Development,Technical Evangelism Technical Support
 Softskills: Hard-working,Creativity,Autonomy
 
 Sector: Public
@@ -3435,7 +3435,7 @@ Softskills: Critical Thinking,Positive Attitude,Detail-Oriented
 
 Sector: Private
 Area: Information Technology
-Hardskills: UNIX,System Analysis System Design,EAP Enterprise Resource Planning ERP,Voice & Data Communications Web Development/Design,User Interface Vendor Sourcing,Portal Design/Development Software Customization,CAD EDI,User Documentation,etc,System Development,Web Site Editor Capacity Planning,Application Database Administration Applications Development,Intranet Development Languages – JAVA
+Hardskills: UNIX,System Analysis System Design,EAP Enterprise Resource Planning ERP,Voice & Data Communications Web Development/Design,User Interface Vendor Sourcing,Portal Design/Development Software Customization,CAD EDI,User Documentation,etc,System Development,Web Site Editor Capacity Planning,Application Database Administration Applications Development,Intranet Development Languages - JAVA
 Softskills: Leadership,Creativity,Active Learning
 
 Sector: Public
@@ -3635,7 +3635,7 @@ Softskills: Critical Thinking,Eco-friendly,Compassion
 
 Sector: Public
 Area: Information Technology
-Hardskills: Telecommunications Tracking System,Intranet Development Languages – JAVA,etc,CRM,User Interface Vendor Sourcing,Word Processing,Integration Software,Web Site Editor Capacity Planning,Technical Writing
+Hardskills: Telecommunications Tracking System,Intranet Development Languages - JAVA,etc,CRM,User Interface Vendor Sourcing,Word Processing,Integration Software,Web Site Editor Capacity Planning,Technical Writing
 Softskills: Individuality,Eco-friendly,Compassion
 
 Sector: Public
@@ -4770,7 +4770,7 @@ Softskills: Leadership,Eco-friendly,Detail-Oriented
 
 Sector: Private
 Area: Information Technology
-Hardskills: Portal Design/Development Software Customization,CRM,Algorithm Development,Word Processing,Hardware Management Information Management,UNIX,Business Systems Planning,Web Site Content Writer,Enterprise Asset Management,Technical Evangelism Technical Support,etc,Voice & Data Communications Web Development/Design,Usability Engineering User Education,User Interface Vendor Sourcing,Technical Writing,System Analysis System Design,Application Database Administration Applications Development,Intranet Development Languages – JAVA,System Development,Software Development,CAD EDI,Web Site Editor Capacity Planning,User Documentation
+Hardskills: Portal Design/Development Software Customization,CRM,Algorithm Development,Word Processing,Hardware Management Information Management,UNIX,Business Systems Planning,Web Site Content Writer,Enterprise Asset Management,Technical Evangelism Technical Support,etc,Voice & Data Communications Web Development/Design,Usability Engineering User Education,User Interface Vendor Sourcing,Technical Writing,System Analysis System Design,Application Database Administration Applications Development,Intranet Development Languages - JAVA,System Development,Software Development,CAD EDI,Web Site Editor Capacity Planning,User Documentation
 Softskills: Creativity,Active Learning,Autonomy
 
 Sector: Private
@@ -5060,7 +5060,7 @@ Softskills: Critical Thinking,Communication,Positive Attitude,Self Motivated
 
 Sector: Private
 Area: Information Technology
-Hardskills: Telecommunications Tracking System,Word Processing,Intranet Development Languages – JAVA,Hardware Management Information Management,User Documentation,UNIX,Web Site Content Writer,Integration Software,Business Systems Planning,CAD EDI,User Interface Vendor Sourcing,Web Site Editor Capacity Planning,Technical Writing,System Analysis System Design,Application Database Administration Applications Development,Usability Engineering User Education,EAP Enterprise Resource Planning ERP,System Development,C+++,Enterprise Asset Management,Technical Evangelism Technical Support,CRM,Algorithm Development
+Hardskills: Telecommunications Tracking System,Word Processing,Intranet Development Languages - JAVA,Hardware Management Information Management,User Documentation,UNIX,Web Site Content Writer,Integration Software,Business Systems Planning,CAD EDI,User Interface Vendor Sourcing,Web Site Editor Capacity Planning,Technical Writing,System Analysis System Design,Application Database Administration Applications Development,Usability Engineering User Education,EAP Enterprise Resource Planning ERP,System Development,C+++,Enterprise Asset Management,Technical Evangelism Technical Support,CRM,Algorithm Development
 Softskills: Creativity,Active Learning,Autonomy
 
 Sector: Public
@@ -5090,7 +5090,7 @@ Softskills: Leadership,Active Learning,Autonomy
 
 Sector: Private
 Area: Information Technology
-Hardskills: Web Site Content Writer,Telecommunications Tracking System,Application Database Administration Applications Development,Integration Software,etc,User Interface Vendor Sourcing,System Analysis System Design,System Development,EAP Enterprise Resource Planning ERP,Word Processing,Intranet Development Languages – JAVA,Usability Engineering User Education,UNIX,Technical Writing
+Hardskills: Web Site Content Writer,Telecommunications Tracking System,Application Database Administration Applications Development,Integration Software,etc,User Interface Vendor Sourcing,System Analysis System Design,System Development,EAP Enterprise Resource Planning ERP,Word Processing,Intranet Development Languages - JAVA,Usability Engineering User Education,UNIX,Technical Writing
 Softskills: Leadership,Creativity,Hard-working
 
 Sector: Public
@@ -5585,7 +5585,7 @@ Softskills: Critical Thinking,Communication,Creativity
 
 Sector: Private
 Area: Information Technology
-Hardskills: Enterprise Asset Management,Technical Evangelism Technical Support,Intranet Development Languages – JAVA,Integration Software,Software Development,CRM,Application Database Administration Applications Development,C+++,Hardware Management Information Management,Usability Engineering User Education,Technical Writing,UNIX,Telecommunications Tracking System,System Analysis System Design,Portal Design/Development Software Customization,EAP Enterprise Resource Planning ERP,Algorithm Development,Business Systems Planning,System Development
+Hardskills: Enterprise Asset Management,Technical Evangelism Technical Support,Intranet Development Languages - JAVA,Integration Software,Software Development,CRM,Application Database Administration Applications Development,C+++,Hardware Management Information Management,Usability Engineering User Education,Technical Writing,UNIX,Telecommunications Tracking System,System Analysis System Design,Portal Design/Development Software Customization,EAP Enterprise Resource Planning ERP,Algorithm Development,Business Systems Planning,System Development
 Softskills: Individuality,Active Learning,Autonomy
 
 Sector: Public
@@ -5640,7 +5640,7 @@ Softskills: Leadership,Creativity,Active Learning
 
 Sector: Private
 Area: Information Technology
-Hardskills: Technical Writing,User Documentation,Enterprise Asset Management,Word Processing,Intranet Development Languages – JAVA,Algorithm Development,Software Development,CAD EDI,Business Systems Planning,C+++,System Analysis System Design,User Interface Vendor Sourcing,Integration Software,System Development,Technical Evangelism Technical Support,Voice & Data Communications Web Development/Design,Telecommunications Tracking System,Usability Engineering User Education,UNIX,CRM,Portal Design/Development Software Customization,etc,Hardware Management Information Management,Web Site Editor Capacity Planning,EAP Enterprise Resource Planning ERP,Web Site Content Writer
+Hardskills: Technical Writing,User Documentation,Enterprise Asset Management,Word Processing,Intranet Development Languages - JAVA,Algorithm Development,Software Development,CAD EDI,Business Systems Planning,C+++,System Analysis System Design,User Interface Vendor Sourcing,Integration Software,System Development,Technical Evangelism Technical Support,Voice & Data Communications Web Development/Design,Telecommunications Tracking System,Usability Engineering User Education,UNIX,CRM,Portal Design/Development Software Customization,etc,Hardware Management Information Management,Web Site Editor Capacity Planning,EAP Enterprise Resource Planning ERP,Web Site Content Writer
 Softskills: Hard-working,Creativity,Autonomy
 
 Sector: Private
@@ -6210,7 +6210,7 @@ Softskills: Hard-working,Physically Fit,Self Motivated
 
 Sector: Public
 Area: Information Technology
-Hardskills: Intranet Development Languages – JAVA,CAD EDI
+Hardskills: Intranet Development Languages - JAVA,CAD EDI
 Softskills: Leadership,Creativity,Autonomy,Teamwork,Active Learning
 
 Sector: Private
@@ -7250,7 +7250,7 @@ Softskills: Hard-working,Physically Fit,Self Motivated
 
 Sector: Private
 Area: Information Technology
-Hardskills: User Interface Vendor Sourcing,Algorithm Development,Intranet Development Languages – JAVA,EAP Enterprise Resource Planning ERP,etc,CRM,Telecommunications Tracking System,Application Database Administration Applications Development,Web Site Content Writer,System Development,Voice & Data Communications Web Development/Design,Usability Engineering User Education,Hardware Management Information Management,Portal Design/Development Software Customization
+Hardskills: User Interface Vendor Sourcing,Algorithm Development,Intranet Development Languages - JAVA,EAP Enterprise Resource Planning ERP,etc,CRM,Telecommunications Tracking System,Application Database Administration Applications Development,Web Site Content Writer,System Development,Voice & Data Communications Web Development/Design,Usability Engineering User Education,Hardware Management Information Management,Portal Design/Development Software Customization
 Softskills: Leadership,Creativity,Active Learning,Autonomy
 
 Sector: Private
@@ -7865,7 +7865,7 @@ Softskills: Perceptiveness,Creativity,Detail-Oriented
 
 Sector: Private
 Area: Information Technology
-Hardskills: Algorithm Development,User Documentation,CRM,Portal Design/Development Software Customization,System Development,Word Processing,Usability Engineering User Education,Technical Evangelism Technical Support,Integration Software,Telecommunications Tracking System,etc,Enterprise Asset Management,C+++,Web Site Content Writer,Voice & Data Communications Web Development/Design,CAD EDI,Technical Writing,User Interface Vendor Sourcing,Application Database Administration Applications Development,EAP Enterprise Resource Planning ERP,System Analysis System Design,Web Site Editor Capacity Planning,Business Systems Planning,Intranet Development Languages – JAVA,Software Development
+Hardskills: Algorithm Development,User Documentation,CRM,Portal Design/Development Software Customization,System Development,Word Processing,Usability Engineering User Education,Technical Evangelism Technical Support,Integration Software,Telecommunications Tracking System,etc,Enterprise Asset Management,C+++,Web Site Content Writer,Voice & Data Communications Web Development/Design,CAD EDI,Technical Writing,User Interface Vendor Sourcing,Application Database Administration Applications Development,EAP Enterprise Resource Planning ERP,System Analysis System Design,Web Site Editor Capacity Planning,Business Systems Planning,Intranet Development Languages - JAVA,Software Development
 Softskills: Compassion,Active Learning,Teamwork
 
 Sector: Private
@@ -8450,7 +8450,7 @@ Softskills: Hard-working,Physically Fit,Decision Making
 
 Sector: Private
 Area: Information Technology
-Hardskills: Web Site Editor Capacity Planning,Algorithm Development,Web Site Content Writer,System Development,CRM,UNIX,Intranet Development Languages – JAVA,Telecommunications Tracking System,Technical Evangelism Technical Support,Integration Software,EAP Enterprise Resource Planning ERP,Hardware Management Information Management,Portal Design/Development Software Customization
+Hardskills: Web Site Editor Capacity Planning,Algorithm Development,Web Site Content Writer,System Development,CRM,UNIX,Intranet Development Languages - JAVA,Telecommunications Tracking System,Technical Evangelism Technical Support,Integration Software,EAP Enterprise Resource Planning ERP,Hardware Management Information Management,Portal Design/Development Software Customization
 Softskills: Creativity,Compassion,Active Learning
 
 Sector: Public
@@ -8485,7 +8485,7 @@ Softskills: Critical Thinking,Time Management,Detail-Oriented
 
 Sector: Public
 Area: Information Technology
-Hardskills: Technical Evangelism Technical Support,Word Processing,CAD EDI,Telecommunications Tracking System,System Analysis System Design,etc,Software Development,System Development,C+++,CRM,Intranet Development Languages – JAVA,Usability Engineering User Education,Enterprise Asset Management,Hardware Management Information Management,EAP Enterprise Resource Planning ERP,Web Site Editor Capacity Planning,Algorithm Development,Web Site Content Writer,UNIX,Application Database Administration Applications Development,Voice & Data Communications Web Development/Design,User Documentation,Integration Software,Business Systems Planning,User Interface Vendor Sourcing,Portal Design/Development Software Customization
+Hardskills: Technical Evangelism Technical Support,Word Processing,CAD EDI,Telecommunications Tracking System,System Analysis System Design,etc,Software Development,System Development,C+++,CRM,Intranet Development Languages - JAVA,Usability Engineering User Education,Enterprise Asset Management,Hardware Management Information Management,EAP Enterprise Resource Planning ERP,Web Site Editor Capacity Planning,Algorithm Development,Web Site Content Writer,UNIX,Application Database Administration Applications Development,Voice & Data Communications Web Development/Design,User Documentation,Integration Software,Business Systems Planning,User Interface Vendor Sourcing,Portal Design/Development Software Customization
 Softskills: Leadership,Creativity,Active Learning,Teamwork
 
 Sector: Public
@@ -8890,7 +8890,7 @@ Softskills: Hard-working,Physically Fit,Self Motivated
 
 Sector: Private
 Area: Information Technology
-Hardskills: Enterprise Asset Management,Word Processing,CRM,Integration Software,Web Site Content Writer,Application Database Administration Applications Development,Web Site Editor Capacity Planning,Voice & Data Communications Web Development/Design,System Development,UNIX,Intranet Development Languages – JAVA,Algorithm Development,User Interface Vendor Sourcing,Portal Design/Development Software Customization,C+++,Technical Evangelism Technical Support,Technical Writing,etc,Hardware Management Information Management,Telecommunications Tracking System,CAD EDI,Usability Engineering User Education,Software Development
+Hardskills: Enterprise Asset Management,Word Processing,CRM,Integration Software,Web Site Content Writer,Application Database Administration Applications Development,Web Site Editor Capacity Planning,Voice & Data Communications Web Development/Design,System Development,UNIX,Intranet Development Languages - JAVA,Algorithm Development,User Interface Vendor Sourcing,Portal Design/Development Software Customization,C+++,Technical Evangelism Technical Support,Technical Writing,etc,Hardware Management Information Management,Telecommunications Tracking System,CAD EDI,Usability Engineering User Education,Software Development
 Softskills: Leadership,Active Learning,Autonomy
 
 Sector: Private
@@ -9165,7 +9165,7 @@ Softskills: Critical Thinking,Communication,Teamwork
 
 Sector: Private
 Area: Information Technology
-Hardskills: Voice & Data Communications Web Development/Design,User Documentation,Technical Writing,Intranet Development Languages – JAVA,Algorithm Development,System Analysis System Design,Word Processing,EAP Enterprise Resource Planning ERP,Usability Engineering User Education,Web Site Editor Capacity Planning,Business Systems Planning,Telecommunications Tracking System,Application Database Administration Applications Development,System Development,Technical Evangelism Technical Support,CAD EDI,User Interface Vendor Sourcing,Portal Design/Development Software Customization,Hardware Management Information Management,C+++,Software Development,CRM
+Hardskills: Voice & Data Communications Web Development/Design,User Documentation,Technical Writing,Intranet Development Languages - JAVA,Algorithm Development,System Analysis System Design,Word Processing,EAP Enterprise Resource Planning ERP,Usability Engineering User Education,Web Site Editor Capacity Planning,Business Systems Planning,Telecommunications Tracking System,Application Database Administration Applications Development,System Development,Technical Evangelism Technical Support,CAD EDI,User Interface Vendor Sourcing,Portal Design/Development Software Customization,Hardware Management Information Management,C+++,Software Development,CRM
 Softskills: Active Learning,Teamwork,Dependability
 
 Sector: Public
@@ -9325,7 +9325,7 @@ Softskills: Hard-working,Physically Fit,Self Motivated
 
 Sector: Public
 Area: Information Technology
-Hardskills: Voice & Data Communications Web Development/Design,System Development,Web Site Editor Capacity Planning,CRM,Word Processing,Integration Software,Algorithm Development,Hardware Management Information Management,CAD EDI,etc,Technical Writing,Usability Engineering User Education,Business Systems Planning,Telecommunications Tracking System,Application Database Administration Applications Development,System Analysis System Design,Portal Design/Development Software Customization,Enterprise Asset Management,User Interface Vendor Sourcing,Web Site Content Writer,UNIX,Intranet Development Languages – JAVA
+Hardskills: Voice & Data Communications Web Development/Design,System Development,Web Site Editor Capacity Planning,CRM,Word Processing,Integration Software,Algorithm Development,Hardware Management Information Management,CAD EDI,etc,Technical Writing,Usability Engineering User Education,Business Systems Planning,Telecommunications Tracking System,Application Database Administration Applications Development,System Analysis System Design,Portal Design/Development Software Customization,Enterprise Asset Management,User Interface Vendor Sourcing,Web Site Content Writer,UNIX,Intranet Development Languages - JAVA
 Softskills: Creativity,Active Learning,Teamwork
 
 Sector: Public
@@ -9455,7 +9455,7 @@ Softskills: Individuality,Eco-friendly,Teamwork
 
 Sector: Private
 Area: Information Technology
-Hardskills: UNIX,Web Site Editor Capacity Planning,Application Database Administration Applications Development,etc,Usability Engineering User Education,System Analysis System Design,C+++,Telecommunications Tracking System,Hardware Management Information Management,Intranet Development Languages – JAVA,System Development,CAD EDI,User Interface Vendor Sourcing,Algorithm Development,User Documentation,Voice & Data Communications Web Development/Design,Technical Writing,Enterprise Asset Management,Portal Design/Development Software Customization,EAP Enterprise Resource Planning ERP,Software Development,Word Processing,Integration Software,Technical Evangelism Technical Support
+Hardskills: UNIX,Web Site Editor Capacity Planning,Application Database Administration Applications Development,etc,Usability Engineering User Education,System Analysis System Design,C+++,Telecommunications Tracking System,Hardware Management Information Management,Intranet Development Languages - JAVA,System Development,CAD EDI,User Interface Vendor Sourcing,Algorithm Development,User Documentation,Voice & Data Communications Web Development/Design,Technical Writing,Enterprise Asset Management,Portal Design/Development Software Customization,EAP Enterprise Resource Planning ERP,Software Development,Word Processing,Integration Software,Technical Evangelism Technical Support
 Softskills: Creativity,Active Learning,Autonomy
 
 Sector: Private

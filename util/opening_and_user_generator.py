@@ -9,7 +9,7 @@ from util.readers.reader import DataReaderOpenings, DataReaderUsers
 import os
 import random
 
-base = r"examples\openings_users\users"
+base = r"examples/openings_users/users"
 base_ = os.path.join(Path('..').absolute(), base)
 
 users = [
@@ -17,7 +17,7 @@ users = [
     for file in os.listdir(base_)
 ]
 
-base = r"examples\openings_users\openings"
+base = r"examples/openings_users/openings"
 base_ = os.path.join(Path('..').absolute(), base)
 
 openings = [
@@ -185,7 +185,7 @@ ss_map = {
     "Agriculture": [("Detail-Oriented", 50), ("Self Motivated", 20), ("Hard-working", 70), ("Perceptiveness", 30)],
 }
 
-base = r"files.php_f=names.txt&downloadcode=yes.txt"
+base = r"data/names.txt"
 base_ = os.path.join(Path('..').absolute(), base)
 
 with open(base_, 'r') as f:
