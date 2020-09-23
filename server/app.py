@@ -88,7 +88,7 @@ def compute_user_matches(user_id: str):
     # TODO: cache user instance?
     matches = calculate_matches(user_id, UserInstance(user, sentence_embedder))
 
-    # TODO: save matches
+    UserModel.insert_user_matches(user_id, database, matches)
     return str(matches)
 
 
@@ -99,7 +99,7 @@ def update_user_matches(user_id: str):
     # TODO: cache user instance?
     matches = calculate_matches(user_id, UserInstance(user, sentence_embedder))
 
-    # TODO: save matches
+    UserModel.update_user_matches(user_id, database, matches)
     return str(matches)
 
 
