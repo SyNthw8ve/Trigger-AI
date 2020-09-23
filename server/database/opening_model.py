@@ -18,7 +18,7 @@ class OpeningModel:
         opening_from_db = openings_collection.find_one({"_id": ObjectId(opening_id)})
 
         softskills = []
-        key = "softSkills"
+        key = "softskills"
 
         if key in opening_from_db:
             softskills_collection = database[softskills_collection_name]
@@ -27,7 +27,7 @@ class OpeningModel:
                 softskills.append(Softskill(name=softskill_from_db["name"], score=0))
 
         hardskills = []
-        key = "hardSkills"
+        key = "hardskills"
 
         if key in opening_from_db:
             hardskills_collection = database[hardskills_collection_name]
