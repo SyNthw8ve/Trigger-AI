@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 from bson.objectid import ObjectId
 from pymongo.database import Database
 
@@ -54,10 +54,21 @@ class OpeningModel:
                 language_from_db = languages_collection.find_one({"_id": ObjectId(l_ref)})
                 languages.append(Language(name=language_from_db["name"]))
 
-        return Opening(opening["_id"], sector, area, languages, hardskills, softskills)
+        return Opening(str(opening["_id"]), sector, area, languages, hardskills, softskills)
 
     @staticmethod
     def get_opening(opening_id: str, database: Database) -> Opening:
         openings_collection = database[OpeningModel.collection_name]
         opening_from_db = openings_collection.find_one({"_id": ObjectId(opening_id)})
         return OpeningModel.transform_opening_data(opening_from_db, database)
+
+    @staticmethod
+    def get_all_openings(database: Database) -> List[Opening]:
+        openings_collection = database[OpeningModel.collection_name]
+        openings_from_db = openings_collection.find({})
+
+        return [
+            OpeningModel.transform_opening_data(opening_from_db, database)
+            for opening_from_db
+            in openings_from_db
+        ]
