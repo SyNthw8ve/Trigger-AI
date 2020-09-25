@@ -1,9 +1,11 @@
+from pymongo.database import Database
 from server.database.opening_model import OpeningModel
 from trigger.models.server_match import ServerMatch
 from flask import Flask
 from rq import Queue
 from scipy.spatial.distance import cosine
 from server.database.user_model import UserModel
+from trigger.models.user import User
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 from trigger.train.cluster.gstream.gstream import GNG
 import os
@@ -24,7 +26,23 @@ sys.path.append(str(Path('..').absolute().parent))
 
 app = Flask(__name__)
 
-clusterer = GNG(epsilon_b=0.001,
+sentence_embedder = SentenceEmbedder()
+
+score_to_be_match = 0.0
+
+config_path = "server/config.json"
+
+with open(config_path) as f:
+    config = json.load(f)
+
+# FIXME: when using mongodb+srv:// URIs for host it needs to have dnspython
+client = pymongo.MongoClient(config["database_host"])
+database = client[config["database"]]
+
+def init_clusterer(_database: Database, _sentence_embedder: SentenceEmbedder) -> GNG:
+    print("Initializing clusterer")
+
+    _clusterer = GNG(epsilon_b=0.001,
                 epsilon_n=0,
                 lam=5,
                 beta=0.9995,
@@ -36,18 +54,13 @@ clusterer = GNG(epsilon_b=0.001,
                 dimensions=1024,
                 index_type='L2')
 
-sentence_embedder = SentenceEmbedder()
+    for opening in OpeningModel.get_all_openings(_database):
+        print("Inserting into cluster", opening)
+        _clusterer.online_fase(opening.entityId, OpeningInstance(opening, _sentence_embedder).embedding)
+        
+    return _clusterer
 
-score_to_be_match = 0.5
-
-config_path = "server/config.json"
-
-with open(config_path) as f:
-    config = json.load(f)
-
-# FIXME: when using mongodb+srv:// URIs for host it needs to have dnspython
-client = pymongo.MongoClient(config["database_host"])
-database = client[config["database"]]
+clusterer = init_clusterer(database, sentence_embedder)
 
 # TODO: Add quality score
 
@@ -71,6 +84,8 @@ def calculate_matches(user_id: str, user_instance: UserInstance) -> List[ServerM
         )
         for instance, tag in zip(instances, tags)
     ]
+
+    print(matches)
 
     good_matches = [
         match
@@ -111,7 +126,7 @@ def update_user_matches(user_id: str):
     print()
     print(user)
     print()
-    print(f"Updated matches for user: {user_id}: {matches}")
+    print(f"Updated matches: {matches}")
 
     return "Ok"
 
@@ -122,8 +137,14 @@ def insert_opening_to_cluster(opening_id: str):
     # FIXME: always online here?
     clusterer.online_fase(opening_id, OpeningInstance(opening, sentence_embedder).embedding)
 
+    # FIXME: Don't we just need to calculate the score between this opening's cluster and all users,
+    # instead of all users and all clusters?
+
+    for user in UserModel.get_all_users_data(database):
+        matches = calculate_matches(user.id, UserInstance(user, sentence_embedder))
+        UserModel.update_user_matches(user.id, database, matches, config["backend_matches_endpoint"])
+
     print(f"Opening {opening_id} added!")
-    
     print(clusterer.get_all_instances_with_tags())
 
     return "Ok"
