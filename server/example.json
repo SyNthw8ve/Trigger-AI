@@ -1,4 +1,5 @@
 {
     "database_host": "localhost:27017",
-    "database": "database"
+    "database": "database",
+    "backend_matches_endpoint": "http://localhost:3000/matches"
 }

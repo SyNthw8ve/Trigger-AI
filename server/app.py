@@ -88,8 +88,14 @@ def compute_user_matches(user_id: str):
     # TODO: cache user instance?
     matches = calculate_matches(user_id, UserInstance(user, sentence_embedder))
 
-    UserModel.insert_user_matches(user_id, database, matches)
-    return str(matches)
+    print(clusterer.get_all_instances_with_tags())
+    print()
+    print(user)
+    print()
+    print(f"Did matches for user: {user_id}: {matches}")
+
+    UserModel.insert_user_matches(user_id, database, matches, config["backend_matches_endpoint"])
+    return "Ok"
 
 
 @app.route('/user_match/<user_id>', methods=['PUT'])
@@ -99,16 +105,20 @@ def update_user_matches(user_id: str):
     # TODO: cache user instance?
     matches = calculate_matches(user_id, UserInstance(user, sentence_embedder))
 
-    UserModel.update_user_matches(user_id, database, matches)
-    return str(matches)
+    UserModel.update_user_matches(user_id, database, matches, config["backend_matches_endpoint"])
+    return "Ok"
 
 
 @app.route('/opening/<opening_id>', methods=['POST'])
 def insert_opening_to_cluster(opening_id: str):
     opening = OpeningModel.get_opening(opening_id, database)
     # FIXME: always online here?
-    clusterer.online_fase(
-        opening_id, OpeningInstance(opening, sentence_embedder).embedding)
+    clusterer.online_fase(opening_id, OpeningInstance(opening, sentence_embedder).embedding)
+
+    print(f"Opening {opening_id} added!")
+    
+    print(clusterer.get_all_instances_with_tags())
+
     return "Ok"
 
 
