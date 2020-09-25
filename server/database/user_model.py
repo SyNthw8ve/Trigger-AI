@@ -10,6 +10,7 @@ from server import database
 from typing import List
 from pymongo.database import Database
 
+import requests
 
 from server.database.names import hardskills_collection_name, softskills_collection_name, matches_collection_name
 
@@ -34,7 +35,7 @@ class UserModel:
         if key in user_from_db:
             softskills_collection = db[softskills_collection_name]
             for ss_ref in user_from_db[key]:
-                softskill_from_db = softskills_collection.find_one({"_id": ObjectId(ss_ref)})
+                softskill_from_db = softskills_collection.find_one({"_id": ObjectId(ss_ref['softskillId'])})
                 softskills.append(Softskill(name=softskill_from_db["name"], score=0))
 
         hardskills = []
@@ -51,16 +52,18 @@ class UserModel:
     @staticmethod
     def is_super_match(_database: Database, match: ServerMatch):
         # TODO: Implement this
+        # FIXME: Is this here? Or in nest ?
         user_likes_project = False
         manager_likes_user = False
         return user_likes_project and manager_likes_user
 
     @staticmethod
-    def insert_user_matches(user_id: str, _database: Database, matches: List[ServerMatch]):
-        UserModel._insert_user_matches_impl(user_id, _database, matches)
+    def insert_user_matches(user_id: str, _database: Database, matches: List[ServerMatch], backend_endpoint: str):
+        UserModel._insert_user_matches_impl(user_id, _database, matches, backend_endpoint)
+        UserModel.notify_did_matches(user_id, "user_created", backend_endpoint)
 
     @staticmethod
-    def _insert_user_matches_impl(user_id: str, _database: Database, matches: List[ServerMatch]):
+    def _insert_user_matches_impl(user_id: str, _database: Database, matches: List[ServerMatch], backend_endpoint: str):
         matches_collection = _database[matches_collection_name]
 
         match_documents = [
@@ -74,14 +77,25 @@ class UserModel:
             for match in matches
         ]
 
+        if(len(match_documents) == 0):
+            return
+
         matches_collection.insert_many(match_documents)
 
     @staticmethod
-    def update_user_matches(user_id: str, _database: Database, matches: List[ServerMatch]):
+    def update_user_matches(user_id: str, _database: Database, matches: List[ServerMatch], backend_endpoint: str):
         matches_collection = _database[matches_collection_name]
 
         matches_collection.delete_many(
             { "user": ObjectId(user_id) }
         )
 
-        UserModel._insert_user_matches_impl(user_id, _database, matches)
+        UserModel._insert_user_matches_impl(user_id, _database, matches, backend_endpoint)
+        UserModel.notify_did_matches(user_id, "user_updated", backend_endpoint)
+
+    @staticmethod
+    def notify_did_matches(user_id: str, restricted_endpoint: str, backend_endpoint: str):
+
+        # sending post request and saving response as response object 
+        r = requests.post(url = f"{backend_endpoint}/{restricted_endpoint}/{user_id}", data = {})
+        print(r) 
