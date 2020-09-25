@@ -1,4 +1,5 @@
 from pymongo.collection import Collection
+from pymongo.uri_parser import parse_userinfo
 
 from trigger.models.hardskill import Hardskill
 from trigger.models.server_match import ServerMatch
@@ -7,7 +8,7 @@ from trigger.models.user import User
 
 from server import database
 
-from typing import List
+from typing import Any, List
 from pymongo.database import Database
 
 import requests
@@ -25,10 +26,7 @@ class UserModel:
     collection_name = "users"
 
     @staticmethod
-    def get_user_data(user_id: str, db: Database) -> User:
-        users_collection = db[UserModel.collection_name]
-        user_from_db = users_collection.find_one({"_id": ObjectId(user_id)})
-
+    def transform_user_data(user_from_db: Any, db: Database) -> User:
         softskills = []
         key = "softSkills"
 
@@ -50,6 +48,25 @@ class UserModel:
         return User(user_from_db["name"], softskills, hardskills)
 
     @staticmethod
+    def get_user_data(user_id: str, db: Database) -> User:
+        users_collection = db[UserModel.collection_name]
+        user_from_db = users_collection.find_one({"_id": ObjectId(user_id)})
+        return UserModel.transform_user_data(user_from_db, db)
+        
+
+    @staticmethod
+    def get_all_users_data(db: Database) -> List[User]:
+        users_collection = db[UserModel.collection_name]
+        users_from_db = users_collection.find({})
+
+        return [ 
+            UserModel.transform_user_data(user_from_db, db)
+            for user_from_db
+            in users_from_db
+        ]
+
+
+    @staticmethod
     def is_super_match(_database: Database, match: ServerMatch):
         # TODO: Implement this
         # FIXME: Is this here? Or in nest ?
@@ -59,11 +76,11 @@ class UserModel:
 
     @staticmethod
     def insert_user_matches(user_id: str, _database: Database, matches: List[ServerMatch], backend_endpoint: str):
-        UserModel._insert_user_matches_impl(user_id, _database, matches, backend_endpoint)
+        UserModel._insert_user_matches_impl(user_id, _database, matches)
         UserModel.notify_did_matches(user_id, "user_created", backend_endpoint)
 
     @staticmethod
-    def _insert_user_matches_impl(user_id: str, _database: Database, matches: List[ServerMatch], backend_endpoint: str):
+    def _insert_user_matches_impl(user_id: str, _database: Database, matches: List[ServerMatch]):
         matches_collection = _database[matches_collection_name]
 
         match_documents = [
@@ -77,7 +94,7 @@ class UserModel:
             for match in matches
         ]
 
-        if(len(match_documents) == 0):
+        if len(match_documents) == 0:
             return
 
         matches_collection.insert_many(match_documents)
@@ -90,7 +107,7 @@ class UserModel:
             { "user": ObjectId(user_id) }
         )
 
-        UserModel._insert_user_matches_impl(user_id, _database, matches, backend_endpoint)
+        UserModel._insert_user_matches_impl(user_id, _database, matches)
         UserModel.notify_did_matches(user_id, "user_updated", backend_endpoint)
 
     @staticmethod
