@@ -54,7 +54,6 @@ class OpeningModel:
                 language_from_db = languages_collection.find_one({"_id": ObjectId(l_ref)})
                 languages.append(Language(name=language_from_db["name"]))
 
-        # TODO: Do we need entityId here?
         return Opening(opening["_id"], sector, area, languages, hardskills, softskills)
 
     @staticmethod
