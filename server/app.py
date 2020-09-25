@@ -1,4 +1,5 @@
 from pymongo.database import Database
+from redis import Redis
 from server.database.opening_model import OpeningModel
 from trigger.models.server_match import ServerMatch
 from flask import Flask
@@ -28,6 +29,9 @@ app = Flask(__name__)
 
 sentence_embedder = SentenceEmbedder()
 
+processing = Queue(connection=Redis())
+
+# FIXME: TEMPORARY
 score_to_be_match = 0.0
 
 config_path = "server/config.json"
@@ -68,7 +72,6 @@ clusterer = init_clusterer(database, sentence_embedder)
 def calculate_score(user_instance: Any, opening_instance: Any) -> float:
     return 1 - cosine(user_instance, opening_instance)
 
-# TODO: Add quality score
 
 
 def calculate_matches(user_id: str, user_instance: UserInstance) -> List[ServerMatch]:
@@ -85,8 +88,6 @@ def calculate_matches(user_id: str, user_instance: UserInstance) -> List[ServerM
         for instance, tag in zip(instances, tags)
     ]
 
-    print(matches)
-
     good_matches = [
         match
         for match in matches
@@ -98,6 +99,7 @@ def calculate_matches(user_id: str, user_instance: UserInstance) -> List[ServerM
 
 @app.route('/user_match/<user_id>', methods=['POST'])
 def compute_user_matches(user_id: str):
+
     user = UserModel.get_user_data(user_id, database)
 
     # TODO: cache user instance?
@@ -136,13 +138,6 @@ def insert_opening_to_cluster(opening_id: str):
     opening = OpeningModel.get_opening(opening_id, database)
     # FIXME: always online here?
     clusterer.online_fase(opening_id, OpeningInstance(opening, sentence_embedder).embedding)
-
-    # FIXME: Don't we just need to calculate the score between this opening's cluster and all users,
-    # instead of all users and all clusters?
-
-    for user in UserModel.get_all_users_data(database):
-        matches = calculate_matches(user.id, UserInstance(user, sentence_embedder))
-        UserModel.update_user_matches(user.id, database, matches, config["backend_matches_endpoint"])
 
     print(f"Opening {opening_id} added!")
     print(clusterer.get_all_instances_with_tags())
