@@ -1,10 +1,12 @@
-from typing import NamedTuple, List
+from typing import List
+
+from attr import dataclass
 
 from trigger.models.softskill import Softskill
 from trigger.models.hardskill import Hardskill
 
-
-class User(NamedTuple):
+@dataclass(frozen=True)
+class User:
     name: str
     softSkills: List[Softskill]
     hardSkills: List[Hardskill]
