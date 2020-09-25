@@ -1,3 +1,4 @@
+from typing import Any
 from bson.objectid import ObjectId
 from pymongo.database import Database
 
@@ -13,48 +14,51 @@ class OpeningModel:
     collection_name = "openings"
 
     @staticmethod
-    def get_opening(opening_id: str, database: Database) -> Opening:
-        openings_collection = database[OpeningModel.collection_name]
-        opening_from_db = openings_collection.find_one({"_id": ObjectId(opening_id)})
-
+    def transform_opening_data(opening: Any, database: Database) -> Opening:
         softskills = []
         key = "softskills"
 
-        if key in opening_from_db:
+        if key in opening:
             softskills_collection = database[softskills_collection_name]
-            for ss_ref in opening_from_db[key]:
+            for ss_ref in opening[key]:
                 softskill_from_db = softskills_collection.find_one({"_id": ObjectId(ss_ref)})
                 softskills.append(Softskill(name=softskill_from_db["name"], score=0))
 
         hardskills = []
         key = "hardskills"
 
-        if key in opening_from_db:
+        if key in opening:
             hardskills_collection = database[hardskills_collection_name]
-            for hs_ref in opening_from_db[key]:
+            for hs_ref in opening[key]:
                 hardskill_from_db = hardskills_collection.find_one({"_id": ObjectId(hs_ref)})
                 hardskills.append(Hardskill(name=hardskill_from_db["name"]))
 
         # TODO: Do we need area?
         area = ""
         key = "area"
-        if key in opening_from_db:
-            area = opening_from_db[key]
+        if key in opening:
+            area = opening[key]
 
         # TODO: Do we need sector?
         sector = ""
         key = "sector"
-        if key in opening_from_db:
-            sector = opening_from_db[key]
+        if key in opening:
+            sector = opening[key]
 
         # TODO: Do we need languages here?
         languages = []
         key = "languages"
-        if key in opening_from_db:
+        if key in opening:
             languages_collection = database[languages_collection_name]
-            for l_ref in opening_from_db[key]:
+            for l_ref in opening[key]:
                 language_from_db = languages_collection.find_one({"_id": ObjectId(l_ref)})
                 languages.append(Language(name=language_from_db["name"]))
 
         # TODO: Do we need entityId here?
-        return Opening(opening_id, sector, area, languages, hardskills, softskills)
+        return Opening(opening["_id"], sector, area, languages, hardskills, softskills)
+
+    @staticmethod
+    def get_opening(opening_id: str, database: Database) -> Opening:
+        openings_collection = database[OpeningModel.collection_name]
+        opening_from_db = openings_collection.find_one({"_id": ObjectId(opening_id)})
+        return OpeningModel.transform_opening_data(opening_from_db, database)
