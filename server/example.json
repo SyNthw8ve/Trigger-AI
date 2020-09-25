@@ -1,4 +1,4 @@
 {
-    "host": "localhost:27017",
+    "database_host": "localhost:27017",
     "database": "database"
 }

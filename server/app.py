@@ -46,7 +46,7 @@ with open(config_path) as f:
     config = json.load(f)
 
 # FIXME: when using mongodb+srv:// URIs for host it needs to have dnspython
-client = pymongo.MongoClient(config["host"])
+client = pymongo.MongoClient(config["database_host"])
 database = client[config["database"]]
 
 # TODO: Add quality score
