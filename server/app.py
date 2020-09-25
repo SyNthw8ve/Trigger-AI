@@ -106,6 +106,13 @@ def update_user_matches(user_id: str):
     matches = calculate_matches(user_id, UserInstance(user, sentence_embedder))
 
     UserModel.update_user_matches(user_id, database, matches, config["backend_matches_endpoint"])
+
+    print(clusterer.get_all_instances_with_tags())
+    print()
+    print(user)
+    print()
+    print(f"Updated matches for user: {user_id}: {matches}")
+
     return "Ok"
 
 
