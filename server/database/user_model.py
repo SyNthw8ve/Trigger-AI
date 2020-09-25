@@ -3,6 +3,7 @@ from pymongo.uri_parser import parse_userinfo
 
 from trigger.models.hardskill import Hardskill
 from trigger.models.server_match import ServerMatch
+from trigger.models.server_user import ServerUser
 from trigger.models.softskill import Softskill
 from trigger.models.user import User
 
@@ -26,7 +27,7 @@ class UserModel:
     collection_name = "users"
 
     @staticmethod
-    def transform_user_data(user_from_db: Any, db: Database) -> User:
+    def transform_user_data(user_from_db: Any, db: Database) -> ServerUser:
         softskills = []
         key = "softSkills"
 
@@ -45,17 +46,22 @@ class UserModel:
                 hardskill_from_db = hardskills_collection.find_one({"_id": ObjectId(hs_ref)})
                 hardskills.append(Hardskill(name=hardskill_from_db["name"]))
 
-        return User(user_from_db["name"], softskills, hardskills)
+        return ServerUser (
+            name = user_from_db['name'],
+            softSkills = softskills,
+            hardSkills = hardskills,
+            id = str(user_from_db['_id'])
+        )
 
     @staticmethod
-    def get_user_data(user_id: str, db: Database) -> User:
+    def get_user_data(user_id: str, db: Database) -> ServerUser:
         users_collection = db[UserModel.collection_name]
         user_from_db = users_collection.find_one({"_id": ObjectId(user_id)})
         return UserModel.transform_user_data(user_from_db, db)
         
 
     @staticmethod
-    def get_all_users_data(db: Database) -> List[User]:
+    def get_all_users_data(db: Database) -> List[ServerUser]:
         users_collection = db[UserModel.collection_name]
         users_from_db = users_collection.find({})
 
@@ -103,6 +109,7 @@ class UserModel:
     def update_user_matches(user_id: str, _database: Database, matches: List[ServerMatch], backend_endpoint: str):
         matches_collection = _database[matches_collection_name]
 
+        # FIXME: This would mean it's possible for a match to disapear if the user/opening change
         matches_collection.delete_many(
             { "user": ObjectId(user_id) }
         )
