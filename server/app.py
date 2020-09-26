@@ -96,10 +96,7 @@ def calculate_matches(user_id: str, user_instance: UserInstance) -> List[ServerM
 
     return good_matches
 
-
-@app.route('/user_match/<user_id>', methods=['POST'])
-def compute_user_matches(user_id: str):
-
+def on_compute_user_matches(user_id:str):
     user = UserModel.get_user_data(user_id, database)
 
     # TODO: cache user instance?
@@ -112,7 +109,17 @@ def compute_user_matches(user_id: str):
     print(f"Did matches for user: {user_id}: {matches}")
 
     UserModel.insert_user_matches(user_id, database, matches, config["backend_matches_endpoint"])
-    return "Ok"
+
+    
+
+@app.route('/user_match/<user_id>', methods=['POST'])
+def compute_user_matches(user_id: str):
+    job = processing.enqueue(on_compute_user_matches, args=[user_id])
+
+    if job:
+        return "Scheduled"
+    else:
+        return "Failure to Schedule"
 
 
 @app.route('/user_match/<user_id>', methods=['PUT'])
