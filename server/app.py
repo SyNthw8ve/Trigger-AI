@@ -121,9 +121,7 @@ def compute_user_matches(user_id: str):
     else:
         return "Failure to Schedule"
 
-
-@app.route('/user_match/<user_id>', methods=['PUT'])
-def update_user_matches(user_id: str):
+def on_update_user_matches(user_id: str):
     user = UserModel.get_user_data(user_id, database)
 
     # TODO: cache user instance?
@@ -136,6 +134,16 @@ def update_user_matches(user_id: str):
     print(user)
     print()
     print(f"Updated matches: {matches}")
+
+
+@app.route('/user_match/<user_id>', methods=['PUT'])
+def update_user_matches(user_id: str):
+    job = processing.enqueue(on_update_user_matches, args=[user_id])
+    
+    if job:
+        return "Scheduled"
+    else:
+        return "Failure to Schedule"
 
 def on_insert_opening_to_cluster(opening_id: str):
     opening = OpeningModel.get_opening(opening_id, database)
