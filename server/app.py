@@ -137,8 +137,6 @@ def update_user_matches(user_id: str):
     print()
     print(f"Updated matches: {matches}")
 
-    return "Ok"
-
 def on_insert_opening_to_cluster(opening_id: str):
     opening = OpeningModel.get_opening(opening_id, database)
     # FIXME: always online here?
@@ -158,14 +156,28 @@ def insert_opening_to_cluster(opening_id: str):
         return "Failure to Schedule"
 
 
-@app.route('/opening/<opening_id>', methods=['PUT'])
-def update_opening(opening_id: str):
+def on_update_opening(opening_id: str):
     opening = OpeningModel.get_opening(opening_id, database)
     clusterer.update(opening_id, OpeningInstance(opening, sentence_embedder).embedding)
-    return "Ok"
+
+@app.route('/opening/<opening_id>', methods=['PUT'])
+def update_opening(opening_id: str):
+    job = processing.enqueue(on_update_opening, args=[opening_id])
+
+    if job:
+        return "Scheduled"
+    else:
+        return "Failure to Schedule"
+
+def on_remove_opening_from_cluster(opening_id: str):
+    clusterer.remove(opening_id)
 
 
 @app.route('/opening/<opening_id>', methods=['DELETE'])
 def remove_opening_from_cluster(opening_id: str):
-    clusterer.remove(opening_id)
-    return "Ok"
+    job = processing.enqueue(on_remove_opening_from_cluster, args=[opening_id])
+
+    if job:
+        return "Scheduled"
+    else:
+        return "Failure to Schedule"
