@@ -189,3 +189,10 @@ def remove_opening_from_cluster(opening_id: str):
         return "Scheduled"
     else:
         return "Failure to Schedule"
+
+def sweep():
+    users = UserModel.get_all_users_data()
+
+    for user in users:
+        # TODO does this make sense?
+        on_update_user_matches(user.id)
