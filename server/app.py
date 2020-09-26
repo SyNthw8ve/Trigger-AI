@@ -139,9 +139,7 @@ def update_user_matches(user_id: str):
 
     return "Ok"
 
-
-@app.route('/opening/<opening_id>', methods=['POST'])
-def insert_opening_to_cluster(opening_id: str):
+def on_insert_opening_to_cluster(opening_id: str):
     opening = OpeningModel.get_opening(opening_id, database)
     # FIXME: always online here?
     clusterer.online_fase(opening_id, OpeningInstance(opening, sentence_embedder).embedding)
@@ -149,7 +147,15 @@ def insert_opening_to_cluster(opening_id: str):
     print(f"Opening {opening_id} added!")
     print(clusterer.get_all_instances_with_tags())
 
-    return "Ok"
+
+@app.route('/opening/<opening_id>', methods=['POST'])
+def insert_opening_to_cluster(opening_id: str):
+    job = processing.enqueue(on_insert_opening_to_cluster, args=[opening_id])
+    
+    if job:
+        return "Scheduled"
+    else:
+        return "Failure to Schedule"
 
 
 @app.route('/opening/<opening_id>', methods=['PUT'])
