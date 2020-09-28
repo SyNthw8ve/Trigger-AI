@@ -1,4 +1,4 @@
-from typing import Any, List, Tuple
+from typing import Any, List, Tuple, Optional
 import numpy as np
 import faiss
 import time
@@ -353,6 +353,18 @@ class GNG(Processor):
             tags.extend(node.tags)
 
         return instances, tags
+
+    # FIXME: This could be more efficient if we also had a map that goes the other way
+    def get_instance_with_tag(self, tag: str) -> Optional[Any]:
+        cluster_id = self.get_cluster_by_tag(tag)
+
+        instances, tags = self.get_instances_and_tags_in_cluster(cluster_id)
+
+        for instance, _tag in zip(instances, tags):
+            if _tag == tag:
+                return instance
+
+        return None
 
     def offline_fase(self):
 
