@@ -191,7 +191,7 @@ def remove_opening_from_cluster(opening_id: str):
         return "Failure to Schedule"
 
 def sweep():
-    users = UserModel.get_all_users_data()
+    users = UserModel.get_all_users_data(database)
 
     for user in users:
         # TODO does this make sense?
