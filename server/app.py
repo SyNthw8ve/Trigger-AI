@@ -143,8 +143,7 @@ def on_compute_user_score(user_id: str, opening_id: str) -> ServerMatch:
 
 @app.route('/score/<user_id>/<opening_id>', methods=['POST'])
 def compute_user_score(user_id: str, opening_id: str):
-    job = processing.enqueue(on_compute_user_matches, args=[user_id, opening_id])
-    
+    job = processing.enqueue(on_compute_user_score, args=[user_id, opening_id])
     print(on_compute_user_score(user_id, opening_id))
 
     if job:
