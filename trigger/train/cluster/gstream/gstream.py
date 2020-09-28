@@ -49,6 +49,7 @@ class GNG(Processor):
 
         self.next_id = 2
         self.point_to_cluster = {}
+        self.tag_to_cluster = {}
         self.instances = []
 
         self.cycle = 0
@@ -161,6 +162,7 @@ class GNG(Processor):
         self.instances.append(instance)
 
         self.point_to_cluster[tuple(instance)] = v.id
+        self.tag_to_cluster[tag] = v.id
 
         if self.index_type == 'L2':
 
@@ -334,6 +336,10 @@ class GNG(Processor):
     def get_cluster(self, instance) -> int:
 
         return self.point_to_cluster.get(tuple(instance))
+    
+    def get_cluster_by_tag(self, tag: str) -> int:
+
+        return self.tag_to_cluster.get(tag)
 
     def get_instances_and_tags_in_cluster(self, cluster_id: int) -> Tuple[List[Any], List[str]]:
         node = self.graph.get_node(cluster_id)
@@ -361,6 +367,8 @@ class GNG(Processor):
             v.add_instance(tag, instance)
 
             self.point_to_cluster[tuple(instance)] = v.id
+            self.tag_to_cluster[tag] = v.id
+
             self.update_prototype(v, self.epsilon_b, instance)
 
             for node in v.topological_neighbors.values():
