@@ -121,6 +121,37 @@ def compute_user_matches(user_id: str):
     else:
         return "Failure to Schedule"
 
+def on_compute_user_score(user_id: str, opening_id: str) -> ServerMatch:
+
+    user = UserModel.get_user_data(user_id, database)
+
+    # FIXME: this is slightly inefficient. If we had a map from tag -> instance it would be a tiny bit better
+    cluster_id = clusterer.get_cluster_by_tag(opening_id)
+
+    instances, tags = clusterer.get_instances_and_tags_in_cluster(cluster_id)
+    
+    for instance, tag in zip(instances, tags):
+        if tag == opening_id:
+            score = ServerMatch(
+                user_id,
+                calculate_score(instance, UserInstance(user, sentence_embedder).embedding),
+                opening_id
+            )
+            return score
+
+
+
+@app.route('/score/<user_id>/<opening_id>', methods=['POST'])
+def compute_user_score(user_id: str, opening_id: str):
+    job = processing.enqueue(on_compute_user_matches, args=[user_id, opening_id])
+    
+    print(on_compute_user_score(user_id, opening_id))
+
+    if job:
+        return "Scheduled"
+    else:
+        return "Failure to Schedule"
+
 def on_update_user_matches(user_id: str):
     user = UserModel.get_user_data(user_id, database)
 
