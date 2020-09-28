@@ -11,21 +11,31 @@ from trigger.train.transformers.input_transformer import SentenceEmbedder
 class UserInstance:
 
     def __init__(self, user: User, sentenceEmbedder: SentenceEmbedder):
-
+        print("UserInstance -- init")
         self.user = user
         self.embedding = self._transformUser(sentenceEmbedder)
 
     def _transformUser(self, sentenceEmbedder: SentenceEmbedder) -> numpy.array:
 
+        print("UserInstance -- _transformUser")
+
         hardSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.user.hardSkills)
 
+        print("UserInstance -- hardSkillsEmbedding")
+
         softSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.user.softSkills)
+
+        print("UserInstance -- softSkillsEmbedding")
 
         averageEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
         #averageEmbedding = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
 
+        print("UserInstance -- averageEmbedding")
+
         resultingEmbedding = averageEmbedding.numpy()
         resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
+
+        print("UserInstance -- resultingEmbedding")
 
         return averageEmbedding.numpy()
 
