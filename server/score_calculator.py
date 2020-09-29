@@ -1,4 +1,4 @@
-from scipy.stats import cosine
+from scipy.spatial.distance import cosine
 
 from trigger.train.transformers.opening_transformer import OpeningInstance
 from trigger.train.transformers.user_transformer import UserInstance
