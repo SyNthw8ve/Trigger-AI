@@ -34,7 +34,7 @@ for user in users:
     for hard_skill in user.hardSkills:
         set_of_hard_skill_names.add(hard_skill.name)
 
-soft_skill_name_to_id_string : Dict[str, str] = {}
+soft_skill_name_to_id_string: Dict[str, str] = {}
 for soft_skill_name in set_of_soft_skill_names:
     mutation_query = """
         mutation ($name: String!) {
@@ -52,14 +52,15 @@ for soft_skill_name in set_of_soft_skill_names:
     variables = {"name": soft_skill_name}
 
     loop = asyncio.get_event_loop()
-    data = loop.run_until_complete(client.execute_async(query=mutation_query, variables=variables))
+    data = loop.run_until_complete(client.execute_async(
+        query=mutation_query, variables=variables))
     print(data)
 
     soft_skill_name_to_id_string[soft_skill_name] = data['data']['newSoftskill']['_id']
 
 print(soft_skill_name_to_id_string)
 
-hard_skill_name_to_id_string : Dict[str, str] = {}
+hard_skill_name_to_id_string: Dict[str, str] = {}
 for hard_skill_name in set_of_hard_skill_names:
     mutation_query = """
         mutation ($name: String!) {
@@ -77,14 +78,140 @@ for hard_skill_name in set_of_hard_skill_names:
     variables = {"name": hard_skill_name}
 
     loop = asyncio.get_event_loop()
-    data = loop.run_until_complete(client.execute_async(query=mutation_query, variables=variables))
+    data = loop.run_until_complete(client.execute_async(
+        query=mutation_query, variables=variables))
     print(data)
 
     hard_skill_name_to_id_string[hard_skill_name] = data['data']['registerHardSkill']['_id']
 
 print(hard_skill_name_to_id_string)
 
-for user in users:
+user = users[0]
+
+password_parts = [
+    random.choice(["A", "B", "C", "D", "0", "1"])
+    for _ in range(10)
+]
+
+password = ''.join(password_parts)
+
+mutation_query = """
+    mutation ($email:String!, $name: String!, $password:String!, $ss: [UserSoftskillInput!], $hs: [ID!]) {
+        newUser(
+        user:
+            {
+                email:$email,
+                name: $name,
+                password: $password,
+                softSkills: $ss,
+                hardSkills: $hs
+            }
+        )
+        {
+            _id
+        }
+    }
+"""
+
+variables = {
+    "name": user.name,
+    "email": user.name + "@unique.com",
+    "password": password,
+    "ss": [
+        {
+            "score": 10,
+            "softskillId": str(ObjectId(soft_skill_name_to_id_string[softSkill.name])),
+            "visible": True
+        }
+        for softSkill in user.softSkills
+    ],
+    "hs": [
+        str(ObjectId(hard_skill_name_to_id_string[hardSkill.name]))
+        for hardSkill in user.hardSkills
+    ],
+}
+
+
+loop = asyncio.get_event_loop()
+data = loop.run_until_complete(client.execute_async(
+    query=mutation_query, variables=variables))
+a_user_id_string: str = data['data']['newUser']['_id']
+
+mutation_query = """
+        mutation ($manager: ID!) {
+            newProject(
+            project:
+                {
+                    description: "A description",
+                    location: {
+                        address: "Avenida da Liberdade",
+                        position: {
+                            latitude: 10,
+                            longitude:24
+                        }    
+                    },
+                    manager: $manager,
+                    scope: "Do all the things",
+                    title: "Here is a title"
+                }
+            )
+            {
+                _id
+            }
+        }
+    """
+
+variables = {
+    "manager": a_user_id_string,
+}
+
+loop = asyncio.get_event_loop()
+data = loop.run_until_complete(client.execute_async(
+    query=mutation_query, variables=variables))
+print(data)
+a_project_id_str: str = data['data']['newProject']['_id']
+
+for opening in openings[:5]:
+    mutation_query = """
+            mutation ($area: String!, $project_id: ID!, $ss: [ID!], $hs: [ID!]) {
+                createOpening(
+                opening:
+                    {
+                        area: $area,
+                        availability: {
+                            type: FullTime
+                        },
+                        project: $project_id,
+                        softskills: $ss,
+                        hardskills: $hs
+                    }
+                )
+                {
+                    _id
+                }
+            }
+        """
+
+    variables = {
+        "area": opening.area,
+        "project_id": a_project_id_str,
+        "ss": [
+            str(ObjectId(soft_skill_name_to_id_string[softSkill.name]))
+            for softSkill in opening.softSkills
+        ],
+        "hs": [
+            str(ObjectId(hard_skill_name_to_id_string[hardSkill.name]))
+            for hardSkill in opening.hardSkills
+        ]
+    }
+
+    loop = asyncio.get_event_loop()
+    data = loop.run_until_complete(client.execute_async(
+        query=mutation_query, variables=variables))
+    print(data)
+
+
+for user in users[1:5]:
 
     password_parts = [
         random.choice(["A", "B", "C", "D", "0", "1"])
@@ -129,80 +256,7 @@ for user in users:
         ],
     }
 
-
     loop = asyncio.get_event_loop()
-    data = loop.run_until_complete(client.execute_async(query=mutation_query, variables=variables))
-    a_user_id_string: str = data['data']['newUser']['_id']
-    print(data)
-
-
-mutation_query = """
-        mutation ($manager: ID!) {
-            newProject(
-            project:
-                {
-                    description: "A description",
-                    location: {
-                        address: "Avenida da Liberdade",
-                        position: {
-                            latitude: 10,
-                            longitude:24
-                        }    
-                    },
-                    manager: $manager,
-                    scope: "Do all the things",
-                    title: "Here is a title"
-                }
-            )
-            {
-                _id
-            }
-        }
-    """
-
-variables = {
-    "manager": a_user_id_string,
-}
-
-loop = asyncio.get_event_loop()
-data = loop.run_until_complete(client.execute_async(query=mutation_query, variables=variables))
-print(data)
-a_project_id_str: str = data['data']['newProject']['_id']
-
-for opening in openings:
-    mutation_query = """
-            mutation ($area: String!, $project_id: ID!, $ss: [ID!], $hs: [ID!]) {
-                createOpening(
-                opening:
-                    {
-                        area: $area,
-                        availability: {
-                            type: FullTime
-                        },
-                        project: $project_id,
-                        softskills: $ss,
-                        hardskills: $hs
-                    }
-                )
-                {
-                    _id
-                }
-            }
-        """
-
-    variables = {
-        "area": opening.area,
-        "project_id": a_project_id_str,
-        "ss": [
-            str(ObjectId(soft_skill_name_to_id_string[softSkill.name]))
-            for softSkill in opening.softSkills
-        ],
-        "hs": [
-            str(ObjectId(hard_skill_name_to_id_string[hardSkill.name]))
-            for hardSkill in opening.hardSkills
-        ]
-    }
-
-    loop = asyncio.get_event_loop()
-    data = loop.run_until_complete(client.execute_async(query=mutation_query, variables=variables))
+    data = loop.run_until_complete(client.execute_async(
+        query=mutation_query, variables=variables))
     print(data)
