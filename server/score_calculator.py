@@ -38,11 +38,14 @@ class QualityScoreCalculator(ScoreCalculator):
 
         user_ss_set = set([ss.name for ss in user.softSkills])
         opening_ss_set = set([ss.name for ss in opening.softSkills])
-        ss_score = len(user_ss_set.union(opening_ss_set))/len(opening_ss_set)
+
+        ss_score = len(user_ss_set.intersection(opening_ss_set))/len(opening_ss_set)
+
 
         user_hs_set = set([hs.name for hs in user.hardSkills])
         opening_hs_set = set([hs.name for hs in opening.hardSkills])
-        hs_score = len(user_hs_set.union(opening_hs_set)) / len(opening_hs_set)
+        hs_score = len(user_hs_set.intersection(opening_hs_set)) / len(opening_hs_set)
+
 
         return self.weight_ss * ss_score + self.weight_hs * hs_score
 
