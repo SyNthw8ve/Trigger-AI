@@ -1,5 +1,9 @@
 import sys
 from pathlib import Path
+
+sys.path.append(str(Path('.').absolute().parent))
+sys.path.append(str(Path('..').absolute().parent))
+
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 from trigger.models.hardskill import Hardskill
 from trigger.models.softskill import Softskill
@@ -14,22 +18,11 @@ from rq.job import Job
 from server.jobs import on_compute_user_matches, on_compute_user_score, on_update_user_matches, \
     on_insert_opening_to_cluster, on_update_opening, on_remove_opening_from_cluster
 
-sys.path.append(str(Path('.').absolute().parent))
-sys.path.append(str(Path('..').absolute().parent))
 
 app = Flask(__name__)
 
-user_instance = UserInstance(
-    User("J", softSkills=[Softskill("Dependability", 0),
-                          Softskill("Individuality", 0),
-                          Softskill("Communication", 0)],
-         hardSkills=[Hardskill("Medicine"),
-                     Hardskill("Design & Specification")
-                     ]), SentenceEmbedder())
 
-print(user_instance)
-
-processing = Queue(connection=Redis(), async=False)
+processing = Queue(connection=Redis())
 
 
 @app.route('/user_match/<user_id>', methods=['POST'])
