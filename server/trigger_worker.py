@@ -13,7 +13,6 @@ drivers = LocalStack()
 
 
 def get_driver() -> TriggerDriver:
-    print("get_driver")
     v = drivers.top
     if not v:
         raise Exception('Run outside of worker context')
