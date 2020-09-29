@@ -96,16 +96,12 @@ class TriggerDriver:
 
     def compute_user_score(self, user_id: str, opening_id: str) -> ServerMatch:
         with self.connect() as client:
-            print("connected")
             database = client[self.config["database"]]
             user = UserModel.get_user_data(user_id, database)
-            print("get_user_data")
             # TODO: cache user instance?
             user_instance = UserInstance(user, self.sentence_embedder)
 
             opening_instance = self.tag_to_opening_instance[opening_id]
-            print("ServerMatch")
-
             return ServerMatch(user_id, self.score_calculator.calculate(user_instance, opening_instance),opening_id)
 
 
