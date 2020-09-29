@@ -1,8 +1,9 @@
+from rq.worker import SimpleWorker
+
 from trigger.train.cluster.gstream.gstream import GNG
 from server.score_calculator import RealScoreCalculator
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 from server.trigger_driver import TriggerDriver
-from rq import Worker
 from rq.defaults import DEFAULT_LOGGING_DATE_FORMAT, DEFAULT_LOGGING_FORMAT
 from rq.local import LocalStack
 
@@ -19,7 +20,7 @@ def get_driver() -> TriggerDriver:
     return v
 
 
-class TriggerWorker(Worker):
+class TriggerWorker(SimpleWorker):
 
     def work(self, burst=False, logging_level="INFO", date_format=DEFAULT_LOGGING_DATE_FORMAT,
              log_format=DEFAULT_LOGGING_FORMAT, max_jobs=None, with_scheduler=False):
