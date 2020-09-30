@@ -19,15 +19,19 @@ class OpeningInstance:
 
         hardSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.opening.hardSkills)
 
-        softSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.opening.softSkills)
+        #softSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.opening.softSkills)
 
-        averageEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
+        #averageEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
         #averageEmbedding = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
 
-        resultingEmbedding = averageEmbedding.numpy()
-        resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
+        #resultingEmbedding = averageEmbedding.numpy()
+        resultingEmbedding = hardSkillsEmbedding / numpy.linalg.norm(hardSkillsEmbedding)
 
-        return averageEmbedding.numpy()
+        if numpy.isnan(resultingEmbedding).any():
+            return hardSkillsEmbedding
+
+        #return resultingEmbedding.numpy()
+        return resultingEmbedding
 
     @staticmethod
     def save_instances(filename, instances: List["OpeningInstance"]) -> None:
