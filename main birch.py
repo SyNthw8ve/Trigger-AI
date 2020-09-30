@@ -124,11 +124,11 @@ def user_to_json(user: User, matches: List[Match]):
 if __name__ == "__main__":
 
     users_instances = []
-    users_instances_path = os.path.join(instances_path, 'users_instances')
+    users_instances_path = os.path.join(instances_path, 'no_ss_users_instances')
 
     openings_instances = []
     openings_instances_path = os.path.join(
-        instances_path, 'openings_instances')
+        instances_path, 'no_ss_openings_instances')
 
     if os.path.exists(users_instances_path):
 
