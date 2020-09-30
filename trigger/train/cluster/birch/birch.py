@@ -63,6 +63,16 @@ class Birch():
             "parameters": self.model.get_params(True)
         }
 
+    def safe_file_name(self) -> str:
+        '''
+        This describes this clustering algortihm's parameters
+        '''
+        params = [
+            f"{param_name}={param_value}"
+            for param_name, param_value in self.model.get_params(True).items()
+        ]
+        return f"Birch = {';'.join(params)}"
+
     # def _predict(self, instance: UserInstance) -> int:
 
     #     clusterIndex = self.cluster.predict([instance.embedding])
