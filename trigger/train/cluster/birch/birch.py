@@ -34,6 +34,9 @@ class Birch():
     def offline(self) -> None:
         self.model.partial_fit()
 
+    def online_fase(self, instance: Any) -> None:
+        return self.add(instance)
+
     def process(self, instance: Any) -> None:
         return self.add(instance)
 
@@ -41,7 +44,13 @@ class Birch():
         self.model.partial_fit(np.array([instance]))
         self.instances.append(instance)
 
+    def get_cluster(self, instance: Any) -> Optional[int]:
+        return self.model.predict(np.array([instance]))[0]
+
     def index_of_cluster_containing(self, instance: Any) -> Optional[int]:
+        return self.model.predict(np.array([instance]))[0]
+
+    def predict(self, instance: Any) -> Optional[int]:
         return self.model.predict(np.array([instance]))[0]
 
     def describe(self) -> Dict[str, Any]:
