@@ -128,9 +128,9 @@ class ECM(Processor):
         return self.instance_to_cluster[tuple(instance)]
 
     def describe(self) -> Dict[str, Any]:
-        '''
-        This describes this clustering algortihm's parameters
-        '''
+        """
+        This describes this clustering algorithm's parameters
+        """
 
         return {
             "name": "ECM",
