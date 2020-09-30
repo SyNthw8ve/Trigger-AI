@@ -19,15 +19,20 @@ class UserInstance:
 
         hardSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.user.hardSkills)
 
-        softSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.user.softSkills)
+        #softSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.user.softSkills)
 
-        averageEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
+        #averageEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
         #averageEmbedding = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
 
-        resultingEmbedding = averageEmbedding.numpy()
+        resultingEmbedding = hardSkillsEmbedding
+        #resultingEmbedding = averageEmbedding.numpy()
         resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
 
-        return averageEmbedding.numpy()
+        if numpy.isnan(resultingEmbedding).any():
+            return hardSkillsEmbedding
+
+        #return resultingEmbedding.numpy()
+        return resultingEmbedding
 
 
     @staticmethod
