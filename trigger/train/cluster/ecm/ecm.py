@@ -23,6 +23,13 @@ class ECM(Processor):
         self.did_first_add = False
         self.instance_to_cluster: Dict[Any, int] = {}
 
+    @property
+    def instances(self):
+        return list(self.instance_to_cluster.keys())
+
+    def online_fase(self, instance: Any) -> None:
+        return self.add(instance)
+
     def process(self, instance: Any) -> None:
         return self.add(instance)
 
