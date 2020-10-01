@@ -129,7 +129,8 @@ class ECM(Processor):
             cluster.instances.append(instance)
             self.instance_to_cluster[tuple(instance)] = cluster.index
 
-            self.instances.append(instance)
+    def get_cluster(self, instance: Any) -> Optional[int]:
+        return self.index_of_cluster_containing(instance)
 
     def index_of_cluster_containing(self, instance: Any) -> Optional[int]:
         return self.instance_to_cluster[tuple(instance)]
