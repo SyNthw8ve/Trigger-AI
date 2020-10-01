@@ -17,7 +17,7 @@ class Cluster:
 
 class ECM(Processor):
 
-    def __init__(self, distance_threshold: float, d) -> None:
+    def __init__(self, distance_threshold: float) -> None:
         self.clusters: List[Cluster] = []
         self.distance_threshold = distance_threshold
         self.did_first_add = False
