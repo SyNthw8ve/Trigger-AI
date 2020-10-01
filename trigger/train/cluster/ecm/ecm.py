@@ -2,6 +2,8 @@ from typing import Any, Dict, List, Optional
 from util.stream.processor import Processor
 from scipy.spatial.distance import cdist, seuclidean
 
+import numpy as np
+
 import math
 
 from util.stream.processor import Processor
@@ -153,11 +155,105 @@ class ECM(Processor):
         '''
         return f"ECM = distance_threshold={self.distance_threshold}"
 
-    # def _predict(self, instance: UserInstance) -> int:
+    def predict(self, instance: Any) -> int:
 
-    #     clusterIndex = self.cluster.predict([instance.embedding])
+        if not self.did_first_add:
+            cluster = Cluster(instance, len(self.clusters))
+            self.clusters.append(cluster)
+            cluster.instances.append(instance)
+            self.instance_to_cluster[tuple(instance)] = cluster.index
 
-    #     return clusterIndex[0]
+            self.did_first_add = True
+
+            self.min_t = 0
+            self.centers_t = 0
+            self.shape_t = 0
+            self.distances_t = 0
+            self.radiuses_t = 0
+            self.diffs_t = 0
+            self.possible_t = 0
+
+            return cluster.index
+
+        tic = time.perf_counter()
+
+        centers = [cluster.center for cluster in self.clusters]
+
+        toc = time.perf_counter()
+        self.centers_t += toc - tic
+
+        tic = time.perf_counter()
+
+        distances = cdist(
+            np.array([instance]),
+            np.array(centers),
+            'euclidean'
+        )[0]
+
+        toc = time.perf_counter()
+        self.distances_t += toc - tic
+
+        tic = time.perf_counter()
+
+        radiuses = [cluster.radius for cluster in self.clusters]
+
+        toc = time.perf_counter()
+        self.radiuses_t += toc - tic
+
+        tic = time.perf_counter()
+
+        diffs = distances - radiuses
+
+        toc = time.perf_counter()
+        self.diffs_t += toc - tic
+
+        tic = time.perf_counter()
+
+        possible = np.where(diffs <= 0)[0]
+
+        toc = time.perf_counter()
+        self.possible_t += toc - tic
+
+        tic = time.perf_counter()
+
+        min_index = None if possible.size == 0 else distances.argmin()
+
+        # print("I", instance, "Ds", distances, "Cs", centers, "Rs", radiuses, "min_index", min_index)
+
+        toc = time.perf_counter()
+
+        self.min_t += toc - tic
+
+        if min_index is not None:
+            self.clusters[min_index].instances.append(instance)
+            self.instance_to_cluster[tuple(instance)] = min_index
+
+            return min_index
+
+        distances_plus_radiuses = np.add(distances, radiuses)
+        lowest_distance_and_radius_index = np.argmin(
+            distances_plus_radiuses)
+        lowest_distance_and_radius = distances_plus_radiuses[lowest_distance_and_radius_index]
+
+        if lowest_distance_and_radius > 2 * self.distance_threshold:
+            cluster = Cluster(instance, len(self.clusters))
+            self.clusters.append(cluster)
+            self.instance_to_cluster[tuple(instance)] = cluster.index
+            return None
+
+        else:
+            cluster = self.clusters[lowest_distance_and_radius_index]
+            direction = instance - cluster.center
+
+            cluster.radius = lowest_distance_and_radius/2
+
+            cluster.center = instance - (
+                direction / np.linalg.norm(direction)) * cluster.radius
+
+            cluster.instances.append(instance)
+            self.instance_to_cluster[tuple(instance)] = cluster.index
+
+            return lowest_distance_and_radius_index
 
     # def _computeScore(self, userInstance: UserInstance, openingInstance: OpeningInstance) -> float:
 
