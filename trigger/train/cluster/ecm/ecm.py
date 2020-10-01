@@ -146,6 +146,12 @@ class ECM(Processor):
             }
         }
 
+    def safe_file_name(self) -> str:
+        '''
+        This describes this clustering algortihm's parameters
+        '''
+        return f"ECM = distance_threshold={self.distance_threshold}"
+
     # def _predict(self, instance: UserInstance) -> int:
 
     #     clusterIndex = self.cluster.predict([instance.embedding])
