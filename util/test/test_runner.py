@@ -1,9 +1,10 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 import numpy as np
 import logging
 import json
 import os
+import itertools
 
 class TestRunner(ABC):
 
@@ -24,8 +25,8 @@ class TestRunner(ABC):
 
         test_keys = self.param_grid.keys()
 
-        test_values = tuple(self.param_grid.values())
-        test_combinations = np.array(np.meshgrid(*test_values)).T.reshape(-1, len(test_values))
+        test_values = self.param_grid.values()
+        test_combinations = itertools.product(*test_values)
 
         test_items = [dict(zip(test_keys, test_item)) for test_item in test_combinations]
 
@@ -35,7 +36,7 @@ class TestRunner(ABC):
 
         for test in self.tests:
 
-            results = self.run(test)
+            results = self._run(test)
 
             if self.output_type == 'json':
 
@@ -46,7 +47,7 @@ class TestRunner(ABC):
                 self._save_results_csv(test, results)
 
     @abstractmethod
-    def run(self, params):
+    def _run(self, params):
 
         pass
 

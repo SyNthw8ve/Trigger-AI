@@ -11,7 +11,7 @@ class GNGTestRunner(TestRunner):
 
         super().__init__(param_grid, instances, output_path, output_type)
 
-    def run(self, params):
+    def _run(self, params):
 
         gng = GNG(**params)
 

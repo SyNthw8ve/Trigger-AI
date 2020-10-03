@@ -122,7 +122,7 @@ class GNG(Processor):
 
     def get_best_match(self, instance) -> Tuple[Node, Node]:
 
-        D, I = self.index.search(np.array([instance]), 2)
+        D, I = self.index.search(np.array([instance]).astype('float32'), 2)
 
         return (self.graph.get_node(I[0][0]), self.graph.get_node(I[0][1]))
 

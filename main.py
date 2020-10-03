@@ -43,6 +43,7 @@ from trigger.train.reinforcement_tuning.networks.actor_critic import ActorCritic
 from trigger.train.reinforcement_tuning.networks.q_network import QNetwork
 
 from util.readers.setup_reader import DataInitializer
+from tests.gng_test import test_gng
 
 users_path = './examples/openings_users/users'
 openings_path = './examples/openings_users/openings'
@@ -60,10 +61,9 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
 
 if __name__ == "__main__":
 
-    concat_layer = 'concat'
-    metric = 'L2'
-    dimensions = 2048
-    user_instance_file = f'users_instances_avg'
+    test_gng()
+
+    """ user_instance_file = f'users_instances_avg'
     opening_instance_file = f'no_ss_openings_instances'
     
     openings_instances_path = os.path.join(
@@ -104,4 +104,4 @@ if __name__ == "__main__":
 
     q_network = QNetwork(collect_env, eval_env)
 
-    q_network.train('test_policy', 10, 1)
+    q_network.train('test_policy', 10, 1) """

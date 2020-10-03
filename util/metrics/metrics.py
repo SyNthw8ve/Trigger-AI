@@ -1,5 +1,6 @@
 from trigger.train.transformers.user_transformer import UserInstance
 from trigger.train.transformers.opening_transformer import OpeningInstance
+from trigger.models.user import User
 
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
 from scipy.spatial.distance import cosine
