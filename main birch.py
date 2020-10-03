@@ -93,10 +93,8 @@ def quality_metric(user: User, opening: OpeningInstance):
 
     return Mq
 
-
 def opening_to_json(opening: Opening):
     return {'hard_skills': opening.hardSkills, 'soft_skills': opening.softSkills}
-
 
 def user_to_json(user: User, matches: List[Match]):
     user_json = {'name': user.name, 'hard_skills': user.hardSkills,

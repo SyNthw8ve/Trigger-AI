@@ -4,11 +4,8 @@ import logging
 import json
 
 from typing import List, Tuple
-from scipy.spatial.distance import cosine
 
-from sklearn.metrics import silhouette_score, calinski_harabasz_score
-
-from trigger.models.match import Match
+from trigger.models.Match import Match
 
 from trigger.models.opening import Opening
 from trigger.models.softskill import Softskill
@@ -25,6 +22,9 @@ from trigger.recommend.skill_transformers.soft_skill_transformer import Softskil
 from trigger.recommend.user_transformer import UserTransformer
 
 from util.readers.reader import DataReaderOpenings, DataReaderUsers
+from util.json_util.json_converter import user_to_json, opening_to_json
+from util.metrics.metrics import eval_cluster, computeScore
+
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 from trigger.train.transformers.user_transformer import UserInstance
 from trigger.train.transformers.opening_transformer import OpeningInstance
@@ -37,12 +37,6 @@ openings_path = './examples/openings_users/openings'
 instances_path = './data/instances'
 results_path = './results/openings_users'
 
-
-def computeScore(userInstance: UserInstance, openingInstance: OpeningInstance) -> float:
-
-    return 1 - cosine(userInstance.embedding, openingInstance.embedding)
-
-
 def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], threshold: float) -> List[Match]:
 
     openingsOfInterest = [
@@ -52,94 +46,17 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
             for openingInstance in openingsOfInterest
             if computeScore(user, openingInstance) >= threshold]
 
-
-def eval_cluster(gng: GNG) -> Tuple[float, float]:
-
-    X = gng.instances
-    labels = []
-
-    for x in X:
-
-        labels.append(gng.get_cluster(x))
-
-    return (silhouette_score(X, labels), calinski_harabasz_score(X, labels))
-
-
-def eval_birch(birch: Birch) -> Tuple[float, float]:
-
-    X = birch.instances
-    labels = []
-
-    for x in X:
-
-        labels.append(birch.index_of_cluster_containing(x))
-
-    return (silhouette_score(X, labels), calinski_harabasz_score(X, labels))
-
-
-def quality_metric(user: User, opening: OpeningInstance):
-
-    u_h = set(user.hardSkills)
-    u_s = set(user.softSkills)
-
-    o_h = set(opening.hardSkills)
-    o_s = set(opening.softSkills)
-
-    if len(o_h) == 0:
-        HS_s = 0
-
-    else:
-        HS_s = len(o_h.intersection(u_h))/len(o_h)
-
-    if len(o_s) == 0:
-        SS_s = 0
-
-    else:
-        SS_s = len(o_s.intersection(u_s))/len(o_s)
-
-    Mq = 0.6*HS_s + 0.4*SS_s
-
-    return Mq
-
-
-def opening_to_json(opening: Opening):
-
-    return {'hard_skills': opening.hardSkills, 'soft_skills': opening.softSkills}
-
-
-def user_to_json(user: User, matches: List[Match]):
-
-    user_json = {'name': user.name, 'hard_skills': user.hardSkills,
-                 'soft_skills': user.softSkills, 'matches': []}
-
-    user_matches = []
-
-    for match in matches:
-
-        quality = quality_metric(user, match.opening)
-        real_score = 0.5*(match.score + quality)
-
-        user_match = {'score': str(match.score), 'quality':  str(
-            quality), 'real_score': str(real_score), 'opening': opening_to_json(match.opening)}
-
-        user_matches.append(user_match)
-
-    user_matches = sorted(
-        user_matches, key=lambda match: match['score'], reverse=True)
-
-    user_json['matches'] = user_matches
-
-    return user_json
-
-
 if __name__ == "__main__":
 
+    users_path = 'users_instances'
+    openings_path = 'openings_instances'
+
     users_instances = []
-    users_instances_path = os.path.join(instances_path, 'users_instances')
+    users_instances_path = os.path.join(instances_path, users_path)
 
     openings_instances = []
     openings_instances_path = os.path.join(
-        instances_path, 'openings_instances')
+        instances_path, openings_path)
 
     if os.path.exists(users_instances_path):
 
@@ -202,7 +119,9 @@ if __name__ == "__main__":
 
     logging.info("GNG Testing")
 
-    gng = GNG(epsilon_b=0.001,
+
+
+    """ gng = GNG(epsilon_b=0.001,
               epsilon_n=0,
               lam=5,
               beta=0.9995,
@@ -236,4 +155,4 @@ if __name__ == "__main__":
 
     with open('quality_l2_avg_norm.json', 'w') as f:
 
-        json.dump(results, f)
+        json.dump(results, f) """
