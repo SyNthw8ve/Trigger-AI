@@ -4,18 +4,17 @@ import pickle
 
 from typing import List
 from trigger.models.user import User
-from trigger.models.hardskill import Hardskill
-from trigger.models.softskill import Softskill
+
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 
 class UserInstance:
 
-    def __init__(self, user: User, sentenceEmbedder: SentenceEmbedder):
+    def __init__(self, user: User, sentenceEmbedder: SentenceEmbedder, layer:str='avg'):
 
         self.user = user
-        self.embedding = self._transformUser(sentenceEmbedder)
+        self.embedding = self._transformUser(sentenceEmbedder, layer)
 
-    def _transformUser(self, sentenceEmbedder: SentenceEmbedder) -> numpy.array:
+    def _transformUser(self, sentenceEmbedder: SentenceEmbedder, layer) -> numpy.array:
 
         hardSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.user.hardSkills)
 

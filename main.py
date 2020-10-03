@@ -2,13 +2,15 @@ import os
 import pprint
 import logging
 import json
+import copy
+import numpy as np
+import tensorflow as tf
 
 from typing import List, Tuple
 
 from trigger.models.Match import Match
 
 from trigger.models.opening import Opening
-from trigger.models.softskill import Softskill
 from trigger.models.hardskill import Hardskill
 from trigger.models.language import Language
 from trigger.models.user import User
@@ -29,8 +31,18 @@ from trigger.train.transformers.input_transformer import SentenceEmbedder
 from trigger.train.transformers.user_transformer import UserInstance
 from trigger.train.transformers.opening_transformer import OpeningInstance
 
-from trigger.train.cluster.gstream.gstream import GNG
 from trigger.train.cluster.birch.birch import Birch
+from trigger.train.reinforcement_tuning.environments.train.birch_cont_env import BirchContinuousEnvironment
+from trigger.train.reinforcement_tuning.environments.train.birch_disc_env import BirchDiscreteEnvironment
+
+from trigger.train.reinforcement_tuning.environments.online.birch_cont_env import OnlineBirchContinuosEnvironment
+
+from tf_agents.environments.py_environment import PyEnvironment
+from tf_agents.environments import tf_py_environment
+from trigger.train.reinforcement_tuning.networks.actor_critic import ActorCriticNetwork
+from trigger.train.reinforcement_tuning.networks.q_network import QNetwork
+
+from util.readers.setup_reader import DataInitializer
 
 users_path = './examples/openings_users/users'
 openings_path = './examples/openings_users/openings'
@@ -48,111 +60,48 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
 
 if __name__ == "__main__":
 
-    users_path = 'users_instances'
-    openings_path = 'openings_instances'
-
-    users_instances = []
-    users_instances_path = os.path.join(instances_path, users_path)
-
-    openings_instances = []
+    concat_layer = 'concat'
+    metric = 'L2'
+    dimensions = 2048
+    user_instance_file = f'users_instances_avg'
+    opening_instance_file = f'no_ss_openings_instances'
+    
     openings_instances_path = os.path.join(
-        instances_path, openings_path)
+        instances_path, opening_instance_file)
 
-    if os.path.exists(users_instances_path):
-
-        logging.info("Users instances file found. Loading...")
-        users_instances = UserInstance.load_instances(users_instances_path)
-
-    else:
-
-        embedder = SentenceEmbedder()
-
-        logging.info("Users instances file not found. Reading Users...")
-        users_files = [os.path.join(users_path, f) for f in os.listdir(
-            users_path) if os.path.isfile(os.path.join(users_path, f))]
-
-        users = []
-        for user_file in users_files:
-
-            users += DataReaderUsers.populate(filename=user_file)
-
-        logging.info("Creating instances...")
-        users_instances = [UserInstance(user, embedder) for user in users]
-
-        logging.info(f"Saving instances to {users_instances_path}...")
-        UserInstance.save_instances(users_instances_path, users_instances)
-
-        logging.info("Saved")
+    users_instances_path = os.path.join(instances_path, user_instance_file)
+    #users_instances = DataInitializer.read_users(users_instances_path, users_path)
 
     logging.info("Users instances complete.")
 
-    if os.path.exists(openings_instances_path):
+    openings_instances_path = os.path.join(
+        instances_path, opening_instance_file)
 
-        logging.info("Openings instances file found. Loading...")
-        openings_instances = OpeningInstance.load_instances(
-            openings_instances_path)
-
-    else:
-
-        embedder = SentenceEmbedder()
-
-        logging.info("Openings instances file not found. Reading Openings...")
-        openings_files = [os.path.join(openings_path, f) for f in os.listdir(
-            openings_path) if os.path.isfile(os.path.join(openings_path, f))]
-
-        openings = []
-        for opening_file in openings_files:
-
-            openings += DataReaderOpenings.populate(filename=opening_file)
-
-        logging.info("Creating instances...")
-        openings_instances = [OpeningInstance(
-            opening, embedder) for opening in openings]
-
-        logging.info(f"Saving instances to {openings_instances_path}...")
-        OpeningInstance.save_instances(
-            openings_instances_path, openings_instances)
-
-        logging.info("Saved")
+    openings_instances = DataInitializer.read_openings(openings_instances_path, openings_path)
 
     logging.info("Openings instances complete.")
 
-    logging.info("GNG Testing")
+    logging.info("Inserting Openings in Birch")
 
+    birch = Birch()
 
+    instances = []
 
-    """ gng = GNG(epsilon_b=0.001,
-              epsilon_n=0,
-              lam=5,
-              beta=0.9995,
-              alpha=0.95,
-              max_age=10,
-              off_max_age=10,
-              lambda_2=0.2,
-              nodes_per_cycle=1,
-              dimensions=1024,
-              index_type='L2')
+    for opening_instance in openings_instances[:200]:
 
-    for opening_instance in openings_instances:
+        instances.append(opening_instance.embedding)
 
-        gng.online_fase(opening_instance.embedding)
-        opening_instance.cluster_index = gng.get_cluster(
-            opening_instance.embedding)
+    logging.info("Birch Agent Training")
 
-    results = {'scores': str(eval_cluster(gng)), 'user_matches': []}
-    user_matches = []
+    threshold = 0.5
+    branching_factor = 50
+    dimension = 1024
 
-    for user_instance in users_instances:
+    collect_env = BirchDiscreteEnvironment(
+        initial_threshold=threshold, initial_branching=branching_factor, instances=instances, dimension=dimension)
+    eval_env = BirchDiscreteEnvironment(
+        initial_threshold=threshold, initial_branching=branching_factor, instances=instances, dimension=dimension)
 
-        cluster_id = gng.predict(user_instance.embedding)
-        matches = getOpenings(cluster_id, user_instance,
-                              openings_instances, 0.5)
+    q_network = QNetwork(collect_env, eval_env)
 
-        user_result = user_to_json(user_instance.user, matches)
-        user_matches.append(user_result)
-
-    results['user_matches'] = user_matches
-
-    with open('quality_l2_avg_norm.json', 'w') as f:
-
-        json.dump(results, f) """
+    q_network.train('test_policy', 10, 1)

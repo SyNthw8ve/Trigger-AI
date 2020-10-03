@@ -9,13 +9,13 @@ from trigger.train.transformers.input_transformer import SentenceEmbedder
 
 class OpeningInstance:
 
-    def __init__(self, opening: Opening, sentenceEmbedder: SentenceEmbedder):
+    def __init__(self, opening: Opening, sentenceEmbedder: SentenceEmbedder, layer:str='avg'):
 
         self.opening = opening
-        self.embedding = self._transformOpening(sentenceEmbedder)
+        self.embedding = self._transformOpening(sentenceEmbedder, layer)
         self.cluster_index = None
 
-    def _transformOpening(self, sentenceEmbedder: SentenceEmbedder) -> numpy.array:
+    def _transformOpening(self, sentenceEmbedder: SentenceEmbedder, layer) -> numpy.array:
 
         hardSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.opening.hardSkills)
 

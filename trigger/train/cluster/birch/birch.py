@@ -29,10 +29,59 @@ class Birch():
             n_clusters=None,
             copy=copy
         )
+        self.threshold = threshold
+        self.branching_factor = branching_factor
         self.instances = []
 
     def offline(self) -> None:
-        self.model.partial_fit()
+        
+        model = Birch(
+            threshold=self.threshold,
+            branching_factor=self.branching_factor,
+            copy=self.copy
+        )
+
+        model.fit(self.instances)
+
+        self.model = model
+
+    def adapt(self, threshold, branching_factor):
+
+        model = SBirch(
+            threshold=threshold,
+            branching_factor=branching_factor,
+            compute_labels=True,
+            n_clusters=None,
+            copy=True
+        )
+
+        for instance in self.instances:
+
+            model.partial_fit(np.array([instance]))
+
+        self.model = model
+        self.threshold = threshold
+        self.branching_factor = branching_factor
+
+    def adapt_ret(self, threshold, branching_factor) -> "Birch":
+
+        copy_birch = Birch(threshold,  branching_factor)
+
+        for instance in self.instances:
+
+            copy_birch.add(instance)
+
+        return copy_birch
+
+    def copy(self) -> "Birch":
+
+        copy_birch = Birch(self.threshold, self.branching_factor)
+
+        for instance in self.instances:
+
+            copy_birch.add(instance)
+
+        return copy_birch
 
     def online_fase(self, instance: Any) -> None:
         return self.add(instance)
