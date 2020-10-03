@@ -5,3 +5,8 @@
 .vscode/
 
 venv/
+results_*.json
+tf_policy/eval
+tf_policy/checkpoints
+tf_policy/train
+tf_policy/policies

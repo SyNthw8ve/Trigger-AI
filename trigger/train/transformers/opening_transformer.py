@@ -9,25 +9,30 @@ from trigger.train.transformers.input_transformer import SentenceEmbedder
 
 class OpeningInstance:
 
-    def __init__(self, opening: Opening, sentenceEmbedder: SentenceEmbedder):
+    def __init__(self, opening: Opening, sentenceEmbedder: SentenceEmbedder, layer:str='avg'):
 
         self.opening = opening
-        self.embedding = self._transformOpening(sentenceEmbedder)
+        self.embedding = self._transformOpening(sentenceEmbedder, layer)
         self.cluster_index = None
 
-    def _transformOpening(self, sentenceEmbedder: SentenceEmbedder) -> numpy.array:
+    def _transformOpening(self, sentenceEmbedder: SentenceEmbedder, layer) -> numpy.array:
 
         hardSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.opening.hardSkills)
 
         softSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.opening.softSkills)
 
-        averageEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
-        #averageEmbedding = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
+        if layer == 'avg':
 
-        resultingEmbedding = averageEmbedding.numpy()
-        resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
+            concat_layer = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
 
-        return averageEmbedding.numpy()
+        elif layer == 'concat':
+
+            concat_layer = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
+
+        resultingEmbedding = concat_layer.numpy()
+        #resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
+
+        return resultingEmbedding
 
     @staticmethod
     def save_instances(filename, instances: List["OpeningInstance"]) -> None:

@@ -2,7 +2,7 @@ from typing import List, Dict
 
 import numpy
 
-from trigger.models.SoftSkill import Softskill
+from trigger.models.softskill import Softskill
 
 
 # This is probably only temporary!

@@ -6,6 +6,7 @@ import math
 
 from util.stream.processor import Processor
 import time
+import numpy as np
 
 class Cluster:
     def __init__(self, center: Any, index: int) -> None:
@@ -15,13 +16,14 @@ class Cluster:
         self.index = index
 
 
-class ECM(Processor):
+class ECM():
 
-    def __init__(self, distance_threshold: float, d) -> None:
+    def __init__(self, distance_threshold: float) -> None:
         self.clusters: List[Cluster] = []
         self.distance_threshold = distance_threshold
         self.did_first_add = False
         self.instance_to_cluster: Dict[Any, int] = {}
+        self.instances = []
 
     def process(self, instance: Any) -> None:
         return self.add(instance)
