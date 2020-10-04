@@ -8,7 +8,7 @@ import tensorflow as tf
 
 from typing import List, Tuple
 
-from trigger.models.Match import Match
+from trigger.models.match import Match
 
 from trigger.models.opening import Opening
 from trigger.models.hardskill import Hardskill

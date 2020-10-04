@@ -5,7 +5,7 @@ import time
 
 from scipy.spatial.distance import cosine
 
-from trigger.models.Match import Match
+from trigger.models.match import Match
 
 from trigger.train.cluster.gstream.graph import Graph
 from trigger.train.cluster.gstream.node import Node
