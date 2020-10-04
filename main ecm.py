@@ -13,8 +13,6 @@ from trigger.models.match import Match
 from trigger.models.opening import Opening
 from trigger.models.user import User
 
-from trigger.recommend import smart
-
 from util.readers.reader import DataReaderOpenings, DataReaderUsers
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 from trigger.train.transformers.user_transformer import UserInstance
