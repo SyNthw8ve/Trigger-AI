@@ -3,7 +3,7 @@ import json
 from typing import List
 
 from trigger.models.opening import Opening
-from trigger.models.SoftSkill import Softskill
+from trigger.models.softskill import Softskill
 from trigger.models.hardskill import Hardskill
 from trigger.models.language import Language
 from trigger.models.user import User
