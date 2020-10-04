@@ -30,11 +30,11 @@ def test_gng():
                     "max_age": [20],
                     "off_max_age": [20],
                     "lambda_2": [0.2],
-                    "dimensions": [1024],
+                    "dimensions": [2048],
                     "index_type": ['L2', 'IP'],
                     "nodes_per_cycle": [1, 3, 5]}
 
-    opening_instance_file = 'no_ss_openings_instances'
+    opening_instance_file = 'openings_instances_concat_norm'
 
     openings_instances_path = os.path.join(
         instances_path, opening_instance_file)
