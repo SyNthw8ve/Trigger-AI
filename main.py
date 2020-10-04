@@ -45,9 +45,9 @@ from trigger.train.reinforcement_tuning.networks.q_network import QNetwork
 from util.readers.setup_reader import DataInitializer
 from tests.gng_test import test_gng
 
-users_path = './examples/openings_users/users'
-openings_path = './examples/openings_users/openings'
-instances_path = './data/instances'
+users_path = './examples/openings_users_softskills_confirmed/users'
+openings_path = './examples/openings_users_softskills_confirmed/openings'
+instances_path = './data/instances_ss_confirmed'
 results_path = './results/openings_users'
 
 def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], threshold: float) -> List[Match]:
@@ -61,16 +61,16 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
 
 if __name__ == "__main__":
 
-    test_gng()
+    #test_gng()
 
-    """ user_instance_file = f'users_instances_avg'
+    user_instance_file = f'users_instances_avg'
     opening_instance_file = f'no_ss_openings_instances'
     
     openings_instances_path = os.path.join(
         instances_path, opening_instance_file)
 
     users_instances_path = os.path.join(instances_path, user_instance_file)
-    #users_instances = DataInitializer.read_users(users_instances_path, users_path)
+    users_instances = DataInitializer.read_users(users_instances_path, users_path)
 
     logging.info("Users instances complete.")
 
@@ -104,4 +104,4 @@ if __name__ == "__main__":
 
     q_network = QNetwork(collect_env, eval_env)
 
-    q_network.train('test_policy', 10, 1) """
+    q_network.train('test_policy', 10, 1)
