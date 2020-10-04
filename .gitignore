@@ -10,3 +10,5 @@ tf_policy/eval
 tf_policy/checkpoints
 tf_policy/train
 tf_policy/policies
+
+venv_w/
