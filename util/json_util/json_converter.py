@@ -1,3 +1,6 @@
+import json
+import pandas
+
 from util.metrics.metrics import quality_metric
 from typing import List
 from trigger.models.opening import Opening
@@ -31,3 +34,7 @@ def user_to_json(user: User, matches: List[Match]):
     user_json['matches'] = user_matches
 
     return user_json
+
+def json_to_csv(file_path, output_path):
+
+    pass
