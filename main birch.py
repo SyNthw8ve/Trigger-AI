@@ -16,14 +16,6 @@ from trigger.models.hardskill import Hardskill
 from trigger.models.language import Language
 from trigger.models.user import User
 
-from trigger.recommend import smart
-from trigger.recommend.controller import Controller
-from trigger.recommend.clusters import Clusters
-from trigger.recommend.opening_transformer import OpeningTransformer
-from trigger.recommend.skill_transformers.soft_skill_transformer import SoftskillTransformer
-
-from trigger.recommend.user_transformer import UserTransformer
-
 from util.readers.reader import DataReaderOpenings, DataReaderUsers
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 from trigger.train.transformers.user_transformer import UserInstance
