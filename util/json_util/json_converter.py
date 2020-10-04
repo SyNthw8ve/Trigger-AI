@@ -4,7 +4,7 @@ import pandas
 from util.metrics.metrics import quality_metric
 from typing import List
 from trigger.models.opening import Opening
-from trigger.models.Match import Match
+from trigger.models.match import Match
 from trigger.models.user import User
 
 def opening_to_json(opening: Opening):

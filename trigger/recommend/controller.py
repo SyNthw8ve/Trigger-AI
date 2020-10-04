@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from trigger.models.user import User
-from trigger.models.Match import Match
+from trigger.models.match import Match
 from trigger.recommend import smart
 
 from trigger.recommend.clusters import Clusters
