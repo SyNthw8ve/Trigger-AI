@@ -9,28 +9,36 @@ from trigger.train.transformers.input_transformer import SentenceEmbedder
 
 class UserInstance:
 
-    def __init__(self, user: User, sentenceEmbedder: SentenceEmbedder, layer:str='avg'):
+    def __init__(self, user: User, sentenceEmbedder: SentenceEmbedder, layer:str='avg', normed=False):
 
         self.user = user
-        self.embedding = self._transformUser(sentenceEmbedder, layer)
+        self.embedding = self._transformUser(sentenceEmbedder, layer, normed)
 
-    def _transformUser(self, sentenceEmbedder: SentenceEmbedder, layer) -> numpy.array:
+    def _transformUser(self, sentenceEmbedder: SentenceEmbedder, layer, normed) -> numpy.array:
 
         hardSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.user.hardSkills)
 
         softSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.user.softSkills)
 
-        averageEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
-        #averageEmbedding = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
+        if layer == 'avg':
+            jointEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
 
-        resultingEmbedding = hardSkillsEmbedding
-        #resultingEmbedding = averageEmbedding.numpy()
-        resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
+        elif layer == 'concat':
+            jointEmbedding = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
 
-        if numpy.isnan(resultingEmbedding).any():
-            return hardSkillsEmbedding
+        elif layer == 'no_ss':
+            jointEmbedding = hardSkillsEmbedding
 
-        #return resultingEmbedding.numpy()
+        if layer == 'no_ss':
+            resultingEmbedding = jointEmbedding
+            
+        else:
+            resultingEmbedding = jointEmbedding.numpy()
+
+        if normed and not numpy.isnan(resultingEmbedding).any():
+
+            resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
+
         return resultingEmbedding
 
 

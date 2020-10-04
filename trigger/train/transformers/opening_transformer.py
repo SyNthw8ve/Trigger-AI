@@ -9,28 +9,37 @@ from trigger.train.transformers.input_transformer import SentenceEmbedder
 
 class OpeningInstance:
 
-    def __init__(self, opening: Opening, sentenceEmbedder: SentenceEmbedder, layer:str='avg'):
+    def __init__(self, opening: Opening, sentenceEmbedder: SentenceEmbedder, layer:str='avg', normed=False):
 
         self.opening = opening
-        self.embedding = self._transformOpening(sentenceEmbedder, layer)
+        self.embedding = self._transformOpening(sentenceEmbedder, layer, normed)
         self.cluster_index = None
 
-    def _transformOpening(self, sentenceEmbedder: SentenceEmbedder, layer) -> numpy.array:
+    def _transformOpening(self, sentenceEmbedder: SentenceEmbedder, layer, normed) -> numpy.array:
 
         hardSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.opening.hardSkills)
 
-        #softSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.opening.softSkills)
+        softSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.opening.softSkills)
 
-        #averageEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
-        #averageEmbedding = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
+        if layer == 'avg':
+            jointEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
 
-        #resultingEmbedding = averageEmbedding.numpy()
-        resultingEmbedding = hardSkillsEmbedding / numpy.linalg.norm(hardSkillsEmbedding)
+        elif layer == 'concat':
+            jointEmbedding = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
 
-        if numpy.isnan(resultingEmbedding).any():
-            return hardSkillsEmbedding
+        elif layer == 'no_ss':
+            jointEmbedding = hardSkillsEmbedding
 
-        #return resultingEmbedding.numpy()
+        if layer == 'no_ss':
+            resultingEmbedding = jointEmbedding
+            
+        else:
+            resultingEmbedding = jointEmbedding.numpy()
+
+        if normed and not numpy.isnan(resultingEmbedding).any():
+
+            resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
+
         return resultingEmbedding
 
     @staticmethod
