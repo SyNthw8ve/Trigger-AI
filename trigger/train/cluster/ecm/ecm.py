@@ -127,8 +127,7 @@ class ECM(Processor):
         return f"ECM = distance_threshold={self.distance_threshold}"
 
     def predict(self, instance: Any) -> Optional[int]:
-
-        if self.did_first_add:
+        if not self.did_first_add:
             return None
 
         search_result, (index, distance) = self._search_index_and_distance(instance)
