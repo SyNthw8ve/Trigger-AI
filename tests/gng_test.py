@@ -8,7 +8,7 @@ from sklearn.metrics import silhouette_score, calinski_harabasz_score
 from sklearn.metrics.cluster import adjusted_rand_score
 from typing import Tuple, List
 
-from trigger.train.cluster.gstream.gstream import GNG
+from trigger.train.cluster.gturbo.gturbo import GTurbo
 from util.readers.setup_reader import DataInitializer
 from util.test.test_runner import TestRunner
 
@@ -24,16 +24,13 @@ results_path = './results/openings_users'
 def test_gng():
 
     param_grid = {"epsilon_b": [0.001, 0.01],
-                    "epsilon_n": [0],
-                    "lam": [10, 20, 50],
+                    "epsilon_n": [0, 0.0005],
+                    "lam": [200, 500],
                     "beta": [0.9995],
                     "alpha": [0.95],
-                    "max_age": [20],
-                    "off_max_age": [20],
-                    "lambda_2": [0.2],
+                    "max_age": [200, 500],
                     "dimensions": [2048],
-                    "index_type": ['L2', 'IP'],
-                    "nodes_per_cycle": [1, 3, 5]}
+                }
 
     opening_instance_file = 'openings_instances_concat_norm'
 
@@ -43,5 +40,5 @@ def test_gng():
     openings_instances = DataInitializer.read_openings(openings_instances_path, openings_path)
     instances = [opening.embedding for opening in openings_instances]
 
-    gng_tester = TestRunner(GNG, param_grid, instances, './results')
+    gng_tester = TestRunner(GTurbo, param_grid, instances, './results')
     gng_tester.run_tests()

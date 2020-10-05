@@ -2,7 +2,7 @@ import pandas as pd
 
 from util.test.test_runner import TestRunner
 from util.metrics.metrics import eval_cluster
-from trigger.train.cluster.gstream.gstream import GNG
+from trigger.train.cluster.gturbo.gturbo import GTurbo
 
 
 class GNGTestRunner(TestRunner):
@@ -13,11 +13,11 @@ class GNGTestRunner(TestRunner):
 
     def _run(self, params):
 
-        gng = GNG(**params)
+        gng = GTurbo(**params)
 
         for instance in self.instances:
 
-            gng.online_fase(instance)
+            gng.gng_step(instance)
 
         results = eval_cluster(gng)
 
