@@ -4,7 +4,7 @@ from typing import Any, Tuple, List, Optional
 import numpy
 
 
-class Clusterer(ABC):
+class Processor(ABC):
 
     @abstractmethod
     def process(self, tag: str, instance: numpy.ndarray, custom_data: Any=None) -> None:
