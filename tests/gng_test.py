@@ -8,8 +8,9 @@ from sklearn.metrics import silhouette_score, calinski_harabasz_score
 from sklearn.metrics.cluster import adjusted_rand_score
 from typing import Tuple, List
 
-from util.test.gng_test_runner import GNGTestRunner
+from trigger.train.cluster.gstream.gstream import GNG
 from util.readers.setup_reader import DataInitializer
+from util.test.test_runner import TestRunner
 
 
 logger = logging.getLogger('matplotlib')
@@ -42,7 +43,5 @@ def test_gng():
     openings_instances = DataInitializer.read_openings(openings_instances_path, openings_path)
     instances = [opening.embedding for opening in openings_instances]
 
-    gng_tester = GNGTestRunner(param_grid, instances, './results')
+    gng_tester = TestRunner(GNG, param_grid, instances, './results')
     gng_tester.run_tests()
-
-    
