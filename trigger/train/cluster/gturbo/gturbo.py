@@ -13,6 +13,7 @@ from trigger.train.cluster.gturbo.node import Node
 from trigger.train.cluster.gturbo.link import Link
 from trigger.train.transformers.opening_transformer import OpeningInstance
 
+from trigger.train.cluster.Processor import Processor
 
 class GTurbo():
 

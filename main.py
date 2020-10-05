@@ -9,6 +9,8 @@ from util.metrics.matches import computeScore
 from util.readers.setup_reader import DataInitializer
 from tests.gng_test import test_gng
 
+from trigger.train.cluster.gturbo.gturbo import GTurbo
+
 users_path = './examples/openings_users_softskills_confirmed/users'
 openings_path = './examples/openings_users_softskills_confirmed/openings'
 instances_path = './data/instances_ss_confirmed'
@@ -27,19 +29,17 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
 
 if __name__ == "__main__":
 
-    test_gng()
+    # test_gng()
 
-    exit(0)
-
-    user_instance_file = f'users_instances_no_ss_norm'
-    opening_instance_file = f'openings_instances_no_ss_norm'
+    user_instance_file = f'users_instances_concat_norm'
+    opening_instance_file = f'openings_instances_concat_norm'
 
     openings_instances_path = os.path.join(
         instances_path, opening_instance_file)
 
     users_instances_path = os.path.join(instances_path, user_instance_file)
     users_instances = DataInitializer.read_users(
-        users_instances_path, users_path, concat_layer='no_ss', normed=True)
+        users_instances_path, users_path, concat_layer='concat', normed=True)
 
     logging.info("Users instances complete.")
 
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         instances_path, opening_instance_file)
 
     openings_instances = DataInitializer.read_openings(
-        openings_instances_path, openings_path, concat_layer='no_ss', normed=True)
+        openings_instances_path, openings_path, concat_layer='concat', normed=True)
 
     logging.info("Openings instances complete.")
 
