@@ -1,3 +1,4 @@
+from trigger.train.cluster.Processor import Processor
 from trigger.train.transformers.user_transformer import UserInstance
 from trigger.train.transformers.opening_transformer import OpeningInstance
 from trigger.models.user import User
@@ -29,14 +30,13 @@ def quality_metric(user: User, opening: OpeningInstance):
 
     return Mq
 
-def eval_cluster(cluster) -> Dict[str, float]:
+def eval_cluster(cluster: Processor) -> Dict[str, float]:
 
-    X = cluster.instances
+    X, tags = cluster.get_all_instances_with_tags()
     labels = []
 
-    for x in X:
-
-        labels.append(cluster.get_cluster(x))
+    for tag in tags:
+        labels.append(cluster.get_cluster_by_tag(tag))
 
     try:
 
