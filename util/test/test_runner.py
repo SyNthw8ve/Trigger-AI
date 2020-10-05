@@ -1,15 +1,19 @@
 from abc import ABC, abstractmethod
+from pathlib import Path
+from typing import Type
 
-import numpy as np
-import logging
 import json
-import os
 import itertools
+import os
+
+from trigger.train.cluster.Processor import Processor
+
+from util.metrics.cluster import eval_cluster
 
 class TestRunner(ABC):
 
-    def __init__(self, param_grid, instances, output_path='', output_type='json'):
-        
+    def __init__(self, processor_class: Type[Processor], param_grid, instances, output_path='', output_type='json'):
+        self.processor_class = processor_class
         self.param_grid = param_grid
         self.instances = instances
         self.output_path = output_path
@@ -36,40 +40,39 @@ class TestRunner(ABC):
 
         for test in self.tests:
 
-            results = self._run(test)
+            print(test)
+
+            processor = self.processor_class(**test)
+
+            #FIXME: We should have ids here too, but for now the index is good enough
+            for i, instance in enumerate(self.instances):
+                processor.process(str(i), instance)
+
+            results = eval_cluster(processor)
 
             if self.output_type == 'json':
 
-                self._save_results_json(test, results)
+                self._save_results_json(processor, results)
 
             else:
 
                 self._save_results_csv(test, results)
 
-    @abstractmethod
-    def _run(self, params):
 
-        pass
+    def _save_results_json(self, processor: Processor, result):
 
-    def _save_results_json(self, params, result):
+        test_descriptor = {'algorithm': processor.describe(), 'results': result}
 
-        test_descriptor = {'params': params, 'results': result}
-
-        file_name = self._gen_name(params)
+        file_name = processor.safe_file_name()
 
         file_path = os.path.join(self.output_path, F"{file_name}.json")
 
-        with open(file_path, 'w') as f:
+        Path(file_path).parent.mkdir(parents=True, exist_ok=True)
 
-            json.dump(test_descriptor, f)
+        with open(file_path, 'w') as f:
+            from util.json_util.json_converter import EnhancedJSONEncoder
+            json.dump(test_descriptor, f, cls=EnhancedJSONEncoder)
 
     def _save_results_csv(self, params, result):
 
         pass
-
-    def _gen_name(self, params):
-
-        name_parts = [f"{key}={value}" for key, value in params.items()]
-
-        return ":".join(name_parts)
-    

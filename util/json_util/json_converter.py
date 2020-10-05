@@ -1,11 +1,20 @@
 import json
+from trigger.models.softskill import Softskill
 import pandas
 
-from util.metrics.metrics import quality_metric
+from util.metrics.matches import quality_metric
 from typing import List
 from trigger.models.opening import Opening
 from trigger.models.match import Match
 from trigger.models.user import User
+
+import dataclasses, json
+
+class EnhancedJSONEncoder(json.JSONEncoder):
+        def default(self, o):
+            if dataclasses.is_dataclass(o):
+                return dataclasses.asdict(o)
+            return super().default(o)
 
 def opening_to_json(opening: Opening):
 

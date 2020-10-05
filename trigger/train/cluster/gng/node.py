@@ -1,7 +1,8 @@
 import time
 import numpy as np
 
-from typing import List, Dict
+from typing import List, Dict, Any
+
 
 class Node:
 
@@ -10,7 +11,8 @@ class Node:
         self.protype = protype
         self.error = error
         self.topological_neighbors: Dict[int, "Node"] = {}
-        self.instances: List[Instance] = []
+        self.instances: List[Any] = []
+        self.tags: List[str] = []
         self.error_cycle = error_cycle
         self.id = id
 
@@ -22,9 +24,9 @@ class Node:
 
         self.topological_neighbors[neighbor.id] = neighbor
 
-    def add_instance(self, instance) -> None:
-
+    def add_instance(self, tag:str, instance: Any) -> None:
         self.instances.append(instance)
+        self.tags.append(tag)
 
     def remove_neighbor(self, neighbor: "Node") -> None:
 
@@ -35,6 +37,6 @@ class Node:
         self.error_cycle = cycle
 
     def partial_reset(self):
-
         self.instances = []
+        self.tags = []
         self.topological_neighbors = {}
