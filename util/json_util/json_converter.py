@@ -2,7 +2,7 @@ import json
 from trigger.models.softskill import Softskill
 import pandas
 
-from util.metrics.metrics import quality_metric
+from util.metrics.matches import quality_metric
 from typing import List
 from trigger.models.opening import Opening
 from trigger.models.match import Match
