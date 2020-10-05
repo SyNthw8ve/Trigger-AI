@@ -193,7 +193,7 @@ class ECM(Processor):
         lowest_distance_and_radius = distances_plus_radiuses[lowest_distance_and_radius_index]
 
         if lowest_distance_and_radius > 2 * self.distance_threshold:
-            return SearchResultType.OUTSIDE, (None, None)
+            return SearchResultType.OUTSIDE, (lowest_distance_and_radius_index, lowest_distance_and_radius)
 
         else:
             return SearchResultType.THRESHOLD, (lowest_distance_and_radius_index, lowest_distance_and_radius)
@@ -222,7 +222,7 @@ class ECM(Processor):
         
         #FIXME: What should predict do in this case?
         if search_result == SearchResultType.OUTSIDE:
-            return None
+            return index
 
         elif search_result == SearchResultType.THRESHOLD:
             return index
