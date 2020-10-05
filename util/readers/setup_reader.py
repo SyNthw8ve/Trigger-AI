@@ -16,7 +16,7 @@ class DataInitializer():
         pass
 
     @staticmethod
-    def read_users(users_instances_path: str, users_path: str, concat_layer='avg') -> List[UserInstance]:
+    def read_users(users_instances_path: str, users_path: str, concat_layer='avg', normed=False) -> List[UserInstance]:
 
         users_instances = []
 
@@ -26,10 +26,10 @@ class DataInitializer():
             users_instances = UserInstance.load_instances(users_instances_path)
 
         else:
+            logging.info("Users instances file not found. Reading Users...")
 
             embedder = SentenceEmbedder()
 
-            logging.info("Users instances file not found. Reading Users...")
             users_files = [os.path.join(users_path, f) for f in os.listdir(
                 users_path) if os.path.isfile(os.path.join(users_path, f))]
 
@@ -40,7 +40,7 @@ class DataInitializer():
 
             logging.info("Creating instances...")
             users_instances = [UserInstance(
-                user, embedder, layer=concat_layer) for user in users]
+                user, embedder, layer=concat_layer, normed=normed) for user in users]
 
             logging.info(f"Saving instances to {users_instances_path}...")
             UserInstance.save_instances(users_instances_path, users_instances)
@@ -50,7 +50,7 @@ class DataInitializer():
         return users_instances
 
     @staticmethod
-    def read_openings(openings_instances_path: str, openings_path: str, concat_layer='avg') -> List[OpeningInstance]:
+    def read_openings(openings_instances_path: str, openings_path: str, concat_layer='avg', normed=False) -> List[OpeningInstance]:
 
         openings_instances = []
 
@@ -62,10 +62,12 @@ class DataInitializer():
 
         else:
 
-            embedder = SentenceEmbedder()
-
             logging.info(
                 "Openings instances file not found. Reading Openings...")
+
+            embedder = SentenceEmbedder()
+
+            
             openings_files = [os.path.join(openings_path, f) for f in os.listdir(
                 openings_path) if os.path.isfile(os.path.join(openings_path, f))]
 
@@ -76,7 +78,7 @@ class DataInitializer():
 
             logging.info("Creating instances...")
             openings_instances = [OpeningInstance(
-                opening, embedder, layer=concat_layer) for opening in openings]
+                opening, embedder, layer=concat_layer, normed=normed) for opening in openings]
 
             logging.info(f"Saving instances to {openings_instances_path}...")
             OpeningInstance.save_instances(
