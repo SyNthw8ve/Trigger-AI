@@ -244,7 +244,8 @@ def save_results(results: Any, path: str) -> None:
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w') as outfile:
         # TODO indent=4 is just so it's easier to see, not needed!
-        json.dump(results, outfile, indent=4)
+        from util.json_util.json_converter import EnhancedJSONEncoder
+        json.dump(results, outfile, indent=4, cls=EnhancedJSONEncoder)
 
 
 def compute_filename(birch: Birch,

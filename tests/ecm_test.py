@@ -36,7 +36,6 @@ def construct_results(ecm: ECM,
                       should_do_plot,
                       want_to_know_clusters,
                       want_to_know_inputs_and_correct) -> object:
-
     return {
         "used algorithm": ecm.describe(),
         "test": {
@@ -57,7 +56,8 @@ def construct_results(ecm: ECM,
             } for i, cluster in enumerate(ecm.clusters)
         ] if want_to_know_clusters else [],
         "scores": {
-            "sklearn.metrics.cluster.adjusted_rand_score": adjusted_rand_score(correct, predicted) if correct is not None else "-",
+            "sklearn.metrics.cluster.adjusted_rand_score": adjusted_rand_score(correct,
+                                                                               predicted) if correct is not None else "-",
             "sklearn.metrics.silhouette_score": str(silhouette_score(inputs, predicted)),
             "sklearn.metrics.calinski_harabasz_score": calinski_harabasz_score(inputs, predicted),
         },
@@ -66,7 +66,6 @@ def construct_results(ecm: ECM,
 
 
 def plot(ecm: ECM, do_radius: bool = False) -> None:
-
     print("Plotting")
 
     colors = ['#6b6b6b', '#ff2994', '#ffd1e8',
@@ -76,7 +75,7 @@ def plot(ecm: ECM, do_radius: bool = False) -> None:
               '#ff4d4d']
 
     sorted_by_x = sorted(ecm.clusters, key=lambda cluster: cluster.center[0])
-    
+
     _X = []
     _Y = []
     _colors = []
@@ -100,7 +99,7 @@ def plot(ecm: ECM, do_radius: bool = False) -> None:
     plt.scatter(_X, _Y, c=_colors, edgecolors='black')
 
     plt.scatter(_X_positions, _Y_positions, c=_colors_positions,
-                    edgecolors='black', marker='D', linewidths=2)
+                edgecolors='black', marker='D', linewidths=2)
 
 
 def test_2d_with_labels(ecm: ECM,
@@ -179,7 +178,6 @@ def test_2d_stream(stream_processor: StreamProcessor,
                    should_do_plot: bool = False,
                    want_to_know_clusters: bool = False,
                    want_to_know_inputs_and_correct: bool = False):
-
     if not apply_delay:
         tic = time.perf_counter()
 
@@ -231,13 +229,13 @@ def save_results(results: Any, path: str) -> None:
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w') as outfile:
         # TODO indent=4 is just so it's easier to see, not needed!
-        json.dump(results, outfile, indent=4)
+        from util.json_util.json_converter import EnhancedJSONEncoder
+        json.dump(results, outfile, indent=4, cls=EnhancedJSONEncoder)
 
 
 def compute_filename(ecm: ECM,
                      name: str,
                      version: str = "") -> str:
-
     algorithm = ecm.describe()
 
     algorithm_name = algorithm["name"] + version
@@ -270,7 +268,6 @@ if __name__ == "__main__":
         print("\nDoing test ", filepath)
 
         for dt in dts:
-
             print("\tWith dt =", dt)
 
             ecm = ECM(distance_threshold=dt, dimensions=2)

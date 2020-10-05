@@ -60,8 +60,8 @@ class TestRunner(ABC):
         file_path = os.path.join(self.output_path, F"{file_name}.json")
 
         with open(file_path, 'w') as f:
-
-            json.dump(test_descriptor, f)
+            from util.json_util.json_converter import EnhancedJSONEncoder
+            json.dump(test_descriptor, f, cls=EnhancedJSONEncoder)
 
     def _save_results_csv(self, params, result):
 

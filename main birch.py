@@ -206,4 +206,5 @@ if __name__ == "__main__":
 
         with open(os.path.join(results_path, f'no_softskills/{gng.safe_file_name()}.json'), 'w') as f:
 
-            json.dump(results, f)
+            from util.json_util.json_converter import EnhancedJSONEncoder
+            json.dump(results, f, cls=EnhancedJSONEncoder)

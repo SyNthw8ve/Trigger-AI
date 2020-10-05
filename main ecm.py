@@ -164,8 +164,10 @@ if __name__ == "__main__":
     if os.path.exists(openings_instances_path):
 
         logging.info("Openings instances file found. Loading...")
-        openings_instances = OpeningInstance.load_instances(
-            openings_instances_path)
+        openings_instances = OpeningInstance.load_instances(openings_instances_path)
+
+        OpeningInstance.save_instances(openings_instances_path, openings_instances)
+
 
     else:
 
@@ -220,9 +222,7 @@ if __name__ == "__main__":
             gng.process(str(i), opening_instance.embedding)
             opening_instance.cluster_index = gng.get_cluster_by_tag(str(i))
 
-        print(len(gng.clusters))
-
-        results = {'algorithm': gng.describe(), 'scores': str(
+        results = {'embeddings': 'hardskills', 'algorithm': gng.describe(), '#clusters': len(gng.clusters), 'scores': str(
             eval_cluster(gng)), 'user_matches': []}
         user_matches = []
 
@@ -241,4 +241,5 @@ if __name__ == "__main__":
 
         with open(os.path.join(results_path, f'no_softskills/{gng.safe_file_name()}.json'), 'w') as f:
 
-            json.dump(results, f)
+            from util.json_util.json_converter import EnhancedJSONEncoder
+            json.dump(results, f, cls=EnhancedJSONEncoder)

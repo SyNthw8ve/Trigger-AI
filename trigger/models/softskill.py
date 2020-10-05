@@ -1,6 +1,6 @@
-from typing import NamedTuple
+from dataclasses import dataclass
 
 
-class Softskill(NamedTuple):
+@dataclass(frozen=True)
+class Softskill:
     name: str
-    score: int
