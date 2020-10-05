@@ -449,7 +449,7 @@ class GNG(Processor):
     def safe_file_name(self) -> str:
         name_parts = [f"{key}={value}" for key, value in self.describe()["parameters"].items()]
 
-        return ":".join(name_parts)
+        return ";".join(name_parts)
 
     def update_gng(self) -> "GNG":
 
