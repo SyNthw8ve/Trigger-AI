@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Tuple, List, Optional
+from typing import Any, Tuple, List, Optional, Dict
 
 import numpy
 
@@ -34,5 +34,13 @@ class Processor(ABC):
 
     @abstractmethod
     def predict(self, instance: numpy.ndarray) -> int:
+        pass
+
+    @abstractmethod
+    def describe(self) -> Dict[str, Any]:
+        pass
+
+    @abstractmethod
+    def safe_file_name(self) -> str:
         pass
 
