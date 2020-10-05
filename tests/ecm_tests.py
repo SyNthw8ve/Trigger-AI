@@ -1,5 +1,6 @@
 import logging
 import os
+from util.test.test_runner_matches import TestRunnerMatches
 
 from trigger.train.cluster.ecm.ecm import ECM
 from util.readers.setup_reader import DataInitializer
@@ -47,11 +48,20 @@ def test_ecm():
 
     opening_instance_file = 'openings_instances_concat_norm'
 
-    openings_instances_path = os.path.join(
-        instances_path, opening_instance_file)
+    openings_instances_path = os.path.join(instances_path, opening_instance_file)
 
     openings_instances = DataInitializer.read_openings(openings_instances_path, openings_path)
-    instances = [opening.embedding for opening in openings_instances]
+    
+    # instances = [opening.embedding for opening in openings_instances]
 
-    gng_tester = TestRunner(ECM, param_grid, instances, './results/openings_users/concat_layer_norm/ECM')
+    # gng_tester = TestRunner(ECM, param_grid, instances, './results/openings_users/concat_layer_norm/ECM')
+    # gng_tester.run_tests()
+
+    users_instance_file = 'users_instances_concat_norm'
+
+    users_instances_path = os.path.join(instances_path, users_instance_file)
+
+    users_instances = DataInitializer.read_users(users_instances_path, users_path)
+
+    gng_tester = TestRunnerMatches(ECM, param_grid, openings_instances, users_instances, './results/openings_users/concat_layer_norm/ECM')
     gng_tester.run_tests()
