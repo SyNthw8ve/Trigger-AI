@@ -9,7 +9,7 @@ import itertools
 
 from trigger.train.cluster.Processor import Processor
 
-from util.metrics.metrics import eval_cluster
+from util.metrics.cluster import eval_cluster
 
 class TestRunner(ABC):
 

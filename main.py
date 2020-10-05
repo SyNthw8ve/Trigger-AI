@@ -5,7 +5,7 @@ from typing import List
 from trigger.models.match import Match
 from trigger.train.transformers.opening_transformer import OpeningInstance
 from trigger.train.transformers.user_transformer import UserInstance
-from util.metrics.metrics import computeScore
+from util.metrics.matches import computeScore
 from util.readers.setup_reader import DataInitializer
 from tests.gng_test import test_gng
 
