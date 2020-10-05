@@ -229,3 +229,9 @@ class ECM(Processor):
 
         elif search_result == SearchResultType.RADIUS:
             return index
+
+
+    def get_custom_data_by_tag(self, tag: str) -> Optional[Any]:
+        # TODO: We assume the tag exists?
+        index = self.get_cluster_by_tag(tag)
+        return self.clusters[index].tag_to_custom.get(tag, None)
