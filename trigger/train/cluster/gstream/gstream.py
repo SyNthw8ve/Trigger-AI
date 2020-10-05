@@ -1,4 +1,6 @@
-from typing import Any, List, Tuple
+from typing import Any, List, Tuple, Optional, Dict
+
+import numpy
 import numpy as np
 import faiss
 import time
@@ -6,11 +8,12 @@ import time
 from scipy.spatial.distance import cosine
 
 from trigger.models.match import Match
+from trigger.train.cluster.Processor import Processor
 
 from trigger.train.cluster.gstream.graph import Graph
 from trigger.train.cluster.gstream.node import Node
 from trigger.train.cluster.gstream.link import Link
-from util.stream.processor import Processor
+from util.stream.processor import Processor as SProcessor
 
 from scipy.spatial.distance import cdist
 from matplotlib import pyplot as plt
@@ -50,6 +53,7 @@ class GNG(Processor):
 
         self.next_id = 2
         self.point_to_cluster = {}
+        self.tag_to_cluster = {}
         self.instances = []
 
         self.cycle = 0
@@ -68,13 +72,12 @@ class GNG(Processor):
         self.index.add_with_ids(
             np.array([node_1.protype, node_2.protype]), np.array([0, 1]))
 
-    def process(self, instance):
+    def process(self, tag: str, instance: numpy.ndarray, custom_data: Any = None) -> None:
+        self.online_fase(tag, instance)
 
-        self.online_fase(instance)
+    def online_fase(self, tag: str, instance: Any) -> None:
 
-    def online_fase(self, instance: Any) -> None:
-
-        self.gng_adapt(instance)
+        self.gng_adapt(tag, instance)
 
         if self.step == self.lam - 1:
 
@@ -148,7 +151,7 @@ class GNG(Processor):
 
         self.index.add_with_ids(np.array([v.protype]), np.array([v.id]))
 
-    def gng_adapt(self, instance) -> None:
+    def gng_adapt(self, tag:str, instance) -> None:
 
         v, u = self.get_best_match(instance)
 
@@ -156,6 +159,7 @@ class GNG(Processor):
         self.instances.append(instance)
 
         self.point_to_cluster[tuple(instance)] = v.id
+        self.tag_to_cluster[tag] = v.id
 
         if self.index_type == 'L2':
 
@@ -332,15 +336,19 @@ class GNG(Processor):
 
     def offline_fase(self):
 
+        instances, tags = self.get_all_instances_with_tags()
+
         self.graph.partial_reset()
 
-        for instance in self.instances:
+        for instance, tag in zip(instances, tags):
 
             v, u = self.get_best_match(instance)
 
             v.instances.append(instance)
 
             self.point_to_cluster[tuple(instance)] = v.id
+            self.tag_to_cluster[tag] = v.id
+
             self.update_prototype(v, self.epsilon_b, instance)
 
             for node in v.topological_neighbors.values():
@@ -391,7 +399,7 @@ class GNG(Processor):
             link.aging = 'time'
             link.creation_time = creation_time
 
-    def describe(self):
+    def describe(self) -> Dict[str, Any]:
 
         return {
 
@@ -408,14 +416,45 @@ class GNG(Processor):
                 "nodes_per_cycle": self.nodes_per_cycle}
         }
 
+
+
+
     def predict(self, instance) -> int:
 
         return self.get_best_match(instance)[0].id
 
+
+    def update(self, tag: str, instance: numpy.ndarray, custom_data: Any = None) -> None:
+        pass
+
+    def remove(self, tag: str) -> None:
+        pass
+
+    def get_cluster_by_tag(self, tag: str) -> Optional[int]:
+        return self.tag_to_cluster.get(tag, None)
+
+    def get_instances_and_tags_in_cluster(self, cluster_id: int) -> Tuple[List[numpy.ndarray], List[str]]:
+        node = self.graph.get_node(cluster_id)
+        return node.instances, node.tags
+
+    def get_all_instances_with_tags(self) -> Tuple[List[numpy.ndarray], List[str]]:
+        instances = []
+        tags = []
+        for node in self.graph.nodes.values():
+            instances.extend(node.instances)
+            tags.extend(node.tags)
+
+        return instances, tags
+
+    def safe_file_name(self) -> str:
+        name_parts = [f"{key}={value}" for key, value in self.describe()["parameters"].items()]
+
+        return ":".join(name_parts)
+
     def update_gng(self) -> "GNG":
 
         new_gng = GNG(self.epsilon_b, self.epsilon_n, self.lam,
-                      self.beta, self.alpha, self.lambda_2, self.max_age, 
+                      self.beta, self.alpha, self.lambda_2, self.max_age,
                       self.off_max_age, self.dimensions, self.nodes_per_cycle, self.index_type)
 
         for instance in self.instances:
