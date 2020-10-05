@@ -2,7 +2,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy
 
-from trigger.train.cluster.Clusterer import Clusterer
+from trigger.train.cluster.Processor import Processor
 from scipy.spatial.distance import cdist, euclidean
 
 import numpy as np
@@ -66,7 +66,7 @@ class SearchResultType(Enum):
     OUTSIDE = 3
 
 
-class ECM(Clusterer):
+class ECM(Processor):
 
     def __init__(self, distance_threshold: float) -> None:
         self.clusters: List[Cluster] = []
