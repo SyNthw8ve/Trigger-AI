@@ -17,7 +17,7 @@ from trigger.models.user import User
 
 from util.readers.reader import DataReaderOpenings, DataReaderUsers
 from util.json_util.json_converter import user_to_json, opening_to_json
-from util.metrics.metrics import eval_cluster, computeScore
+from util.metrics.metrics import eval_cluster, eval_cluster_t, computeScore
 
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 from trigger.train.transformers.user_transformer import UserInstance
@@ -36,6 +36,8 @@ from trigger.train.reinforcement_tuning.networks.q_network import QNetwork
 
 from util.readers.setup_reader import DataInitializer
 from tests.gng_test import test_gng
+
+from trigger.train.cluster.gstream.gng_r.gng_r import GNGR
 
 users_path = './examples/openings_users_softskills_confirmed/users'
 openings_path = './examples/openings_users_softskills_confirmed/openings'
@@ -63,11 +65,11 @@ if __name__ == "__main__":
     openings_instances_path = os.path.join(
         instances_path, opening_instance_file)
 
-    users_instances_path = os.path.join(instances_path, user_instance_file)
+    """ users_instances_path = os.path.join(instances_path, user_instance_file)
     users_instances = DataInitializer.read_users(
         users_instances_path, users_path, concat_layer='no_ss', normed=True)
 
-    logging.info("Users instances complete.")
+    logging.info("Users instances complete.") """
 
     openings_instances_path = os.path.join(
         instances_path, opening_instance_file)
@@ -76,6 +78,26 @@ if __name__ == "__main__":
         openings_instances_path, openings_path, concat_layer='no_ss', normed=True)
 
     logging.info("Openings instances complete.")
+
+    gng = GNGR(epsilon_b=0.001, epsilon_n=0, lam=200, beta=0.9995, alpha=0.95, max_age=200, dimensions=1024,
+            nodes_per_cycle=1, r0=0.5)
+
+    for opening_instance in openings_instances:
+
+        gng.gng_step(opening_instance)
+
+
+    total = 0
+
+    for node in gng.graph.nodes.values():
+
+        total += len(node.instances)
+
+    total /= len(gng.graph.nodes)
+
+    print(total, len(gng.graph.nodes))
+
+    print(eval_cluster(gng))
 
     """ logging.info("Inserting Openings in Birch")
 

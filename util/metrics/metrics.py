@@ -31,12 +31,36 @@ def quality_metric(user: User, opening: OpeningInstance):
 
 def eval_cluster(cluster) -> Dict[str, float]:
 
-    X = cluster.instances
+    Y = cluster.instances
+    X = [instance.embedding for instance in Y]
     labels = []
 
-    for x in X:
+    for x in Y:
 
         labels.append(cluster.get_cluster(x))
+
+    try:
+
+        Ss = silhouette_score(X, labels)
+    except:
+
+        Ss = -1.0
+    try:
+        CHs = calinski_harabasz_score(X, labels)
+
+    except:
+        CHs = 0
+
+    return {'ss': Ss, 'chs': CHs}
+
+def eval_cluster_t(instances) -> Dict[str, float]:
+
+    X = [instance.embedding for instance in instances]
+    labels = []
+
+    for instance in instances:
+
+        labels.append(instance.cluster_index)
 
     try:
 

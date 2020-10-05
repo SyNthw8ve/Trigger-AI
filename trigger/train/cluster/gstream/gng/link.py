@@ -1,7 +1,7 @@
 import time
 import numpy as np
 
-from trigger.train.cluster.gstream.node import Node
+from trigger.train.cluster.gstream.gng.node import Node
 
 class Link:
 

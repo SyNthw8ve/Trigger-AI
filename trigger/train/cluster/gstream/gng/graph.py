@@ -1,6 +1,6 @@
-from trigger.train.cluster.gstream.link import Link
+from trigger.train.cluster.gstream.gng.link import Link
 from typing import List, Optional, Tuple, Dict
-from trigger.train.cluster.gstream.node import Node
+from trigger.train.cluster.gstream.gng.node import Node
 
 import heapq
 

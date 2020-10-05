@@ -2,7 +2,7 @@ import pandas as pd
 
 from util.test.test_runner import TestRunner
 from util.metrics.metrics import eval_cluster
-from trigger.train.cluster.gstream.gstream import GNG
+from trigger.train.cluster.gstream.gng.gstream import GNG
 
 
 class GNGTestRunner(TestRunner):

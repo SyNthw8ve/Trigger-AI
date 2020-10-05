@@ -7,9 +7,9 @@ from scipy.spatial.distance import cosine
 
 from trigger.models.match import Match
 
-from trigger.train.cluster.gstream.graph import Graph
-from trigger.train.cluster.gstream.node import Node
-from trigger.train.cluster.gstream.link import Link
+from trigger.train.cluster.gstream.gng.graph import Graph
+from trigger.train.cluster.gstream.gng.node import Node
+from trigger.train.cluster.gstream.gng.link import Link
 from util.stream.processor import Processor
 
 from scipy.spatial.distance import cdist
