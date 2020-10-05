@@ -49,9 +49,9 @@ def eval_cluster(gng: Clusterer) -> Tuple[float, float]:
     X = gng.instances
     labels = []
 
-    for x in X:
-
-        labels.append(gng.get_cluster(x))
+    for i, x in enumerate(X):
+        label = gng.get_cluster_by_tag(str(i))
+        labels.append(label)
 
     return (silhouette_score(X, labels), calinski_harabasz_score(X, labels))
 
@@ -195,24 +195,32 @@ if __name__ == "__main__":
     logging.info("GNG Testing")
 
     params_list = [
-        (0.001,), (0.002,),
-        (0.005,), (0.008,),
-        (0.01,), (0.02,), (0.03,),
-        (0.05,), (0.07,), (0.09,),
-        (0.1,), (0.2,), (0.3,), (0.4,),
-        (0.5,), (0.6,), (0.7,), (0.8,),
-        (0.9,), (1,), (1.1,)
+        (0.001,),
+        (0.005,),
+        (0.010,),
+        (0.020,),
+        (0.050,),
+        (0.1,),
+        (0.2,),
+        (0.5,),
+        (1,),
+        (1.2,),
+        (1.5,),
+        (1.5,),
     ]
 
     for params in params_list:
 
+        print(params)
+
         gng = ECM(*params)
 
-        for opening_instance in openings_instances:
+        for i, opening_instance in enumerate(openings_instances):
 
-            gng.online_fase(opening_instance.embedding)
-            opening_instance.cluster_index = gng.get_cluster(
-                opening_instance.embedding)
+            gng.process(str(i), opening_instance.embedding)
+            opening_instance.cluster_index = gng.get_cluster_by_tag(str(i))
+
+        print(len(gng.clusters))
 
         results = {'algorithm': gng.describe(), 'scores': str(
             eval_cluster(gng)), 'user_matches': []}
@@ -222,6 +230,7 @@ if __name__ == "__main__":
 
         for user_instance in users_instances:
             cluster_id = gng.predict(user_instance.embedding)
+
             matches = getOpenings(cluster_id, user_instance,
                                   openings_instances, 0.5)
 
