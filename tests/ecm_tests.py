@@ -53,5 +53,5 @@ def test_ecm():
     openings_instances = DataInitializer.read_openings(openings_instances_path, openings_path)
     instances = [opening.embedding for opening in openings_instances]
 
-    gng_tester = TestRunner(ECM, param_grid, instances, './results/openings_users/concat_layer_norm')
+    gng_tester = TestRunner(ECM, param_grid, instances, './results/openings_users/concat_layer_norm/ECM')
     gng_tester.run_tests()
