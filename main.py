@@ -1,39 +1,11 @@
-import os
-import pprint
 import logging
-import json
-import copy
-import numpy as np
-import tensorflow as tf
-
-from typing import List, Tuple
+import os
+from typing import List
 
 from trigger.models.match import Match
-
-from trigger.models.opening import Opening
-from trigger.models.hardskill import Hardskill
-from trigger.models.language import Language
-from trigger.models.user import User
-
-from util.readers.reader import DataReaderOpenings, DataReaderUsers
-from util.json_util.json_converter import user_to_json, opening_to_json
-from util.metrics.metrics import eval_cluster, computeScore
-
-from trigger.train.transformers.input_transformer import SentenceEmbedder
-from trigger.train.transformers.user_transformer import UserInstance
 from trigger.train.transformers.opening_transformer import OpeningInstance
-
-from trigger.train.cluster.birch.birch import Birch
-from trigger.train.reinforcement_tuning.environments.train.birch_cont_env import BirchContinuousEnvironment
-from trigger.train.reinforcement_tuning.environments.train.birch_disc_env import BirchDiscreteEnvironment
-
-from trigger.train.reinforcement_tuning.environments.online.birch_cont_env import OnlineBirchContinuosEnvironment
-
-from tf_agents.environments.py_environment import PyEnvironment
-from tf_agents.environments import tf_py_environment
-from trigger.train.reinforcement_tuning.networks.actor_critic import ActorCriticNetwork
-from trigger.train.reinforcement_tuning.networks.q_network import QNetwork
-
+from trigger.train.transformers.user_transformer import UserInstance
+from util.metrics.metrics import computeScore
 from util.readers.setup_reader import DataInitializer
 from tests.gng_test import test_gng
 
@@ -55,7 +27,9 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
 
 if __name__ == "__main__":
 
-    # test_gng()
+    test_gng()
+
+    exit(0)
 
     user_instance_file = f'users_instances_no_ss_norm'
     opening_instance_file = f'openings_instances_no_ss_norm'
