@@ -50,7 +50,7 @@ def eval_cluster(cluster: Processor) -> Dict[str, float]:
     except:
         CHs = 0
 
-    return {'ss': Ss, 'chs': CHs}
+    return {'ss': str(Ss), 'chs': str(CHs)}
 
 def computeScore(userInstance: UserInstance, openingInstance: OpeningInstance) -> float:
 
