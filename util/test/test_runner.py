@@ -1,11 +1,10 @@
 from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import Type
 
-import numpy as np
-import logging
 import json
-import os
 import itertools
+import os
 
 from trigger.train.cluster.Processor import Processor
 
@@ -67,6 +66,8 @@ class TestRunner(ABC):
         file_name = processor.safe_file_name()
 
         file_path = os.path.join(self.output_path, F"{file_name}.json")
+
+        Path(file_path).parent.mkdir(parents=True, exist_ok=True)
 
         with open(file_path, 'w') as f:
             from util.json_util.json_converter import EnhancedJSONEncoder
