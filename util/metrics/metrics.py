@@ -53,29 +53,6 @@ def eval_cluster(cluster) -> Dict[str, float]:
 
     return {'ss': Ss, 'chs': CHs}
 
-def eval_cluster_t(instances) -> Dict[str, float]:
-
-    X = [instance.embedding for instance in instances]
-    labels = []
-
-    for instance in instances:
-
-        labels.append(instance.cluster_index)
-
-    try:
-
-        Ss = silhouette_score(X, labels)
-    except:
-
-        Ss = -1.0
-    try:
-        CHs = calinski_harabasz_score(X, labels)
-
-    except:
-        CHs = 0
-
-    return {'ss': Ss, 'chs': CHs}
-
 def computeScore(userInstance: UserInstance, openingInstance: OpeningInstance) -> float:
 
     return 1 - cosine(userInstance.embedding, openingInstance.embedding)

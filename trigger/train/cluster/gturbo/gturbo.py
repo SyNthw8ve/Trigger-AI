@@ -8,18 +8,17 @@ from scipy.spatial.distance import cdist
 
 from trigger.models.match import Match
 
-from trigger.train.cluster.gstream.gng_r.graph import Graph
-from trigger.train.cluster.gstream.gng_r.node import Node
-from trigger.train.cluster.gstream.gng_r.link import Link
+from trigger.train.cluster.gturbo.graph import Graph
+from trigger.train.cluster.gturbo.node import Node
+from trigger.train.cluster.gturbo.link import Link
 from trigger.train.transformers.opening_transformer import OpeningInstance
 
 
-class GNGR():
+class GTurbo():
 
     def __init__(self, epsilon_b: float, epsilon_n: float, lam: int, beta: float,
                  alpha: float, max_age: int, r0: float,
-                 dimensions: int = 2, nodes_per_cycle=1,
-                 random_state: int = 42) -> None:
+                 dimensions: int = 2, random_state: int = 42) -> None:
 
         self.graph = Graph()
 
@@ -29,7 +28,6 @@ class GNGR():
         self.beta = beta
         self.alpha = alpha
         self.max_age = max_age
-        self.nodes_per_cycle = nodes_per_cycle
         self.dimensions = dimensions
         self.r0 = r0
  
@@ -91,27 +89,25 @@ class GNGR():
 
     def gng_grow(self) -> None:
 
-        for i in range(self.nodes_per_cycle):
+        q, f = self.graph.get_q_and_f()
 
-            q, f = self.graph.get_q_and_f()
+        r = self.create_node(q, f, self.r0)
 
-            r = self.create_node(q, f, self.r0)
+        link = self.graph.get_link(q, f)
 
-            link = self.graph.get_link(q, f)
+        q.remove_neighbor(f)
+        f.remove_neighbor(q)
 
-            q.remove_neighbor(f)
-            f.remove_neighbor(q)
+        self.graph.remove_link(q, f)
 
-            self.graph.remove_link(q, f)
+        self.create_link(q, r)
+        self.create_link(f, r)
 
-            self.create_link(q, r)
-            self.create_link(f, r)
+        self.decrease_error(q)
+        self.decrease_error(f)
 
-            self.decrease_error(q)
-            self.decrease_error(f)
-
-            r.error = 0.5*(q.error + f.error)
-            self.graph.update_heap()
+        r.error = 0.5*(q.error + f.error)
+        self.graph.update_heap()
 
     def get_best_match(self, instance) -> Tuple[Node, Node]:
 
@@ -249,14 +245,15 @@ class GNGR():
 
             self.graph.remove_link(v, u)
 
-    def split_node(self, v: Node):
-        pass
+    def remove_data(self, instance: OpeningInstance):
+        
+        node = self.graph.get_node(instance.cluster_index)
+        node.remove_instance(instance)
 
-    def merge_nodes(self, v: Node, u: Node):
-        pass
+        if len(node.instances) == 0:
 
-    def remove_data(self, v: Node):
-        pass
+            self.graph.remove_node(node)
+            self.index.remove_ids(np.array([node.id]))
 
     def get_cluster(self, instance) -> int:
 

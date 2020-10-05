@@ -1,8 +1,9 @@
-from trigger.train.cluster.gstream.gng_r.link import Link
-from typing import List, Optional, Tuple, Dict
-from trigger.train.cluster.gstream.gng_r.node import Node
-
 import heapq
+
+from trigger.train.cluster.gturbo.link import Link
+from trigger.train.cluster.gturbo.node import Node
+
+from typing import List, Optional, Tuple, Dict
 
 class Graph:
 

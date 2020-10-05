@@ -1,4 +1,4 @@
-from trigger.train.cluster.gstream.gng_r.node import Node
+from trigger.train.cluster.gturbo.node import Node
 
 class Link:
 
