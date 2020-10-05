@@ -1,15 +1,22 @@
 from trigger.train.cluster.Processor import Processor
 
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
-from typing import Dict
+from typing import Dict, Any
 
-def eval_cluster(cluster: Processor) -> Dict[str, str]:
+import statistics
+from collections import Counter
+
+
+def eval_cluster(cluster: Processor) -> Dict[str, Any]:
 
     X, tags = cluster.get_all_instances_with_tags()
     labels = []
+    labels_set = set()
 
     for tag in tags:
-        labels.append(cluster.get_cluster_by_tag(tag))
+        label = cluster.get_cluster_by_tag(tag)
+        labels.append(label)
+        labels_set.add(label)
 
     try:
 
@@ -23,4 +30,19 @@ def eval_cluster(cluster: Processor) -> Dict[str, str]:
     except:
         CHs = 0
 
-    return {'ss': str(Ss), 'chs': str(CHs)}
+    num_instances_per_cluster = [
+        len(cluster.get_instances_and_tags_in_cluster(label)[1]) for label in labels_set
+    ]
+
+    counter = Counter(num_instances_per_cluster)
+
+    return {
+        'ss': float(Ss),
+        'chs': float(CHs),
+        '#clusters': len(labels_set),
+        '#instances': len(tags),
+        'distribution': counter.items(),
+        'avg/mean instances / cluster': statistics.mean(num_instances_per_cluster),
+        'min instances of any cluster': counter.most_common()[-1:][0][0],
+        'max instances of any cluster': counter.most_common()[1:][0][0]
+    }
