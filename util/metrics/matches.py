@@ -12,16 +12,11 @@ from scipy.spatial.distance import cosine
 from typing import Dict, List
 import statistics
 
+import logging
 
-def getOpenings(id: int, user: UserInstance, openings: List[Opening], threshold: float) -> List[Match]:
-    openings_of_interest = [
-        openingInstance for openingInstance in openings
-        if openingInstance.cluster_index == id
-    ]
-
-    return [Match(user.user, computeScore(user, openingInstance), openingInstance.opening)
-            for openingInstance in openings_of_interest
-            if computeScore(user, openingInstance) >= threshold]
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('matches')
+logger.setLevel(logging.INFO)
 
 
 def eval_matches(processor: Processor, users_instances: List[UserInstance]):
@@ -40,11 +35,14 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
     for user_instance in users_instances:
         cluster_id = processor.predict(user_instance.embedding)
 
-        if cluster_id is None:
-            print("!!!!!!")
-            continue
+        instances, tags = [], []
+        
+        if cluster_id is not None:
+            instances, tags = processor.get_instances_and_tags_in_cluster(cluster_id)
 
-        instances, tags = processor.get_instances_and_tags_in_cluster(cluster_id)
+        else:
+            logger.warn("User has no prediction??", user_instance.user)
+
         openings = [processor.get_custom_data_by_tag(tag) for tag in tags]
         similarities = [similarity_metric(user_instance.embedding, instance) for instance in instances]
         qualities = [quality_metric(user_instance.user, opening) for opening in openings]
@@ -65,9 +63,9 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
             },
             '#matches': len(matches),
             '#potential': len(openings),
-            'avg real': statistics.mean(reals),
-            'avg similarities': statistics.mean(similarities),
-            'avg qualities': statistics.mean(qualities),
+            'avg real': statistics.mean(reals) if len(reals) > 0 else 0,
+            'avg similarities': statistics.mean(similarities) if len(similarities) > 0 else 0,
+            'avg qualities': statistics.mean(qualities) if len(qualities) > 0 else 0,
             'avg matches': statistics.mean(match_scores) if len(match_scores) > 0 else 0,
             'matches': [
                 {
@@ -103,8 +101,6 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
         avg_quality_counter = avg_quality_counter + Counter([avg_quality])
         avg_real_counter = avg_real_counter + Counter([avg_real])
 
-    
-
     return {
         "distribution #matches": { score: count for score, count in matches_counter.most_common() },
         "distribution #potential": { score: count for score, count in potential_counter.most_common() },
@@ -112,7 +108,7 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
         "distribution quality": { score: count for score, count in avg_quality_counter.most_common() },
         "distribution real": { score: count for score, count in avg_real_counter.most_common() },
         "distribution matches": { score: count for score, count in avg_matches_counter.most_common() },
-        "% at least 1 match": 1 - (matches_counter.get(0) / sum(matches_counter.values())),
+        "% at least 1 match": 1 - (matches_counter.get(0, 0) / sum(matches_counter.values())),
         "by_user": results,
     }
 
@@ -122,7 +118,7 @@ def real_metric(similarity_score: float, quality_score: float):
 
 
 def similarity_metric(embedding1: numpy.ndarray, embedding2: numpy.ndarray) -> float:
-    return 1 - cosine(embedding1, embedding2)
+    return numpy.nan_to_num(1 - cosine(embedding1, embedding2), 0)
 
 
 def quality_metric(user: User, opening: Opening):
