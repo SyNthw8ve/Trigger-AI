@@ -17,7 +17,6 @@ openings_path = './examples/openings_users_softskills_confirmed/openings'
 instances_path = './data/instances_ss_confirmed'
 results_path = './results/openings_users'
 
-
 def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], threshold: float) -> List[Match]:
 
     openingsOfInterest = [
@@ -30,7 +29,7 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
 
 if __name__ == "__main__":
 
-    test_ecm()
+    test_gng()
 
     """ user_instance_file = f'users_instances_concat'
     opening_instance_file = f'openings_instances_concat'

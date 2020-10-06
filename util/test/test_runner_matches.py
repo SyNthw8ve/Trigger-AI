@@ -6,13 +6,13 @@ from typing import List, Type, cast
 import json
 import itertools
 import os
+import logging
 
 from trigger.train.cluster.Processor import Processor
 
 from util.metrics.cluster import eval_cluster
 from util.metrics.matches import eval_matches
 from util.test.test_runner import TestRunner
-
 
 class TestRunnerMatches(TestRunner):
 
@@ -30,13 +30,15 @@ class TestRunnerMatches(TestRunner):
 
         for test in self.tests:
 
-            print(test)
+            print(f"Running test {test}...")
 
             processor = self.processor_class(**test)
 
             for opening_instance in self.instances:
                 opening_instance = cast(OpeningInstance, opening_instance)
                 processor.process(opening_instance.opening.entityId, opening_instance.embedding, opening_instance.opening)
+
+            print("Computing results...")
 
             results = eval_cluster(processor)
             results['matches_results'] = eval_matches(processor, self.user_instances)
@@ -49,6 +51,8 @@ class TestRunnerMatches(TestRunner):
 
                 self._save_results_csv(test, results)
 
+            print("Saved results.")
+
     def _save_results_json(self, processor: Processor, result):
 
         test_descriptor = {'algorithm': processor.describe(), 'results': result}
@@ -56,6 +60,8 @@ class TestRunnerMatches(TestRunner):
         file_name = processor.safe_file_name()
 
         file_path = os.path.join(self.output_path, F"{file_name}.json")
+
+        print(f"Saving results to {file_path}...")
 
         Path(file_path).parent.mkdir(parents=True, exist_ok=True)
 

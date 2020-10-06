@@ -2,7 +2,6 @@ import time
 import numpy as np
 
 from typing import List, Dict
-from trigger.train.transformers.opening_transformer import OpeningInstance
 
 class Node:
 
@@ -11,7 +10,7 @@ class Node:
         self.protype = protype
         self.error = error
         self.topological_neighbors: Dict[int, "Node"] = {}
-        self.instances: List[OpeningInstance] = []
+        self.instances = []
         self.error_cycle = error_cycle
         self.id = id
         self.radius = radius
@@ -32,7 +31,7 @@ class Node:
 
         self.topological_neighbors.pop(neighbor.id)
 
-    def remove_instance(self, instance: OpeningInstance):
+    def remove_instance(self, instance):
 
         self.instances.remove(instance)
 
