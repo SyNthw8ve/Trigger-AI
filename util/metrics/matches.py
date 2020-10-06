@@ -57,8 +57,6 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
 
         match_scores = [match.score for match in matches]
 
-        print(user_instance.user.hardSkills)
-
         these_results = {
             'user': {
                 'name': user_instance.user.name,
@@ -70,7 +68,7 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
             'avg real': statistics.mean(reals),
             'avg similarities': statistics.mean(similarities),
             'avg qualities': statistics.mean(qualities),
-            'avg matches': statistics.mean(match_scores) if len(match_scores) > 0 else "0",
+            'avg matches': statistics.mean(match_scores) if len(match_scores) > 0 else 0,
             'matches': [
                 {
                     'score': match.score,
@@ -88,18 +86,28 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
         matches_counter.update([these_results['#matches']])
         potential_counter.update([these_results['#potential']])
 
-        avg_similarity_counter = avg_similarity_counter + Counter([these_results['avg similarities']])
-        avg_quality_counter = avg_quality_counter + Counter([these_results['avg qualities']])
-        avg_real_counter = avg_real_counter + Counter([these_results['avg real']])
-        avg_matches_counter = avg_matches_counter + Counter([these_results['avg matches']])
+        def to_range(percentage: str, step: int) -> str:
+            lower = (int(percentage * 100) // step) * step
+            upper = lower + step
+            return f"{lower} - {upper}"
+
+        avg_similarity = to_range(these_results['avg similarities'], 5)
+        avg_quality = to_range(these_results['avg qualities'], 5)
+        avg_real = to_range(these_results['avg real'], 5)
+        avg_matches = to_range(these_results['avg matches'], 5)
+
+        avg_similarity_counter = avg_similarity_counter + Counter([avg_similarity])
+        avg_quality_counter = avg_quality_counter + Counter([avg_quality])
+        avg_real_counter = avg_real_counter + Counter([avg_real])
+        avg_matches_counter = avg_matches_counter + Counter([avg_matches])
 
     return {
-        "distribution #matches": list(matches_counter.items()),
-        "distribution #potential": list(potential_counter.items()),
-        "distribution similarity": list(avg_similarity_counter.items()),
-        "distribution quality": list(avg_quality_counter.items()),
-        "distribution real": list(avg_real_counter.items()),
-        "distribution matches": list(avg_matches_counter.items()),
+        "distribution #matches": matches_counter.most_common(),
+        "distribution #potential": potential_counter.most_common(),
+        "distribution similarity": avg_similarity_counter.most_common(),
+        "distribution quality": avg_quality_counter.most_common(),
+        "distribution real": avg_real_counter.most_common(),
+        "distribution matches": avg_matches_counter.most_common(),
         "% at least 1 match": 1 - (matches_counter.get(0) / sum(matches_counter.values())),
         "by_user": results,
     }
