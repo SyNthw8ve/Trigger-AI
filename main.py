@@ -2,6 +2,7 @@ import logging
 import os
 from typing import List
 
+from tests.ecm_tests import test_ecm
 from trigger.models.match import Match
 from trigger.train.transformers.opening_transformer import OpeningInstance
 from trigger.train.transformers.user_transformer import UserInstance
