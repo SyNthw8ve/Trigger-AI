@@ -15,7 +15,8 @@ from trigger.train.transformers.opening_transformer import OpeningInstance
 
 from trigger.train.cluster.Processor import Processor
 
-class GTurbo():
+
+class GTurbo(Processor):
 
     def __init__(self, epsilon_b: float, epsilon_n: float, lam: int, beta: float,
                  alpha: float, max_age: int, r0: float,
@@ -31,7 +32,7 @@ class GTurbo():
         self.max_age = max_age
         self.dimensions = dimensions
         self.r0 = r0
- 
+
         self.index = faiss.IndexIDMap(faiss.IndexFlatL2(dimensions))
 
         self.next_id = 2
@@ -54,13 +55,13 @@ class GTurbo():
         self.index.add_with_ids(
             np.array([node_1.protype, node_2.protype]), np.array([0, 1]))
 
-    def gng_step(self, instance: OpeningInstance):
+    def turbo_step(self, instance: OpeningInstance):
 
-        self.gng_adapt(instance)
+        self.turbo_adapt(instance)
 
         if self.step == self.lam - 1:
 
-            self.gng_grow()
+            self.turbo_increase()
             self.cycle += 1
             self.step = 0
 
@@ -68,9 +69,10 @@ class GTurbo():
 
             self.step += 1
 
-    def create_node(self, q: Node, f: Node, radius:float) -> Node:
+    def create_node(self, q: Node, f: Node, radius: float) -> Node:
 
-        r = Node(0.5*(q.protype + f.protype), 0, self.next_id, self.cycle, radius)
+        r = Node(0.5*(q.protype + f.protype), 0,
+                 self.next_id, self.cycle, radius)
         self.next_id += 1
 
         self.graph.insert_node(r)
@@ -78,7 +80,7 @@ class GTurbo():
 
         return r
 
-    def create_node_from_instance(self, instance, radius:float) -> Node:
+    def create_node_from_instance(self, instance, radius: float) -> Node:
 
         r = Node(instance, 0, self.next_id, self.cycle, radius)
         self.next_id += 1
@@ -88,7 +90,7 @@ class GTurbo():
 
         return r
 
-    def gng_grow(self) -> None:
+    def turbo_increase(self) -> None:
 
         q, f = self.graph.get_q_and_f()
 
@@ -142,19 +144,20 @@ class GTurbo():
 
         return cdist([u], [v], "euclidean")[0]
 
-    def gng_adapt(self, instance: OpeningInstance):
+    def turbo_adapt(self, instance: OpeningInstance):
 
         v, u = self.get_best_match(instance.embedding)
 
         if self.distance(v.protype, instance.embedding) <= v.radius:
-            
+
             v.add_instance(instance)
             self.instances.append(instance)
 
             self.point_to_cluster[instance] = v.id
             instance.cluster_index = v.id
 
-            error_value = np.power(self.distance(v.protype, instance.embedding), 2)[0]
+            error_value = np.power(self.distance(
+                v.protype, instance.embedding), 2)[0]
 
             self.increment_error(v, error_value)
 
@@ -247,7 +250,7 @@ class GTurbo():
             self.graph.remove_link(v, u)
 
     def remove_data(self, instance: OpeningInstance):
-        
+
         node = self.graph.get_node(instance.cluster_index)
         node.remove_instance(instance)
 
@@ -259,3 +262,14 @@ class GTurbo():
     def get_cluster(self, instance) -> int:
 
         return self.point_to_cluster.get(instance)
+
+    def re_ignite(self, epsilon_b, lam, max_age, r0) -> "GTurbo":
+
+        new_turbo = GTurbo(epsilon_b=epsilon_b, epsilon_n=self.epsilon_n, lam=lam, beta=self.beta,
+                           alpha=self.alpha, max_age=max_age, r0=r0, dimensions=self.dimensions)
+
+        for instance in self.instances:
+
+            new_turbo.turbo_step(instance)
+
+        return new_turbo
