@@ -193,7 +193,7 @@ class ECM(Processor):
         lowest_distance_and_radius = distances_plus_radiuses[lowest_distance_and_radius_index]
 
         if lowest_distance_and_radius > 2 * self.distance_threshold:
-            return SearchResultType.OUTSIDE, (None, None)
+            return SearchResultType.OUTSIDE, (lowest_distance_and_radius_index, lowest_distance_and_radius)
 
         else:
             return SearchResultType.THRESHOLD, (lowest_distance_and_radius_index, lowest_distance_and_radius)
@@ -222,10 +222,16 @@ class ECM(Processor):
         
         #FIXME: What should predict do in this case?
         if search_result == SearchResultType.OUTSIDE:
-            return None
+            return index
 
         elif search_result == SearchResultType.THRESHOLD:
             return index
 
         elif search_result == SearchResultType.RADIUS:
             return index
+
+
+    def get_custom_data_by_tag(self, tag: str) -> Optional[Any]:
+        # TODO: We assume the tag exists?
+        index = self.get_cluster_by_tag(tag)
+        return self.clusters[index].tag_to_custom.get(tag, None)
