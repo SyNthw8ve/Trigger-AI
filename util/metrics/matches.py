@@ -103,13 +103,15 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
         avg_quality_counter = avg_quality_counter + Counter([avg_quality])
         avg_real_counter = avg_real_counter + Counter([avg_real])
 
+    
+
     return {
-        "distribution #matches": matches_counter.most_common(),
-        "distribution #potential": potential_counter.most_common(),
-        "distribution similarity": avg_similarity_counter.most_common(),
-        "distribution quality": avg_quality_counter.most_common(),
-        "distribution real": avg_real_counter.most_common(),
-        "distribution matches": avg_matches_counter.most_common(),
+        "distribution #matches": { score: count for score, count in matches_counter.most_common() },
+        "distribution #potential": { score: count for score, count in potential_counter.most_common() },
+        "distribution similarity": { score: count for score, count in avg_similarity_counter.most_common() },
+        "distribution quality": { score: count for score, count in avg_quality_counter.most_common() },
+        "distribution real": { score: count for score, count in avg_real_counter.most_common() },
+        "distribution matches": { score: count for score, count in avg_matches_counter.most_common() },
         "% at least 1 match": 1 - (matches_counter.get(0) / sum(matches_counter.values())),
         "by_user": results,
     }
