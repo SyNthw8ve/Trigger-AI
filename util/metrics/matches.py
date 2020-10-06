@@ -94,12 +94,14 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
         avg_similarity = to_range(these_results['avg similarities'], 5)
         avg_quality = to_range(these_results['avg qualities'], 5)
         avg_real = to_range(these_results['avg real'], 5)
-        avg_matches = to_range(these_results['avg matches'], 5)
+
+        if len(match_scores) > 0:
+            avg_matches = to_range(these_results['avg matches'], 5)
+            avg_matches_counter = avg_matches_counter + Counter([avg_matches])
 
         avg_similarity_counter = avg_similarity_counter + Counter([avg_similarity])
         avg_quality_counter = avg_quality_counter + Counter([avg_quality])
         avg_real_counter = avg_real_counter + Counter([avg_real])
-        avg_matches_counter = avg_matches_counter + Counter([avg_matches])
 
     return {
         "distribution #matches": matches_counter.most_common(),
