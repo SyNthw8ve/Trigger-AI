@@ -61,7 +61,7 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
             'user': {
                 'name': user_instance.user.name,
                 'softSkill': user_instance.user.softSkills,
-                'hardSkills': user_instance.user.hardSkills,
+                'hardSkills': [{'name': hardskill.name} for hardskill in user_instance.user.hardSkills],
             },
             '#matches': len(matches),
             '#potential': len(openings),
@@ -75,7 +75,7 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
                     'opening': {
                         'entityId': match.opening.entityId,
                         'softSkills': match.opening.softSkills,
-                        'hardSkills': match.opening.hardSkills,
+                        'hardSkills': [{'name': hardskill.name} for hardskill in match.opening.hardSkills],
                     }
                 } for match in matches
             ]

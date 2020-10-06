@@ -189,7 +189,6 @@ class GTurbo(Processor):
             self.point_to_cluster[instance] = r.id
 
             self.create_link(v, r)
-            self.create_link(u, r)
 
     def decrease_error(self, v: Node) -> None:
 

@@ -5,9 +5,10 @@ from typing import List
 from trigger.models.match import Match
 from trigger.train.transformers.opening_transformer import OpeningInstance
 from trigger.train.transformers.user_transformer import UserInstance
-from util.metrics.matches import computeScore, eval_cluster
+from util.metrics.matches import computeScore
 from util.readers.setup_reader import DataInitializer
 from tests.gng_test import test_gng
+from tests.ecm_tests import test_ecm
 
 from trigger.train.cluster.gturbo.gturbo import GTurbo
 
@@ -29,9 +30,9 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
 
 if __name__ == "__main__":
 
-    # test_gng()
+    test_ecm()
 
-    user_instance_file = f'users_instances_concat'
+    """ user_instance_file = f'users_instances_concat'
     opening_instance_file = f'openings_instances_concat'
 
     openings_instances_path = os.path.join(
@@ -50,11 +51,7 @@ if __name__ == "__main__":
         openings_instances_path, openings_path, concat_layer='concat', normed=True)
 
     logging.info("Openings instances complete.")
-
-    gturbo = GTurbo(epsilon_b=0.001, epsilon_n=0, lam=200, beta=0.995,
-                    alpha=0.95, max_age=200, r0=3, dimensions=2048)
-
-
+    """
     """ logging.info("Inserting Openings in Birch")
 
     birch = Birch()
