@@ -130,7 +130,9 @@ class TurboContinuousEnvironment(py_environment.PyEnvironment):
 
         try:
 
-            self._state.turbo_step(next(self.iterator_instances))
+            next_instance = next(self.iterator_instances)
+
+            self._state.turbo_step(next_instance.opening.entityId, next_instance.embedding)
 
             return ts.transition(observation, reward=reward, discount=1.0)
 
