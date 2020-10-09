@@ -98,66 +98,39 @@ def compare_distributions(perfect_distribution: Dict[str, int],
     #    "50  - 55" : 5,
     # },
 
-    range_gains = {
-        "100 - 105": 1.,
-        "95 - 100": .95,
-        "90 - 95": .90,
-        "85 - 90": .85,
-        "80 - 85": .70,
-        "75 - 80": .60,
-        "70 - 75": .50,
-        "65 - 70": .40,
-        "60 - 65": .30,
-        "55 - 60": .20,
-        "50 - 55": .10,
-    }
-
     perfect_ranges = set(perfect_distribution.keys())
+    sorted_perfect_ranges = sorted(perfect_ranges, key=extract_first_number_from_range, reverse=True)
+
+    highest_sorted_perfect_ranges = sorted_perfect_ranges[0:2]
+    highest_sorted_perfect_ranges_weights = [0.55, 0.45]
 
     quality = 0.
 
-    for match_range in perfect_ranges:
+    for match_range, weight in zip(highest_sorted_perfect_ranges, highest_sorted_perfect_ranges_weights):
         if match_range in competitor_distribution:
-            quality += range_gains[match_range]
+            quality += weight
 
-    range_punishments = {
-        "100 - 105": .15,
-        "95 - 100": .14,
-        "90 - 95": .13,
-        "85 - 90": .12,
-        "80 - 85": .11,
-        "75 - 80": .09,
-        "70 - 75": .08,
-        "65 - 70": .04,
-        "60 - 65": .03,
-        "55 - 60": .02,
-        "50 - 55": .01,
-    }
+    quantity = 0.
 
-    quantity = 1.
+    highest_n = 3
+    highest_sorted_perfect_ranges = sorted_perfect_ranges[0:highest_n]
 
-    for match_range in perfect_ranges:
-        punishment = range_punishments[match_range]
+    for match_range in highest_sorted_perfect_ranges:
 
         if match_range not in competitor_distribution:
-            quantity -= punishment
             continue
 
         count = int(competitor_distribution[match_range])
         perfect_count = int(perfect_distribution[match_range])
 
-        if count == perfect_count:
-            continue
+        percentage = count / perfect_count
 
-        same_percentage = count / perfect_count
-        weight = 1. - same_percentage
-        quantity -= punishment * weight
+        quantity += percentage / highest_n
 
-    # least_important_ranges = {"60 - 65", "55 - 60", "50 - 55"}
-    #
-    # if len(perfect_ranges.difference(least_important_ranges)) < 2:
-    #     score += .2
-
+    print("Perfect", perfect_distribution)
+    print("Competitor", competitor_distribution)
+    print("#", quantity)
+    print("%", quality)
     return min(1., max(0., quantity)), min(1., max(0., quality))
 
 
