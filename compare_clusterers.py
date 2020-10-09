@@ -112,8 +112,7 @@ def compare_distributions(perfect_distribution: Dict[str, int],
 
     quantity = 0.
 
-    highest_n = 3
-    highest_sorted_perfect_ranges = sorted_perfect_ranges[0:highest_n]
+    highest_sorted_perfect_ranges = sorted_perfect_ranges
 
     for match_range in highest_sorted_perfect_ranges:
 
@@ -125,7 +124,7 @@ def compare_distributions(perfect_distribution: Dict[str, int],
 
         percentage = count / perfect_count
 
-        quantity += percentage / highest_n
+        quantity += percentage / len(highest_sorted_perfect_ranges)
 
     print("Perfect", perfect_distribution)
     print("Competitor", competitor_distribution)

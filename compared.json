@@ -3,1001 +3,1001 @@
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=0.5.json",
         {
             "avg %": 0.1685,
-            "avg #": 0.06109851774338784
+            "avg #": 0.042349038735487204
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=1.json",
         {
             "avg %": 0.1685,
-            "avg #": 0.06109851774338784
+            "avg #": 0.042349038735487204
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=2.5.json",
         {
             "avg %": 0.1685,
-            "avg #": 0.06109851774338784
+            "avg #": 0.042349038735487204
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=5.json",
         {
             "avg %": 0.1685,
-            "avg #": 0.06112182776669786
+            "avg #": 0.04243729726631034
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.5.json",
         {
             "avg %": 0.1535,
-            "avg #": 0.12040541399979705
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.4.json",
-        {
-            "avg %": 0.188,
-            "avg #": 0.11632759012358225
+            "avg #": 0.08325751915238307
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.3.json",
         {
             "avg %": 0.188,
-            "avg #": 0.1225978050467143
+            "avg #": 0.07889637940126396
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.4.json",
+        {
+            "avg %": 0.188,
+            "avg #": 0.08117496472158642
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.2.json",
         {
             "avg %": 0.2245,
-            "avg #": 0.13113165738811183
+            "avg #": 0.07904265460745966
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.001.json",
         {
             "avg %": 0.23,
-            "avg #": 0.12710062223229907
+            "avg #": 0.07645291925831206
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.005.json",
         {
             "avg %": 0.23,
-            "avg #": 0.12710062223229907
+            "avg #": 0.07645291925831206
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.01.json",
         {
             "avg %": 0.23,
-            "avg #": 0.12710062223229907
+            "avg #": 0.07645291925831206
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.02.json",
         {
             "avg %": 0.23,
-            "avg #": 0.12710062223229907
+            "avg #": 0.07645291925831206
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.05.json",
         {
             "avg %": 0.23,
-            "avg #": 0.12710062223229907
+            "avg #": 0.07645291925831206
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.1.json",
         {
             "avg %": 0.23,
-            "avg #": 0.12710062223229907
+            "avg #": 0.076865626929519
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.25.json",
         {
             "avg %": 0.2335,
-            "avg #": 0.13351140981503173
+            "avg #": 0.08174068280315408
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.15.json",
         {
             "avg %": 0.23550000000000001,
-            "avg #": 0.13379469248952722
+            "avg #": 0.0803720657942101
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.6.json",
         {
             "avg %": 0.231,
-            "avg #": 0.13981489430509128
+            "avg #": 0.09941485294705373
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.001.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.005.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.01.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.02.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.05.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.15.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.2.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.25.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.3.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.4.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.6.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.7.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.8.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=0.9.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=0.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=0.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=0.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=0.5.json",
-        {
-            "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=1.json",
-        {
-            "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=0.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=0.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=0.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=0.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=0.5.json",
-        {
-            "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=1.json",
-        {
-            "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=0.5.json",
-        {
-            "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=1.json",
-        {
-            "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=0.5.json",
-        {
-            "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=1.json",
-        {
-            "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=0.5.json",
-        {
-            "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=1.json",
-        {
-            "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=0.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=0.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=0.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=0.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.08988082803457043
+            "avg #": 0.05862628457386616
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=0.5.json",
+        {
+            "avg %": 0.29250000000000004,
+            "avg #": 0.058631729734386503
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=1.json",
+        {
+            "avg %": 0.29250000000000004,
+            "avg #": 0.058631729734386503
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=0.5.json",
+        {
+            "avg %": 0.29250000000000004,
+            "avg #": 0.058631729734386503
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=1.json",
+        {
+            "avg %": 0.29250000000000004,
+            "avg #": 0.058631729734386503
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=0.5.json",
+        {
+            "avg %": 0.29250000000000004,
+            "avg #": 0.058631729734386503
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=1.json",
+        {
+            "avg %": 0.29250000000000004,
+            "avg #": 0.058631729734386503
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=0.5.json",
+        {
+            "avg %": 0.29250000000000004,
+            "avg #": 0.058631729734386503
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=1.json",
+        {
+            "avg %": 0.29250000000000004,
+            "avg #": 0.058631729734386503
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=0.5.json",
+        {
+            "avg %": 0.29250000000000004,
+            "avg #": 0.058631729734386503
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=1.json",
+        {
+            "avg %": 0.29250000000000004,
+            "avg #": 0.058631729734386503
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=1.1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=1.2.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=1.3.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=1.4.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=1.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\ECM\\ECM = distance_threshold=1.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=2.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=2.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=2.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=2.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=2.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=2.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=2.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=2.5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09099193914568154
+            "avg #": 0.05929295124053282
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09627156877531116
+            "avg #": 0.06375098199450108
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09627156877531116
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=5.json",
-        {
-            "avg %": 0.29250000000000004,
-            "avg #": 0.09627156877531116
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=5.json",
-        {
-            "avg %": 0.29250000000000004,
-            "avg #": 0.09627156877531116
+            "avg #": 0.06375098199450108
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09627156877531116
+            "avg #": 0.06375098199450108
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09627156877531116
+            "avg #": 0.06375098199450108
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09627156877531116
+            "avg #": 0.06375098199450108
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09627156877531116
+            "avg #": 0.06375098199450108
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09627156877531116
+            "avg #": 0.06375098199450108
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=5.json",
+        {
+            "avg %": 0.29250000000000004,
+            "avg #": 0.06375642715502142
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=5.json",
+        {
+            "avg %": 0.29250000000000004,
+            "avg #": 0.06375642715502142
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.0981625944163368
+            "avg #": 0.0649016187810218
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.0981625944163368
+            "avg #": 0.0649016187810218
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09857926108300348
+            "avg #": 0.06548719638579065
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09857926108300348
+            "avg #": 0.06548719638579065
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09857926108300348
+            "avg #": 0.06548719638579065
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0.0005;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09857926108300348
+            "avg #": 0.06548719638579065
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=5.json",
         {
             "avg %": 0.29250000000000004,
-            "avg #": 0.09857926108300348
+            "avg #": 0.06551082099271216
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\no_softskills\\ECM\\ECM = distance_threshold=0.7.json",
         {
             "avg %": 0.2525,
-            "avg #": 0.14596998001149802
+            "avg #": 0.10646809469173735
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=8.json",
         {
             "avg %": 0.316,
-            "avg #": 0.10547428256574426
+            "avg #": 0.07234930199220112
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=8.json",
         {
             "avg %": 0.3205,
-            "avg #": 0.10607939258574789
+            "avg #": 0.07273998431031464
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=8.json",
         {
             "avg %": 0.3205,
-            "avg #": 0.1061503145715635
+            "avg #": 0.07280201753265601
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=8.json",
         {
             "avg %": 0.3205,
-            "avg #": 0.10624605925241457
+            "avg #": 0.07282215378534868
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=500;radius=8.json",
         {
             "avg %": 0.3205,
-            "avg #": 0.10624605925241457
+            "avg #": 0.07282215378534868
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=200;radius=8.json",
         {
             "avg %": 0.3205,
-            "avg #": 0.10624605925241457
+            "avg #": 0.07282215378534868
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=8.json",
         {
             "avg %": 0.3205,
-            "avg #": 0.10624605925241457
-        }
-    ],
-    [
-        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=8.json",
-        {
-            "avg %": 0.3215,
-            "avg #": 0.10710920320066489
+            "avg #": 0.07282215378534868
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer_norm\\ECM\\ECM = distance_threshold=0.001.json",
         {
             "avg %": 0.3315,
-            "avg #": 0.1055316835684669
+            "avg #": 0.06391371012668269
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer_norm\\ECM\\ECM = distance_threshold=0.005.json",
         {
             "avg %": 0.3315,
-            "avg #": 0.1055316835684669
+            "avg #": 0.06391371012668269
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer_norm\\ECM\\ECM = distance_threshold=0.01.json",
         {
             "avg %": 0.3315,
-            "avg #": 0.1055316835684669
+            "avg #": 0.06391371012668269
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer_norm\\ECM\\ECM = distance_threshold=0.02.json",
         {
             "avg %": 0.3315,
-            "avg #": 0.1055316835684669
+            "avg #": 0.06391371012668269
+        }
+    ],
+    [
+        "./results/openings_users/instances_ss_confirmed\\concat_layer\\GTurbo\\GTurbo = epsilon_b=0.01;epsilon_n=0;lam=500;beta=0.9995;alpha=0.95;max_age=500;radius=8.json",
+        {
+            "avg %": 0.3215,
+            "avg #": 0.07396842483881212
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer_norm\\ECM\\ECM = distance_threshold=0.15.json",
         {
             "avg %": 0.3275,
-            "avg #": 0.11020134426966748
+            "avg #": 0.06825952579160358
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer_norm\\ECM\\ECM = distance_threshold=0.05.json",
         {
             "avg %": 0.3315,
-            "avg #": 0.106642794679578
+            "avg #": 0.06458037679334937
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\concat_layer_norm\\ECM\\ECM = distance_threshold=0.1.json",
         {
             "avg %": 0.3315,
-            "avg #": 0.11123353542031875
+            "avg #": 0.06857440457112714
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=1.1.json",
         {
             "avg %": 0.34750000000000003,
-            "avg #": 0.11159892945369479
+            "avg #": 0.07189339350895274
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=1.5.json",
         {
             "avg %": 0.35100000000000003,
-            "avg #": 0.11642558401538772
+            "avg #": 0.07424502950396625
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=1.4.json",
         {
             "avg %": 0.35100000000000003,
-            "avg #": 0.1165705115516196
+            "avg #": 0.07428604673120169
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=1.3.json",
         {
             "avg %": 0.35550000000000004,
-            "avg #": 0.11551495599606405
+            "avg #": 0.07404730605420799
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=1.2.json",
         {
             "avg %": 0.35650000000000004,
-            "avg #": 0.11583061256172061
+            "avg #": 0.07452079090269284
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.001.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.005.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.01.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.02.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.05.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.1.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.15.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.2.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.25.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.3.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.4.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=1.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=0.5.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11552750088226622
+            "avg #": 0.07471482208038131
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.5.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11663861199337733
+            "avg #": 0.07538148874704798
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.6.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11663861199337733
+            "avg #": 0.07538148874704798
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.7.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11663861199337733
+            "avg #": 0.07538148874704798
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.8.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11663861199337733
+            "avg #": 0.07538148874704798
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\ECM\\ECM = distance_threshold=0.9.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11663861199337733
+            "avg #": 0.07538148874704798
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=1.json",
         {
             "avg %": 0.35750000000000004,
-            "avg #": 0.11663861199337733
+            "avg #": 0.07538148874704798
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=2.5.json",
         {
             "avg %": 0.36100000000000004,
-            "avg #": 0.12168616811727617
+            "avg #": 0.07964245756935952
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer_norm\\ECM\\ECM = distance_threshold=0.001.json",
         {
             "avg %": 0.395,
-            "avg #": 0.12137514397990933
+            "avg #": 0.07908985970154585
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer_norm\\ECM\\ECM = distance_threshold=0.005.json",
         {
             "avg %": 0.395,
-            "avg #": 0.12137514397990933
+            "avg #": 0.07908985970154585
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer_norm\\ECM\\ECM = distance_threshold=0.01.json",
         {
             "avg %": 0.395,
-            "avg #": 0.12137514397990933
+            "avg #": 0.07908985970154585
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer_norm\\ECM\\ECM = distance_threshold=0.02.json",
         {
             "avg %": 0.395,
-            "avg #": 0.12137514397990933
+            "avg #": 0.07908985970154585
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer_norm\\ECM\\ECM = distance_threshold=0.05.json",
         {
             "avg %": 0.395,
-            "avg #": 0.12248625509102043
+            "avg #": 0.07975652636821251
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer_norm\\ECM\\ECM = distance_threshold=0.1.json",
         {
             "avg %": 0.3985,
-            "avg #": 0.12329714766060865
+            "avg #": 0.08180247733119828
         }
     ],
     [
         "./results/openings_users/instances_ss_confirmed\\avg_layer\\GTurbo\\GTurbo = epsilon_b=0.001;epsilon_n=0;lam=200;beta=0.9995;alpha=0.95;max_age=200;radius=5.json",
         {
             "avg %": 0.40950000000000003,
-            "avg #": 0.14542652663521186
+            "avg #": 0.09841649545476944
         }
     ]
 ]
