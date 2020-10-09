@@ -151,8 +151,6 @@ def compare_distributions(perfect_distribution: Dict[str, int],
 
         same_percentage = count / perfect_count
         weight = 1. - same_percentage
-        print("S", same_percentage)
-        print("W", weight)
         quantity -= punishment * weight
 
     # least_important_ranges = {"60 - 65", "55 - 60", "50 - 55"}
