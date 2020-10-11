@@ -6,7 +6,7 @@ from trigger.models.softskill import Softskill
 from trigger.models.hardskill import Hardskill
 from trigger.models.language import Language
 
-@dataclass(frozen=True)
+@dataclass()
 class Opening:
     entityId: str
     hardSkills: List[Hardskill]

@@ -33,17 +33,17 @@ def test_gng():
                     "r0": [0.5, 1, 2.5, 5, 8]
                 }
 
-    opening_instance_file = 'openings_instances_no_ss'
+    opening_instance_file = 'openings_instances_no_ss_norm'
 
     openings_instances_path = os.path.join(instances_path, opening_instance_file)
 
     openings_instances = DataInitializer.read_openings(openings_instances_path, openings_path)
 
-    users_instance_file = 'users_instances_no_ss'
+    users_instance_file = 'users_instances_no_ss_norm'
 
     users_instances_path = os.path.join(instances_path, users_instance_file)
 
     users_instances = DataInitializer.read_users(users_instances_path, users_path)
 
-    gng_tester = TestRunnerMatches(GTurbo, param_grid, openings_instances, users_instances, './results/openings_users/no_softskills/ss_confirmed/GTurbo')
+    gng_tester = TestRunnerMatches(GTurbo, param_grid, openings_instances, users_instances, './results/openings_users/instances_ss_confirmed/no_softskills_norm/GTurbo')
     gng_tester.run_tests()

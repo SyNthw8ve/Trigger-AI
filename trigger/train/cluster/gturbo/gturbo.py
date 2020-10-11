@@ -72,8 +72,9 @@ class GTurbo(Processor):
 
     def create_node(self, q: Node, f: Node, radius: float) -> Node:
 
-        r = Node(0.5*(q.protype + f.protype), 0,
-                 self.next_id, self.cycle, radius)
+        r = Node(np.array(0.5*(q.protype + f.protype)).astype(
+            'float32'), 0,
+            self.next_id, self.cycle, radius)
         self.next_id += 1
 
         self.graph.insert_node(r)
@@ -83,7 +84,8 @@ class GTurbo(Processor):
 
     def create_node_from_instance(self, instance, radius: float) -> Node:
 
-        r = Node(instance, 0, self.next_id, self.cycle, radius)
+        r = Node(instance.astype(
+            'float32'), 0, self.next_id, self.cycle, radius)
         self.next_id += 1
 
         self.graph.insert_node(r)
