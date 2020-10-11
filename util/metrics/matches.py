@@ -18,6 +18,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('matches')
 logger.setLevel(logging.INFO)
 
+def to_range(percentage: float, step: int) -> str:
+    lower = (int(percentage * 100) // step) * step
+    upper = lower + step
+    return f"{lower} - {upper}"
+
 
 def eval_matches(processor: Processor, users_instances: List[UserInstance]):
     threshold = 0.5
@@ -83,11 +88,6 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
 
         matches_counter.update([these_results['#matches']])
         potential_counter.update([these_results['#potential']])
-
-        def to_range(percentage: str, step: int) -> str:
-            lower = (int(percentage * 100) // step) * step
-            upper = lower + step
-            return f"{lower} - {upper}"
 
         avg_similarity = to_range(these_results['avg similarities'], 5)
         avg_quality = to_range(these_results['avg qualities'], 5)
