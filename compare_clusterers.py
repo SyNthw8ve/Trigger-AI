@@ -1,6 +1,7 @@
 import json
 import os
 import statistics
+import numpy as np
 import sys
 from collections import Counter
 from typing import List, NamedTuple, Dict, Tuple
@@ -64,6 +65,74 @@ def make_distribution(matches: MatchesPerUser, range_step: int) -> Dict[str, int
     return {score: count for score, count in counter.most_common()}
 
 
+def normed_interval(key: str, maxi, mini) -> float:
+
+    upper_bound = eval(key.split('-')[-1].strip())
+
+    return (upper_bound - mini)/(maxi - mini)
+
+
+def compare_distributions_test(test_distribution: Dict[str, int], to_compare_distribution: Dict[str, int]) -> float:
+
+    test_keys = set(test_distribution.keys())
+    to_compare_keys = set(to_compare_distribution.keys())
+
+    all_keys = test_keys.union(to_compare_keys)
+
+    scores = []
+
+    for key in all_keys:
+
+        test_value = test_distribution.get(key, 0)
+        to_compare_value = to_compare_distribution.get(key, 0)
+
+        diff = test_value - to_compare_value
+        w_diff = diff * np.exp(normed_interval(key, 100, 50))
+
+        scores.append(w_diff)
+
+    return np.sum(scores)
+
+
+def load_distributions(directory_path):
+
+    path_list = get_all_results_paths_from_folder_and_sub_folders(
+        directory_path)
+    competitor_paths = filter_out_ss_or_no_results(path_list, 0.2)
+
+    competitors_by_cluster = [
+        {"dists": json.load(open(competitor_path, 'r'))["results"]["matches_results"],
+            "path": competitor_path}
+        for competitor_path in competitor_paths
+    ]
+
+    results = []
+
+    for i in range(len(competitors_by_cluster) - 1):
+
+        test_matches_dist = competitors_by_cluster[i]["dists"]["distribution matches"]
+        test_path = competitors_by_cluster[i]["path"]
+
+        test_result= {'test_algo': test_path, 'comparisons': []}
+
+        for j in range(i + 1, len(competitors_by_cluster)):
+
+            to_compare_matches_dist = competitors_by_cluster[j]["dists"]["distribution matches"]
+            to_compare_path = competitors_by_cluster[j]["path"]
+
+            bean_deviation = compare_distributions_test(
+                test_matches_dist, to_compare_matches_dist)
+
+            test_result['comparisons'].append({'compared_algo': to_compare_path,
+                            'bean_deviation': str(bean_deviation)})
+
+        results.append(test_result)
+
+    with open("./compared_test.json", "w") as f:
+        
+        json.dump(results, f)
+
+
 def compare_distributions(perfect_distribution: Dict[str, int],
                           competitor_distribution: Dict[str, int]) -> Tuple[float, float]:
     # perfect:
@@ -99,7 +168,8 @@ def compare_distributions(perfect_distribution: Dict[str, int],
     # },
 
     perfect_ranges = set(perfect_distribution.keys())
-    sorted_perfect_ranges = sorted(perfect_ranges, key=extract_first_number_from_range, reverse=True)
+    sorted_perfect_ranges = sorted(
+        perfect_ranges, key=extract_first_number_from_range, reverse=True)
 
     highest_sorted_perfect_ranges = sorted_perfect_ranges[0:2]
     highest_sorted_perfect_ranges_weights = [0.55, 0.45]
@@ -186,8 +256,10 @@ def look_folder_and_sub_folders(directory_path: str) -> None:
         quality_scores = []
         quantity_scores = []
         for i, perfect_distribution in enumerate(perfect_distributions_list):
-            competitor_matches_distribution = make_distribution(matches_list[i], range_step)
-            quantity_score, quality_score = compare_distributions(perfect_distribution, competitor_matches_distribution)
+            competitor_matches_distribution = make_distribution(
+                matches_list[i], range_step)
+            quantity_score, quality_score = compare_distributions(
+                perfect_distribution, competitor_matches_distribution)
 
             quantity_scores.append(quantity_score)
             quality_scores.append(quality_score)
@@ -197,7 +269,8 @@ def look_folder_and_sub_folders(directory_path: str) -> None:
             "avg #": statistics.mean(quantity_scores),
         }
 
-    wow = sorted(wow.items(), key=lambda pair: pair[1]["avg %"] + pair[1]["avg #"])
+    wow = sorted(
+        wow.items(), key=lambda pair: pair[1]["avg %"] + pair[1]["avg #"])
 
     with open('compared.json', 'w') as f:
         json.dump(wow, f)
@@ -206,4 +279,6 @@ def look_folder_and_sub_folders(directory_path: str) -> None:
 if __name__ == "__main__":
     folder = sys.argv[1] if len(
         sys.argv) > 1 else "./results/openings_users/instances_ss_confirmed"
-    look_folder_and_sub_folders(folder)
+    """ look_folder_and_sub_folders(folder) """
+
+    load_distributions(folder)
