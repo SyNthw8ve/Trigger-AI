@@ -47,4 +47,3 @@ class Processor(ABC):
     @abstractmethod
     def safe_file_name(self) -> str:
         pass
-
