@@ -38,3 +38,5 @@ class Node:
     def update_error_cycle(self, cycle: int) -> None:
 
         self.error_cycle = cycle
+
+

@@ -18,6 +18,7 @@ openings_path = './examples/openings_users_softskills_confirmed/openings'
 instances_path = './data/instances_ss_confirmed'
 results_path = './results/openings_users'
 
+
 def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], threshold: float) -> List[Match]:
 
     openingsOfInterest = [
@@ -30,49 +31,19 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
 
 if __name__ == "__main__":
 
-    test_gng()
-
-    """ user_instance_file = f'users_instances_concat'
-    opening_instance_file = f'openings_instances_concat'
-
-    openings_instances_path = os.path.join(
-        instances_path, opening_instance_file)
-
-    users_instances_path = os.path.join(instances_path, user_instance_file)
-    users_instances = DataInitializer.read_users(
-        users_instances_path, users_path, concat_layer='concat', normed=True)
-
-    logging.info("Users instances complete.")
+    opening_instance_file = 'openings_instances_no_ss_norm'
 
     openings_instances_path = os.path.join(
         instances_path, opening_instance_file)
 
     openings_instances = DataInitializer.read_openings(
-        openings_instances_path, openings_path, concat_layer='concat', normed=True)
+        openings_instances_path, openings_path)
 
-    logging.info("Openings instances complete.")
-    """
-    """ logging.info("Inserting Openings in Birch")
+    gturbo = GTurbo(epsilon_b=0.001, epsilon_n=0, lam=200, beta=0.9995,
+                    alpha=0.95, max_age=200, r0=1, dimensions=1024)
 
-    birch = Birch()
+    for opening_instance in openings_instances:
 
-    instances = []
+        gturbo.turbo_step(opening_instance.opening.entityId, opening_instance.embedding)
 
-    for opening_instance in openings_instances[:200]:
-
-        instances.append(opening_instance.embedding)
-
-    logging.info("Birch Agent Training")
-
-    threshold = 0.5
-    branching_factor = 50
-    dimension = 1024
-
-    collect_env = BirchDiscreteEnvironment(
-        initial_threshold=threshold, initial_branching=branching_factor, instances=instances, dimension=dimension)
-    eval_env = BirchDiscreteEnvironment(
-        initial_threshold=threshold, initial_branching=branching_factor, instances=instances, dimension=dimension)
-
-    q_network = QNetwork(collect_env, eval_env)
-
-    q_network.train('test_policy', 10, 1) """
+    print(gturbo.compute_cluster_score())

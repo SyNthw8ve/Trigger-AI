@@ -329,3 +329,87 @@ class GTurbo(Processor):
     def safe_file_name(self) -> str:
 
         return f"GTurbo = epsilon_b={self.epsilon_b};epsilon_n={self.epsilon_n};lam={self.lam};beta={self.beta};alpha={self.alpha};max_age={self.max_age};radius={self.r0}"
+
+    def compute_cluster_score(self):
+
+        instance_dist = self._get_instances_per_node()
+        instance_mean = self._mean_instances_per_node(instance_dist)
+        instance_std = self._std_instances_per_node(instance_dist)
+
+        node_scores = []
+
+        for node in self.graph.nodes.values():
+
+            if len(node.instances) > 0:
+
+                node_dispersion_delta = self._compute_node_delta(node)
+                node_instance_gamma = self._compute_node_gamma(node, instance_mean, instance_std)
+
+                node_gamma_delta = np.power(node_dispersion_delta, 2) + np.power(node_instance_gamma, 2)
+
+                node_score = np.exp(-(node_gamma_delta))
+                node_scores.append(node_score)
+
+        return np.sum(node_scores)
+
+    def _get_instances_per_node(self):
+
+        return [len(node.instances) for node in self.graph.nodes.values()]
+
+    def _mean_instances_per_node(self, num_instances):
+
+        return np.mean(num_instances)
+
+    def _std_instances_per_node(self, num_instances):
+        
+        return np.std(num_instances)
+
+    def _compute_node_gamma(self, node, mean_inst, std_inst):
+
+        node_instances = len(node.instances)
+
+        return (node_instances - mean_inst)/(2 * std_inst)
+
+    def _compute_node_delta(self, node):
+
+        instances = node.instances
+
+        if len(node.instances) == 1:
+
+            node_similarities = [1.0]
+
+        else:
+
+            node_similarities = self._get_similarities(instances)
+
+        sim_mean = self._get_mean_similarity(node_similarities)
+        sim_std = self._get_std_similarity(node_similarities)
+
+        node_dispersion = sim_std / sim_mean
+
+        return node_dispersion - 1
+
+    def _get_similarities(self, instances):
+
+        node_similarities = []
+
+        for i in range(len(instances) - 1):
+
+            test_instance = self.instances[instances[i]]
+
+            for j in range(i + 1, len(instances)):
+
+                compare_instance = self.instances[instances[j]]
+
+                cos_sim = 1 - cosine(test_instance, compare_instance)
+                node_similarities.append(cos_sim)
+
+        return node_similarities
+
+    def _get_mean_similarity(self, similarities):
+
+        return np.mean(similarities)
+
+    def _get_std_similarity(self, similarities):
+
+        return np.std(similarities)
