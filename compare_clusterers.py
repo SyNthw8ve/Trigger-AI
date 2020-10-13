@@ -113,7 +113,7 @@ def load_distributions(directory_path):
         test_matches_dist = competitors_by_cluster[i]["dists"]["distribution matches"]
         test_path = competitors_by_cluster[i]["path"]
 
-        test_result= {'test_algo': test_path, 'comparisons': []}
+        test_result = {'test_algo': test_path, 'comparisons': []}
 
         for j in range(i + 1, len(competitors_by_cluster)):
 
@@ -124,13 +124,15 @@ def load_distributions(directory_path):
                 test_matches_dist, to_compare_matches_dist)
 
             test_result['comparisons'].append({'compared_algo': to_compare_path,
-                            'bean_deviation': str(bean_deviation)})
+                                               'bean_deviation': bean_deviation})
 
+        test_result['comparisons'] = sorted(
+            test_result['comparisons'], key=lambda x: x['bean_deviation'], reverse=True)
         results.append(test_result)
 
     with open("./compared_test.json", "w") as f:
-        
-        json.dump(results, f)
+        from util.json_util.json_converter import EnhancedJSONEncoder
+        json.dump(results, f, cls=EnhancedJSONEncoder)
 
 
 def compare_distributions(perfect_distribution: Dict[str, int],
