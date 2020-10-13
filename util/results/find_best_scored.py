@@ -1,31 +1,26 @@
-import os
 import json
 import sys
 import ast
 from typing import List, Dict, Any
+from util.results.fetcher import get_result_paths_from_folder_and_sub_folders
 
 
-def look_folder_and_sub_folders(directory_path: str,
-                                contains: str,
-                                keys: List[str],
-                                n: int
-                                ) -> Dict[str, List[Dict[str, Any]]]:
-    path_list = [
-        os.path.join(dirpath, filename)
-        for dirpath, _, filenames in os.walk(directory_path)
-        for filename in filenames
-        if filename.endswith('.json')
-    ]
+def look_in_folder_and_sub_folders(directory_path: str,
+                                   contains: str,
+                                   keys: List[str],
+                                   n: int) -> Dict[str, List[Dict[str, Any]]]:
 
-    final_path_list = [
-        path
-        for path in path_list
-        if path.find(contains) != -1
-    ]
+    paths = get_result_paths_from_folder_and_sub_folders(directory_path, contains)
+    return look_in(paths, keys, n)
 
+
+def look_in(path_list: List[str],
+            keys: List[str],
+            n: int
+            ) -> Dict[str, List[Dict[str, Any]]]:
     all_scores = {}
 
-    for path in final_path_list:
+    for path in path_list:
         try:
             with open(path, 'r') as file:
                 json_as_dict = json.load(file)
@@ -103,9 +98,9 @@ if __name__ == "__main__":
         "avg quality score",
     ]
 
-    output_path = sys.argv[4] if len(sys.argv) > 4 else "../best.json"
+    output_path = sys.argv[4] if len(sys.argv) > 4 else "best.json"
 
-    best = look_folder_and_sub_folders(folder, path_contains, measures, 100)
+    best = look_in_folder_and_sub_folders(folder, path_contains, measures, 100)
 
-    with open('../best.json', 'w') as f:
+    with open('../../best.json', 'w') as f:
         json.dump(best, f)
