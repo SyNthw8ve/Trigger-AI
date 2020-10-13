@@ -7,11 +7,11 @@ import numpy
 class Processor(ABC):
 
     @abstractmethod
-    def process(self, tag: str, instance: numpy.ndarray, custom_data: Any=None) -> None:
+    def process(self, tag: str, instance: numpy.ndarray, custom_data: Any = None) -> None:
         pass
 
     @abstractmethod
-    def update(self, tag: str, instance: numpy.ndarray, custom_data: Any=None) -> None:
+    def update(self, tag: str, instance: numpy.ndarray, custom_data: Any = None) -> None:
         pass
 
     @abstractmethod
@@ -47,4 +47,3 @@ class Processor(ABC):
     @abstractmethod
     def safe_file_name(self) -> str:
         pass
-
