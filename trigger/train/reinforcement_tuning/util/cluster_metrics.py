@@ -1,25 +1,8 @@
-from sklearn.metrics import silhouette_score, calinski_harabasz_score
 from trigger.train.cluster.birch.birch import Birch
 
+from util.metrics.cluster import eval_cluster as complete_eval_cluster
+
+
 def eval_cluster(birch: Birch):
-
-    X = birch.instances
-    labels = []
-    results = {'ss': 0, 'chs': 0}
-
-    for x in X:
-
-        labels.append(birch.index_of_cluster_containing(x))
-
-    try:
-        results['ss'] = silhouette_score(X, labels)
-    except:
-        results['ss'] = 0
-
-    try:
-        results['chs'] = calinski_harabasz_score(X, labels)
-    except:
-        results['chs'] = 0
-
-    return results
-
+    all_results = complete_eval_cluster(birch)
+    return {'ss': all_results["ss"], 'chs': all_results["chs"]}
