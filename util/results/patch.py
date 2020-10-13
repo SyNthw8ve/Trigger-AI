@@ -5,6 +5,47 @@ from typing import List, Callable, Optional
 from util.metrics.matches import average_from_distribution, max_from_distribution, min_from_distribution
 
 
+def rename(json_dict: dict) -> Optional[dict]:
+    results_dict = json_dict.get("results", None)
+
+    if results_dict is None:
+        return None
+
+    matches_results = results_dict.get("matches_results", None)
+
+    if matches_results is None:
+        return None
+
+    rename_map = {
+        "distribution similarity": "distribution avg similarity range",
+        "distribution quality": "distribution avg quality range",
+        "distribution real": "distribution avg real range",
+        "distribution matches": "distribution avg matches range",
+    }
+
+    key_order = [
+        rename_map.get(key, key)
+        for key in matches_results
+    ]
+
+    for old_name, new_name in rename_map.items():
+
+        matches_results[new_name] = matches_results[old_name]
+        del matches_results[old_name]
+
+        if new_name in json_dict:
+            print("!")
+            exit(0)
+
+    new_dict = {
+        key: matches_results[key]
+        for key in key_order
+    }
+
+    results_dict["matches_results"] = new_dict
+    return json_dict
+
+
 def add_avg_max_min(json_dict: dict) -> Optional[dict]:
     results_dict = json_dict.get("results", None)
 
