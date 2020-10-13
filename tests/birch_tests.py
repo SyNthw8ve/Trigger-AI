@@ -20,8 +20,8 @@ instances_paths = ['./data/instances', './data/instances_ss_confirmed', './data/
 
 def test_birch():
     param_grid = {
-        "threshold": [0.5],
-        "branching_factor": [50]
+        "threshold": [0.5, 0.7, 0.75, 1.],
+        "branching_factor": [40, 50, 60, 70, 80, 90, 100, 110, 150, 170, 200]
     }
 
     for instances_path in instances_paths:
