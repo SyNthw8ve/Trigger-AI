@@ -46,6 +46,27 @@ def rename(json_dict: dict) -> Optional[dict]:
     return json_dict
 
 
+def correct_min_max(json_dict: dict) -> Optional[dict]:
+    results_dict = json_dict.get("results", None)
+
+    if results_dict is None:
+        return None
+
+    ma = results_dict.get("max instances of any cluster", None)
+
+    if ma is None:
+        return None
+
+    mi = results_dict["min instances of any cluster"]
+
+    if ma < mi:
+        results_dict["max instances of any cluster"] = mi
+        results_dict["min instances of any cluster"] = ma
+        return json_dict
+
+    return None
+
+
 def add_avg_max_min(json_dict: dict) -> Optional[dict]:
     results_dict = json_dict.get("results", None)
 
