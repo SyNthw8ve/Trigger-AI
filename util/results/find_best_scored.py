@@ -1,16 +1,23 @@
-import os
 import json
 import sys
+import ast
+from typing import List, Dict, Any
+from util.results.fetcher import get_result_paths_from_folder_and_sub_folders
 
 
-def look_folder_and_sub_folders(directory_path: str) -> None:
-    path_list = [
-        os.path.join(dirpath, filename)
-        for dirpath, _, filenames in os.walk(directory_path)
-        for filename in filenames
-        if filename.endswith('.json')
-    ]
+def look_in_folder_and_sub_folders(directory_path: str,
+                                   contains: str,
+                                   keys: List[str],
+                                   n: int) -> Dict[str, List[Dict[str, Any]]]:
 
+    paths = get_result_paths_from_folder_and_sub_folders(directory_path, contains)
+    return look_in(paths, keys, n)
+
+
+def look_in(path_list: List[str],
+            keys: List[str],
+            n: int
+            ) -> Dict[str, List[Dict[str, Any]]]:
     all_scores = {}
 
     for path in path_list:
@@ -53,21 +60,6 @@ def look_folder_and_sub_folders(directory_path: str) -> None:
         except Exception as e:
             print(e, path)
 
-    n = 100
-
-    keys = [
-        "ss",
-        "chs",
-        r"% at least 1 match",
-        "avg #matches",
-        "max #matches",
-        "avg #potential",
-        "max #potential",
-        "avg matches score",
-        "avg similarity score",
-        "avg quality score",
-    ]
-
     results = {}
 
     for key in keys:
@@ -83,10 +75,32 @@ def look_folder_and_sub_folders(directory_path: str) -> None:
         except Exception as e:
             print(e, key)
 
-    with open('best.json', 'w') as f:
-        json.dump(results, f)
+    return results
+
+
+def parse_array_from_string(string: str) -> List[str]:
+    return [key.strip() for key in ast.literal_eval(string)]
 
 
 if __name__ == "__main__":
     folder = sys.argv[1] if len(sys.argv) > 1 else "./results/openings_users"
-    look_folder_and_sub_folders(folder)
+    path_contains = sys.argv[2] if len(sys.argv) > 2 else ""
+    measures = parse_array_from_string(sys.argv[3]) if len(sys.argv) > 3 else [
+        "ss",
+        "chs",
+        r"% at least 1 match",
+        "avg #matches",
+        "max #matches",
+        "avg #potential",
+        "max #potential",
+        "avg matches score",
+        "avg similarity score",
+        "avg quality score",
+    ]
+
+    output_path = sys.argv[4] if len(sys.argv) > 4 else "best.json"
+
+    best = look_in_folder_and_sub_folders(folder, path_contains, measures, 100)
+
+    with open('../../best.json', 'w') as f:
+        json.dump(best, f)

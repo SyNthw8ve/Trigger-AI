@@ -40,8 +40,8 @@ def eval_cluster(cluster: Processor) -> Dict[str, Any]:
         'chs': float(CHs),
         '#clusters': len(labels_set),
         '#instances': len(tags),
-        'distribution': { score: count for score, count in counter.most_common() },
+        'distribution': {score: count for score, count in counter.most_common()},
         'avg/mean instances / cluster': statistics.mean(num_instances_per_cluster),
-        'max instances of any cluster': counter.most_common()[-1:][0][0] if len(counter) > 0 else 0,
-        'min instances of any cluster': counter.most_common()[0:1][0][0] if len(counter) > 0 else 0
+        'max instances of any cluster': counter.most_common()[0:1][0][0] if len(counter) > 0 else 0,
+        'min instances of any cluster': counter.most_common()[-1:][0][0] if len(counter) > 0 else 0
     }

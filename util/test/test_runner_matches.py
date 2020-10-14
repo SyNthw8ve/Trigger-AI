@@ -55,7 +55,7 @@ class TestRunnerMatches(TestRunner):
                 processor.process(opening_instance.opening.entityId,
                                   opening_instance.embedding, opening_instance.opening)
 
-            print("Computing results...")
+            logger.info("Computing results...")
 
             results = eval_cluster(processor)
             results['matches_results'] = eval_matches(
@@ -82,7 +82,7 @@ class TestRunnerMatches(TestRunner):
 
         file_path = self._get_file_path(processor, 'json')
 
-        print(f"Saving results to {file_path}...")
+        logger.info(f"Saving results to %s...", file_path)
 
         Path(file_path).parent.mkdir(parents=True, exist_ok=True)
 

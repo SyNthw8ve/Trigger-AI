@@ -101,7 +101,7 @@
                 "13": 1,
                 "36": 1
             },
-            "distribution similarity": {
+            "distribution avg similarity range": {
                 "75 - 80": 28,
                 "70 - 75": 18,
                 "80 - 85": 13,
@@ -113,7 +113,7 @@
                 "60 - 65": 2,
                 "90 - 95": 2
             },
-            "distribution quality": {
+            "distribution avg quality range": {
                 "85 - 90": 10,
                 "40 - 45": 9,
                 "70 - 75": 9,
@@ -134,7 +134,7 @@
                 "100 - 105": 2,
                 "90 - 95": 1
             },
-            "distribution real": {
+            "distribution avg real range": {
                 "50 - 55": 16,
                 "80 - 85": 14,
                 "60 - 65": 10,
@@ -150,7 +150,7 @@
                 "35 - 40": 1,
                 "100 - 105": 1
             },
-            "distribution matches": {
+            "distribution avg matches range": {
                 "50 - 55": 17,
                 "80 - 85": 14,
                 "60 - 65": 11,
@@ -162,7 +162,30 @@
                 "70 - 75": 4,
                 "100 - 105": 1
             },
+            "distribution matches range": {
+                "50 - 55": 111,
+                "80 - 85": 95,
+                "55 - 60": 67,
+                "70 - 75": 62,
+                "75 - 80": 57,
+                "85 - 90": 35,
+                "90 - 95": 30,
+                "60 - 65": 27,
+                "65 - 70": 16,
+                "100 - 105": 7,
+                "95 - 100": 3
+            },
             "% at least 1 match": 0.85,
+            "avg #matches": 5.1,
+            "max #matches of a user": 81,
+            "min #matches of a user": 0,
+            "avg #potential": 7.46,
+            "max #potential of a user": 103,
+            "min #potential of a user": 0,
+            "avg matches score": 0.5951477363890424,
+            "avg real score": 0.6323977385126125,
+            "avg similarity score": 0.7727060968966243,
+            "avg quality score": 0.4920893801286007,
             "by_user": [
                 {
                     "user": {
