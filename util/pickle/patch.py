@@ -49,15 +49,26 @@ def renamed_loads(pickled_bytes):
 
 # Run this again
 
-def patch(instances_paths):
+def rename(instances_paths):
     for instances_path in instances_paths:
 
-        instances_files = [os.path.join(instances_path, f) for f in os.listdir(
-            instances_path) if os.path.isfile(os.path.join(instances_path, f))]
+        instances_files = [
+            os.path.join(instances_path, f)
+            for f in os.listdir(instances_path)
+            if os.path.isfile(os.path.join(instances_path, f))
+        ]
 
-        users_instances_files = [instance_path for instance_path in instances_files if instance_path.find("users") != -1]
-        openings_instances_files = [instance_path for instance_path in instances_files if
-                                    instance_path.find("openings") != -1]
+        users_instances_files = [
+            instance_path
+            for instance_path in instances_files
+            if instance_path.find("users") != -1
+        ]
+
+        openings_instances_files = [
+            instance_path
+            for instance_path in instances_files
+            if instance_path.find("openings") != -1
+        ]
 
         for users_instances_path in users_instances_files:
 
@@ -94,5 +105,33 @@ def patch(instances_paths):
                     for old_ss in old_sss
                 ]
                 opening_instance.opening = Openingz(old.entityId, old.hardSkills, new_ss)
+
+            OpeningInstance.save_instances(openings_instances_path, openings_instances)
+
+
+def correct_entity_id(instances_paths):
+    for instances_path in instances_paths:
+
+        instances_files = [
+            os.path.join(instances_path, f)
+            for f in os.listdir(instances_path)
+            if os.path.isfile(os.path.join(instances_path, f))
+        ]
+
+        openings_instances_files = [
+            instance_path
+            for instance_path in instances_files
+            if instance_path.find("openings") != -1
+        ]
+
+        for openings_instances_path in openings_instances_files:
+
+            logging.info("Opening instances " + openings_instances_path)
+
+            with open(openings_instances_path, 'rb') as file:
+                openings_instances = pickle.load(file)
+
+            for i, opening_instance in enumerate(openings_instances):
+                opening_instance.opening.entityId = str(i)
 
             OpeningInstance.save_instances(openings_instances_path, openings_instances)
