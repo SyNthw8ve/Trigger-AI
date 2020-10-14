@@ -343,18 +343,16 @@ class GTurbo(Processor):
             if len(node.instances) > 0:
 
                 node_dispersion_delta = self._compute_node_delta(node)
-                node_instance_gamma = self._compute_node_gamma(node, instance_mean, instance_std)
+                node_delta = np.power(node_dispersion_delta, 2)
 
-                node_gamma_delta = np.power(node_dispersion_delta, 2) + np.power(node_instance_gamma, 2)
-
-                node_score = np.exp(-(node_gamma_delta))
+                node_score = np.exp(-(node_delta))*np.log(len(node.instances))
                 node_scores.append(node_score)
 
         return np.sum(node_scores)
 
     def _get_instances_per_node(self):
 
-        return [len(node.instances) for node in self.graph.nodes.values()]
+        return [len(node.instances) for node in self.graph.nodes.values() if len(node.instances) > 0]
 
     def _mean_instances_per_node(self, num_instances):
 
@@ -363,12 +361,6 @@ class GTurbo(Processor):
     def _std_instances_per_node(self, num_instances):
         
         return np.std(num_instances)
-
-    def _compute_node_gamma(self, node, mean_inst, std_inst):
-
-        node_instances = len(node.instances)
-
-        return (node_instances - mean_inst)/(2 * std_inst)
 
     def _compute_node_delta(self, node):
 
@@ -387,7 +379,7 @@ class GTurbo(Processor):
 
         node_dispersion = sim_std / sim_mean
 
-        return node_dispersion - 1
+        return (node_dispersion - 1) / (np.power(5, 0.5) / 5)
 
     def _get_similarities(self, instances):
 
@@ -412,4 +404,4 @@ class GTurbo(Processor):
 
     def _get_std_similarity(self, similarities):
 
-        return np.std(similarities)
+        return np.var(similarities)

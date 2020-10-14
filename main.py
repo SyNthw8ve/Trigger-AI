@@ -31,7 +31,7 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
 
 if __name__ == "__main__":
 
-    opening_instance_file = 'openings_instances_no_ss_norm'
+    opening_instance_file = 'openings_instances_avg'
 
     openings_instances_path = os.path.join(
         instances_path, opening_instance_file)
@@ -39,8 +39,8 @@ if __name__ == "__main__":
     openings_instances = DataInitializer.read_openings(
         openings_instances_path, openings_path)
 
-    gturbo = GTurbo(epsilon_b=0.001, epsilon_n=0, lam=200, beta=0.9995,
-                    alpha=0.95, max_age=200, r0=1, dimensions=1024)
+    gturbo = GTurbo(epsilon_b=0.01, epsilon_n=0, lam=200, beta=0.9995,
+                    alpha=0.95, max_age=200, r0=0.5, dimensions=1024)
 
     for opening_instance in openings_instances:
 
