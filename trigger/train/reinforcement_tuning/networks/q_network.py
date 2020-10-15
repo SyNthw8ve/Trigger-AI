@@ -15,8 +15,6 @@ from tf_agents.trajectories import trajectory
 from tf_agents.utils import common
 from tf_agents.policies import policy_saver
 
-from trigger.train.cluster.birch.birch import Birch
-
 class QNetwork():
 
     def __init__(self, environment_train, environment_eval, learning_rate=1e-3):

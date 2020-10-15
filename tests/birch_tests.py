@@ -1,7 +1,7 @@
 import logging
 import os
 
-from trigger.train.cluster.birch.birch import Birch
+from trigger.train.cluster.birch.mbirch import Birch
 from util.test.test_runner_matches import TestRunnerMatches
 
 import pathlib
