@@ -11,6 +11,6 @@ def eval_matches_and_cluster(processor: Processor, users_instances: List[UserIns
     matches_results = eval_matches(processor, users_instances)
 
     results = cluster_results
-    results[matches_results] = matches_results
+    results['matches_results'] = matches_results
 
     return results

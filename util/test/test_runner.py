@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Type
 
+import logging
+
 import json
 import itertools
 import os
@@ -10,18 +12,24 @@ from trigger.train.cluster.Processor import Processor
 
 from util.metrics.cluster import eval_cluster
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('test_runner')
+logger.setLevel(logging.INFO)
+
+
 class TestRunner(ABC):
 
-    def __init__(self, processor_class: Type[Processor], param_grid, instances, output_path='', output_type='json'):
+    def __init__(self, processor_class: Type[Processor], param_grid, instances, output_path='', output_type='json',
+                 skip_done=False):
         self.processor_class = processor_class
         self.param_grid = param_grid
         self.instances = instances
         self.output_path = output_path
+        self.skip_done = skip_done
 
         if output_type != 'json' and output_type != 'csv':
-
             raise Exception("Output file type not supported.")
-        
+
         self.output_type = output_type
         self.tests = self._build_tests()
 
@@ -40,32 +48,44 @@ class TestRunner(ABC):
 
         for test in self.tests:
 
-            print(test)
-
             processor = self.processor_class(**test)
 
-            #FIXME: We should have ids here too, but for now the index is good enough
-            for i, instance in enumerate(self.instances):
-                processor.process(str(i), instance)
+            file_path = self._get_file_path(processor, self.output_type)
 
-            results = eval_cluster(processor)
+            if self.skip_done and Path(file_path).exists():
+                logger.info("Skipping test with params %s and output at %s. (file exists)", str(test), file_path)
+                continue
+
+            logger.info("Started test with params %s", str(test))
+
+            results = self.run_test(processor, test)
 
             if self.output_type == 'json':
 
-                self._save_results_json(processor, results)
+                self._save_results_json(processor, test, results)
 
             else:
 
                 self._save_results_csv(test, results)
 
+    def run_test(self, processor: Processor, test):
+        # FIXME: We should have ids here too, but for now the index is good enough
+        for i, instance in enumerate(self.instances):
+            processor.process(str(i), instance)
 
-    def _save_results_json(self, processor: Processor, result):
+        return eval_cluster(processor)
+
+    def _get_file_path(self, processor: Processor, output_type: str):
+        file_name = processor.safe_file_name()
+        return os.path.join(self.output_path, F"{file_name}.{output_type}")
+
+    def _save_results_json(self, processor: Processor, test, result):
 
         test_descriptor = {'algorithm': processor.describe(), 'results': result}
 
-        file_name = processor.safe_file_name()
+        file_path = self._get_file_path(processor, 'json')
 
-        file_path = os.path.join(self.output_path, F"{file_name}.json")
+        logger.info(f"Saving results to %s...", file_path)
 
         Path(file_path).parent.mkdir(parents=True, exist_ok=True)
 
