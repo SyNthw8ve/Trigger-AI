@@ -91,6 +91,8 @@ def computeScore(userInstance: UserInstance, openingInstance: Opening) -> float:
 
 
 def eval_matches(processor: Processor, users_instances: List[UserInstance]):
+    logger.info("Computing matches results...")
+
     threshold = 0.5
 
     by_user = []
