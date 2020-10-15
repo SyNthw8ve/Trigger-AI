@@ -14,7 +14,7 @@ logger.setLevel(logging.INFO)
 
 
 def eval_cluster(cluster: Processor) -> Dict[str, Any]:
-    logger.info("Computing cluster results...")
+    # logger.info("Computing cluster results...")
 
     X, tags = cluster.get_all_instances_with_tags()
     labels = []
