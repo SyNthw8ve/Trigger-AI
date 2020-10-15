@@ -1,3 +1,5 @@
+import logging
+
 from trigger.train.cluster.Processor import Processor
 
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
@@ -6,8 +8,14 @@ from typing import Dict, Any
 import statistics
 from collections import Counter
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('cluster')
+logger.setLevel(logging.INFO)
+
 
 def eval_cluster(cluster: Processor) -> Dict[str, Any]:
+    logger.info("Computing cluster results...")
+
     X, tags = cluster.get_all_instances_with_tags()
     labels = []
     labels_set = set()
