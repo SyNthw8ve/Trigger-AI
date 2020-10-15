@@ -17,8 +17,8 @@ class OperationType(Enum):
 @dataclass(frozen=True)
 class Operation:
     type: OperationType
-    opening_instance_tag: Optional[str]
-    opening_instance: Optional[OpeningInstance]
+    opening_instance_tag: Optional[str] = None
+    opening_instance: Optional[OpeningInstance] = None
 
 
 def read_operations(path: str) -> List[Operation]:
