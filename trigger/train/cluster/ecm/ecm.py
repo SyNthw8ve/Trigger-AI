@@ -181,9 +181,11 @@ class ECM(Processor):
 
         diffs = distances - radiuses
 
-        possible = np.where(diffs <= 0)[0]
+        possible_indexes = np.where(diffs <= 0)[0]
 
-        min_index = None if possible.size == 0 else distances.argmin()
+        possible = distances[possible_indexes]
+
+        min_index = None if possible.size == 0 else possible_indexes[possible.argmin()]
 
         if min_index is not None:
             return SearchResultType.RADIUS, (min_index, distances[min_index])
