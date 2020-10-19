@@ -76,7 +76,7 @@ class DataReaderUsers:
                         ",") if s_t.strip() != '']
 
                     user_softskills = [
-                        Softskill(name=softskill, score=0) for softskill in softskills]
+                        Softskill(name=softskill) for softskill in softskills]
                     user_hardskills = [
                         Hardskill(name=hardskill) for hardskill in hardskills]
 
@@ -142,13 +142,13 @@ class DataReaderOpenings:
                         ",") if s_t.strip() != '']
 
                     opening_softskills = [
-                        Softskill(name=softskill, score=0) for softskill in softskills]
+                        Softskill(name=softskill) for softskill in softskills]
 
                     opening_hardskills = [
                         Hardskill(name=hardskill) for hardskill in hardskills]
 
-                    opening = Opening(entityId=len(openings), sector=sector, area=area, hardSkills=opening_hardskills,
-                                      softSkills=opening_softskills, languages=[Language(name="English")])
+                    opening = Opening(entityId=str(len(openings)), hardSkills=opening_hardskills,
+                                      softSkills=opening_softskills)
 
                     openings.append(opening)
 

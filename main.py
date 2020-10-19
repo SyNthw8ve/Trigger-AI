@@ -1,46 +1,22 @@
-import os
-import pprint
 import logging
-import json
+import os
+from typing import List
 
-from typing import List, Tuple
-from scipy.spatial.distance import cosine
-
-from sklearn.metrics import silhouette_score, calinski_harabasz_score
-
+from tests.ecm_tests import test_ecm
 from trigger.models.match import Match
-
-from trigger.models.opening import Opening
-from trigger.models.softskill import Softskill
-from trigger.models.hardskill import Hardskill
-from trigger.models.language import Language
-from trigger.models.user import User
-
-from trigger.recommend import smart
-from trigger.recommend.controller import Controller
-from trigger.recommend.clusters import Clusters
-from trigger.recommend.opening_transformer import OpeningTransformer
-from trigger.recommend.skill_transformers.soft_skill_transformer import SoftskillTransformer
-
-from trigger.recommend.user_transformer import UserTransformer
-
-from util.readers.reader import DataReaderOpenings, DataReaderUsers
-from trigger.train.transformers.input_transformer import SentenceEmbedder
-from trigger.train.transformers.user_transformer import UserInstance
 from trigger.train.transformers.opening_transformer import OpeningInstance
+from trigger.train.transformers.user_transformer import UserInstance
+from util.metrics.matches import computeScore
+from util.readers.setup_reader import DataInitializer
+from tests.gng_test import test_gng
+from tests.ecm_tests import test_ecm
 
-from trigger.train.cluster.gstream.gstream import GNG
-from trigger.train.cluster.birch.birch import Birch
+from trigger.train.cluster.gturbo.gturbo import GTurbo
 
-users_path = './examples/openings_users/users'
-openings_path = './examples/openings_users/openings'
-instances_path = './data/instances'
+users_path = './examples/openings_users_softskills_confirmed/users'
+openings_path = './examples/openings_users_softskills_confirmed/openings'
+instances_path = './data/instances_ss_confirmed'
 results_path = './results/openings_users'
-
-
-def computeScore(userInstance: UserInstance, openingInstance: OpeningInstance) -> float:
-
-    return 1 - cosine(userInstance.embedding, openingInstance.embedding)
 
 
 def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], threshold: float) -> List[Match]:
@@ -53,187 +29,21 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
             if computeScore(user, openingInstance) >= threshold]
 
 
-def eval_cluster(gng: GNG) -> Tuple[float, float]:
-
-    X = gng.instances
-    labels = []
-
-    for x in X:
-
-        labels.append(gng.get_cluster(x))
-
-    return (silhouette_score(X, labels), calinski_harabasz_score(X, labels))
-
-
-def eval_birch(birch: Birch) -> Tuple[float, float]:
-
-    X = birch.instances
-    labels = []
-
-    for x in X:
-
-        labels.append(birch.index_of_cluster_containing(x))
-
-    return (silhouette_score(X, labels), calinski_harabasz_score(X, labels))
-
-
-def quality_metric(user: User, opening: OpeningInstance):
-
-    u_h = set(user.hardSkills)
-    u_s = set(user.softSkills)
-
-    o_h = set(opening.hardSkills)
-    o_s = set(opening.softSkills)
-
-    if len(o_h) == 0:
-        HS_s = 0
-
-    else:
-        HS_s = len(o_h.intersection(u_h))/len(o_h)
-
-    if len(o_s) == 0:
-        SS_s = 0
-
-    else:
-        SS_s = len(o_s.intersection(u_s))/len(o_s)
-
-    Mq = 0.6*HS_s + 0.4*SS_s
-
-    return Mq
-
-
-def opening_to_json(opening: Opening):
-
-    return {'hard_skills': opening.hardSkills, 'soft_skills': opening.softSkills}
-
-
-def user_to_json(user: User, matches: List[Match]):
-
-    user_json = {'name': user.name, 'hard_skills': user.hardSkills,
-                 'soft_skills': user.softSkills, 'matches': []}
-
-    user_matches = []
-
-    for match in matches:
-
-        quality = quality_metric(user, match.opening)
-        real_score = 0.5*(match.score + quality)
-
-        user_match = {'score': str(match.score), 'quality':  str(
-            quality), 'real_score': str(real_score), 'opening': opening_to_json(match.opening)}
-
-        user_matches.append(user_match)
-
-    user_matches = sorted(
-        user_matches, key=lambda match: match['score'], reverse=True)
-
-    user_json['matches'] = user_matches
-
-    return user_json
-
-
 if __name__ == "__main__":
 
-    users_instances = []
-    users_instances_path = os.path.join(instances_path, 'users_instances')
+    opening_instance_file = 'openings_instances_avg'
 
-    openings_instances = []
     openings_instances_path = os.path.join(
-        instances_path, 'openings_instances')
+        instances_path, opening_instance_file)
 
-    if os.path.exists(users_instances_path):
+    openings_instances = DataInitializer.read_openings(
+        openings_instances_path, openings_path)
 
-        logging.info("Users instances file found. Loading...")
-        users_instances = UserInstance.load_instances(users_instances_path)
-
-    else:
-
-        embedder = SentenceEmbedder()
-
-        logging.info("Users instances file not found. Reading Users...")
-        users_files = [os.path.join(users_path, f) for f in os.listdir(
-            users_path) if os.path.isfile(os.path.join(users_path, f))]
-
-        users = []
-        for user_file in users_files:
-
-            users += DataReaderUsers.populate(filename=user_file)
-
-        logging.info("Creating instances...")
-        users_instances = [UserInstance(user, embedder) for user in users]
-
-        logging.info(f"Saving instances to {users_instances_path}...")
-        UserInstance.save_instances(users_instances_path, users_instances)
-
-        logging.info("Saved")
-
-    logging.info("Users instances complete.")
-
-    if os.path.exists(openings_instances_path):
-
-        logging.info("Openings instances file found. Loading...")
-        openings_instances = OpeningInstance.load_instances(
-            openings_instances_path)
-
-    else:
-
-        embedder = SentenceEmbedder()
-
-        logging.info("Openings instances file not found. Reading Openings...")
-        openings_files = [os.path.join(openings_path, f) for f in os.listdir(
-            openings_path) if os.path.isfile(os.path.join(openings_path, f))]
-
-        openings = []
-        for opening_file in openings_files:
-
-            openings += DataReaderOpenings.populate(filename=opening_file)
-
-        logging.info("Creating instances...")
-        openings_instances = [OpeningInstance(
-            opening, embedder) for opening in openings]
-
-        logging.info(f"Saving instances to {openings_instances_path}...")
-        OpeningInstance.save_instances(
-            openings_instances_path, openings_instances)
-
-        logging.info("Saved")
-
-    logging.info("Openings instances complete.")
-
-    logging.info("GNG Testing")
-
-    gng = GNG(epsilon_b=0.001,
-              epsilon_n=0,
-              lam=5,
-              beta=0.9995,
-              alpha=0.95,
-              max_age=10,
-              off_max_age=10,
-              lambda_2=0.2,
-              nodes_per_cycle=1,
-              dimensions=1024,
-              index_type='L2')
+    gturbo = GTurbo(epsilon_b=0.01, epsilon_n=0, lam=200, beta=0.9995,
+                    alpha=0.95, max_age=200, r0=0.5, dimensions=1024)
 
     for opening_instance in openings_instances:
 
-        gng.online_fase(opening_instance.opening.entityId, opening_instance.embedding)
-        opening_instance.cluster_index = gng.get_cluster(
-            opening_instance.embedding)
+        gturbo.turbo_step(opening_instance.opening.entityId, opening_instance.embedding)
 
-    results = {'scores': str(eval_cluster(gng)), 'user_matches': []}
-    user_matches = []
-
-    for user_instance in users_instances:
-
-        cluster_id = gng.predict(user_instance.embedding)
-        matches = getOpenings(cluster_id, user_instance,
-                              openings_instances, 0.5)
-
-        user_result = user_to_json(user_instance.user, matches)
-        user_matches.append(user_result)
-
-    results['user_matches'] = user_matches
-
-    with open('quality_l2_avg_norm.json', 'w') as f:
-
-        json.dump(results, f)
+    print(gturbo.compute_cluster_score())

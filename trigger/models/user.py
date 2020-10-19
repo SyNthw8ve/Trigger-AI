@@ -1,9 +1,10 @@
 from typing import List
 
-from attr import dataclass
+from dataclasses import dataclass
 
 from trigger.models.softskill import Softskill
 from trigger.models.hardskill import Hardskill
+
 
 @dataclass(frozen=True)
 class User:

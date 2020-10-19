@@ -4,29 +4,42 @@ import pickle
 
 from typing import List
 from trigger.models.user import User
-from trigger.models.hardskill import Hardskill
-from trigger.models.softskill import Softskill
+
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 
 class UserInstance:
 
-    def __init__(self, user: User, sentenceEmbedder: SentenceEmbedder):
-        self.user = user
-        self.embedding = self._transformUser(sentenceEmbedder)
+    def __init__(self, user: User, sentenceEmbedder: SentenceEmbedder, layer:str='avg', normed=False):
 
-    def _transformUser(self, sentenceEmbedder: SentenceEmbedder) -> numpy.array:
+        self.user = user
+        self.embedding = self._transformUser(sentenceEmbedder, layer, normed)
+
+    def _transformUser(self, sentenceEmbedder: SentenceEmbedder, layer, normed) -> numpy.array:
 
         hardSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.user.hardSkills)
 
         softSkillsEmbedding = sentenceEmbedder.generateEmbeddingsFromList(self.user.softSkills)
 
-        averageEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
-        #averageEmbedding = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
+        if layer == 'avg':
+            jointEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
 
-        resultingEmbedding = averageEmbedding.numpy()
-        resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
+        elif layer == 'concat':
+            jointEmbedding = tf.keras.layers.concatenate([hardSkillsEmbedding, softSkillsEmbedding])
 
-        return averageEmbedding.numpy()
+        elif layer == 'no_ss':
+            jointEmbedding = hardSkillsEmbedding
+
+        if layer == 'no_ss':
+            resultingEmbedding = jointEmbedding
+            
+        else:
+            resultingEmbedding = jointEmbedding.numpy()
+
+        if normed and not numpy.isnan(resultingEmbedding).any():
+
+            resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
+
+        return resultingEmbedding
 
 
     @staticmethod
