@@ -1,31 +1,34 @@
-from typing import Dict, List, Any
+from typing import Dict, List
 
+import numpy
 import pymongo
 
 from server.database.opening_model import OpeningModel
 from server.database.user_model import UserModel
-from server.score_calculator import ScoreCalculator
+from trigger.models.opening import Opening
 from trigger.models.server_match import ServerMatch
-from trigger.train.cluster.gstream.gstream import GNG
+from trigger.models.user import User
+from trigger.train.cluster.Processor import Processor
 from trigger.train.transformers.input_transformer import SentenceEmbedder
 
 from trigger.train.transformers.opening_transformer import OpeningInstance
 from trigger.train.transformers.user_transformer import UserInstance
+from util.metrics.matches import similarity_metric, quality_metric, real_metric
 
-Clusterer = GNG
+
+def calculate_score(user: User, embedding1: numpy.ndarray, opening: Opening, embedding2: numpy.ndarray):
+    similarity = similarity_metric(embedding1, embedding2)
+    quality = quality_metric(user, opening)
+    # FIXME: Temporary
+    return real_metric(similarity_weight=.5, similarity_score=similarity, quality_weight=.5, quality_score=quality)
+
 
 class TriggerDriver:
 
     def __init__(self, sentence_embedder: SentenceEmbedder,
                  config: Dict,
-                 score_to_be_match: float,
-                 score_calculator: ScoreCalculator,
-                 clusterer: Clusterer):
-        self.score_calculator = score_calculator
-        self.clusterer = clusterer
-        # FIXME: Should this be in the clusterer?
-        self.tag_to_opening_instance: Dict[str, OpeningInstance] = {}
-        self.score_to_be_match = score_to_be_match
+                 processor: Processor):
+        self.processor = processor
         self.config = config
         self.sentence_embedder = sentence_embedder
 
@@ -34,43 +37,42 @@ class TriggerDriver:
         client = pymongo.MongoClient(self.config["database_host"])
         return client
 
-    def init_clusterer(self) -> "TriggerDriver":
-        print("Initializing clusterer")
+    def init_processor(self) -> "TriggerDriver":
+        print("Initializing processor")
 
         with self.connect() as client:
             database = client[self.config["database"]]
 
             for opening in OpeningModel.get_all_openings(database):
                 print("Inserting into cluster", opening)
-                opening_instance =  OpeningInstance(opening, self.sentence_embedder)
-                self.clusterer.online_fase(opening.entityId, opening_instance.embedding)
-                self.tag_to_opening_instance[opening.entityId] = opening_instance
+                opening_instance = OpeningInstance(opening, self.sentence_embedder)
+                self.processor.process(opening.entityId, opening_instance.embedding, opening_instance.opening)
 
         return self
 
     def calculate_matches_of_user(self, user_id: str, user_instance: UserInstance) -> List[ServerMatch]:
 
-        would_be_cluster_id = self.clusterer.predict(user_instance.embedding)
-        _, tags = self.clusterer.get_instances_and_tags_in_cluster(would_be_cluster_id)
-        opening_instances = [self.tag_to_opening_instance[opening_id] for opening_id in tags]
+        would_be_cluster_id = self.processor.predict(user_instance.embedding)
+        instances, tags = self.processor.get_instances_and_tags_in_cluster(would_be_cluster_id)
+        openings = [self.processor.get_custom_data_by_tag(tag) for tag in tags]
 
         matches = [
             ServerMatch(
                 user_id,
-                self.score_calculator.calculate(user_instance, opening_instance),
+                calculate_score(user_instance.user, user_instance.embedding, opening, instance),
                 opening_id
             )
-            for opening_instance, opening_id in zip(opening_instances, tags)
+            for opening, instance, opening_id in zip(openings, instances, tags)
         ]
 
         good_matches = [
             match
             for match in matches
-            if match.score > self.score_to_be_match
+            # TODO: TEMPORARY
+            if match.score > 0.0
         ]
 
         return good_matches
-
 
     def compute_user_matches(self, user_id: str):
         with self.connect() as client:
@@ -85,14 +87,13 @@ class TriggerDriver:
 
             print("Matches")
 
-            print(self.clusterer.get_all_instances_with_tags())
+            print(self.processor.get_all_instances_with_tags())
             print()
             print(user)
             print()
             print(f"Did matches for user: {user_id}: {matches}")
 
             UserModel.insert_user_matches(user_id, database, matches, self.config["backend_matches_endpoint"])
-
 
     def compute_user_score(self, user_id: str, opening_id: str) -> ServerMatch:
         with self.connect() as client:
@@ -101,9 +102,10 @@ class TriggerDriver:
             # TODO: cache user instance?
             user_instance = UserInstance(user, self.sentence_embedder)
 
-            opening_instance = self.tag_to_opening_instance[opening_id]
-            return ServerMatch(user_id, self.score_calculator.calculate(user_instance, opening_instance),opening_id)
+            opening = self.processor.get_custom_data_by_tag(opening_id)
+            embedding = self.processor.get_instance_by_tag(opening_id)
 
+            return ServerMatch(user_id, calculate_score(user, user_instance.embedding, opening, embedding), opening_id)
 
     def update_user_matches(self, user_id: str):
         with self.connect() as client:
@@ -116,12 +118,11 @@ class TriggerDriver:
 
             UserModel.update_user_matches(user_id, database, matches, self.config["backend_matches_endpoint"])
 
-            print(self.clusterer.get_all_instances_with_tags())
+            print(self.processor.get_all_instances_with_tags())
             print()
             print(user)
             print()
             print(f"Updated matches: {matches}")
-
 
     def insert_opening_to_cluster(self, opening_id: str):
         with self.connect() as client:
@@ -132,13 +133,10 @@ class TriggerDriver:
             opening_instance = OpeningInstance(opening, self.sentence_embedder)
 
             # FIXME: always online here?
-            self.clusterer.online_fase(opening_id, opening_instance.embedding)
-            self.tag_to_opening_instance[opening_id] = opening_instance
+            self.processor.process(opening_id, opening_instance.embedding, opening_instance.opening)
 
             print(f"Opening {opening_id} added!")
-            print(self.clusterer.get_all_instances_with_tags())
-
-
+            print(self.processor.get_all_instances_with_tags())
 
     def update_opening(self, opening_id: str):
         with self.connect() as client:
@@ -146,14 +144,10 @@ class TriggerDriver:
             opening = OpeningModel.get_opening(opening_id, database)
             opening_instance = OpeningInstance(opening, self.sentence_embedder)
 
-            self.clusterer.update(opening_id, opening_instance.embedding)
-            self.tag_to_opening_instance[opening_id] = opening_instance
-
+            self.processor.update(opening_id, opening_instance.embedding)
 
     def remove_opening_from_cluster(self, opening_id: str):
-        self.clusterer.remove(opening_id)
-        self.tag_to_opening_instance.pop(opening_id)
-
+        self.processor.remove(opening_id)
 
     def sweep(self):
         with self.connect() as client:

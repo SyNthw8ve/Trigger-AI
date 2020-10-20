@@ -55,8 +55,8 @@ def min_from_distribution(distribution) -> float:
                in distribution.keys())
 
 
-def real_metric(similarity_score: float, quality_score: float):
-    return 0.5 * similarity_score + 0.5 * quality_score
+def real_metric(similarity_weight: float, similarity_score: float, quality_weight: float, quality_score: float):
+    return similarity_weight * similarity_score + quality_weight * quality_score
 
 
 def similarity_metric(embedding1: numpy.ndarray, embedding2: numpy.ndarray) -> float:
@@ -121,7 +121,7 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance]):
         openings = [processor.get_custom_data_by_tag(tag) for tag in tags]
         similarities = [similarity_metric(user_instance.embedding, instance) for instance in instances]
         qualities = [quality_metric(user_instance.user, opening) for opening in openings]
-        reals = [real_metric(similarity, quality) for similarity, quality in zip(similarities, qualities)]
+        reals = [real_metric(0.5, similarity, 0.5, quality) for similarity, quality in zip(similarities, qualities)]
 
         matches = []
         for i, real in enumerate(reals):

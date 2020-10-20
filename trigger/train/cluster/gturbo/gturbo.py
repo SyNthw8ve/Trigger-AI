@@ -1,4 +1,6 @@
 from typing import Any, List, Tuple, Optional, Dict
+
+import numpy
 import numpy as np
 import faiss
 import time
@@ -72,7 +74,7 @@ class GTurbo(Processor):
 
     def create_node(self, q: Node, f: Node, radius: float) -> Node:
 
-        r = Node(np.array(0.5*(q.protype + f.protype)).astype(
+        r = Node(np.array(0.5 * (q.protype + f.protype)).astype(
             'float32'), 0,
             self.next_id, self.cycle, radius)
         self.next_id += 1
@@ -112,7 +114,7 @@ class GTurbo(Processor):
         self.decrease_error(q)
         self.decrease_error(f)
 
-        r.error = 0.5*(q.error + f.error)
+        r.error = 0.5 * (q.error + f.error)
         self.graph.update_heap()
 
     def get_best_match(self, instance) -> Tuple[Node, Node]:
@@ -125,21 +127,21 @@ class GTurbo(Processor):
 
         self.fix_error(node)
         node.error = node.error * \
-            (np.power(self.beta, self.lam - self.step)) + value
+                     (np.power(self.beta, self.lam - self.step)) + value
 
         self.graph.update_heap()
 
     def fix_error(self, node: Node) -> None:
 
         node.error = np.power(self.beta, self.lam *
-                              (self.cycle - node.error_cycle))*node.error
+                              (self.cycle - node.error_cycle)) * node.error
         node.update_error_cycle(self.cycle)
 
     def update_prototype(self, v: Node, scale: float, instance) -> None:
 
         self.index.remove_ids(np.array([v.id]))
 
-        v.protype += scale*(instance - v.protype)
+        v.protype += scale * (instance - v.protype)
 
         self.index.add_with_ids(np.array([v.protype]), np.array([v.id]))
 
@@ -166,13 +168,11 @@ class GTurbo(Processor):
             self.update_prototype(v, self.epsilon_b, instance)
 
             for node in v.topological_neighbors.values():
-
                 self.update_prototype(node, self.epsilon_n, instance)
 
             self.age_links(v)
 
             if not self.graph.has_link(v, u):
-
                 self.create_link(v, u)
 
             link = self.graph.get_link(v, u)
@@ -214,18 +214,15 @@ class GTurbo(Processor):
         for node in self.graph.nodes.values():
 
             if len(node.topological_neighbors) == 0 and len(node.instances) == 0:
-
                 nodes_to_remove.append(node)
 
         for node in nodes_to_remove:
-
             self.graph.remove_node(node)
             self.index.remove_ids(np.array([node.id]))
 
     def age_links(self, v: Node) -> None:
 
         for u in v.topological_neighbors.values():
-
             link = self.graph.get_link(v, u)
 
             link.fade()
@@ -239,11 +236,9 @@ class GTurbo(Processor):
             link = self.graph.get_link(v, u)
 
             if link.age > self.max_age:
-
                 links_to_remove.append((v, u))
 
         for v, u in links_to_remove:
-
             v.remove_neighbor(u)
             u.remove_neighbor(v)
 
@@ -259,7 +254,6 @@ class GTurbo(Processor):
                            alpha=self.alpha, max_age=max_age, r0=r0, dimensions=self.dimensions)
 
         for tag, instance in self.instances.items():
-
             new_turbo.turbo_step(tag, instance)
 
         return new_turbo
@@ -307,6 +301,10 @@ class GTurbo(Processor):
 
         return (instances, tags)
 
+    def get_instance_by_tag(self, tag: str) -> Optional[numpy.ndarray]:
+
+        return self.instances.get(tag, None)
+
     def predict(self, instance: np.ndarray) -> int:
 
         return self.get_best_match(instance)[0].id
@@ -319,7 +317,7 @@ class GTurbo(Processor):
                 "epsilon_b": self.epsilon_b,
                 "epsilon_n": self.epsilon_n,
                 "lam": self.lam,
-                "beta": self. beta,
+                "beta": self.beta,
                 "alpha": self.alpha,
                 "max_age": self.max_age,
                 "radius": self.r0
@@ -329,6 +327,7 @@ class GTurbo(Processor):
     def safe_file_name(self) -> str:
 
         return f"GTurbo = epsilon_b={self.epsilon_b};epsilon_n={self.epsilon_n};lam={self.lam};beta={self.beta};alpha={self.alpha};max_age={self.max_age};radius={self.r0}"
+
 
     def compute_cluster_score(self):
 
@@ -341,11 +340,10 @@ class GTurbo(Processor):
         for node in self.graph.nodes.values():
 
             if len(node.instances) > 0:
-
                 node_dispersion_delta = self._compute_node_delta(node)
                 node_delta = np.power(node_dispersion_delta, 2)
 
-                node_score = np.exp(-(node_delta))*np.log(len(node.instances))
+                node_score = np.exp(-(node_delta)) * np.log(len(node.instances))
                 node_scores.append(node_score)
 
         return np.sum(node_scores)
@@ -359,7 +357,7 @@ class GTurbo(Processor):
         return np.mean(num_instances)
 
     def _std_instances_per_node(self, num_instances):
-        
+
         return np.std(num_instances)
 
     def _compute_node_delta(self, node):
@@ -390,7 +388,6 @@ class GTurbo(Processor):
             test_instance = self.instances[instances[i]]
 
             for j in range(i + 1, len(instances)):
-
                 compare_instance = self.instances[instances[j]]
 
                 cos_sim = 1 - cosine(test_instance, compare_instance)

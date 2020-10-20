@@ -4,12 +4,6 @@ from pathlib import Path
 sys.path.append(str(Path('.').absolute().parent))
 sys.path.append(str(Path('..').absolute().parent))
 
-from trigger.train.transformers.input_transformer import SentenceEmbedder
-from trigger.models.hardskill import Hardskill
-from trigger.models.softskill import Softskill
-from trigger.models.user import User
-from trigger.train.transformers.user_transformer import UserInstance
-
 from flask import Flask
 from redis import Redis
 from rq import Queue
@@ -18,9 +12,7 @@ from rq.job import Job
 from server.jobs import on_compute_user_matches, on_compute_user_score, on_update_user_matches, \
     on_insert_opening_to_cluster, on_update_opening, on_remove_opening_from_cluster
 
-
 app = Flask(__name__)
-
 
 processing = Queue(connection=Redis())
 
