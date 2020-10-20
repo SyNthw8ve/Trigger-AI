@@ -10,7 +10,6 @@ from trigger.models.softskill import Softskill
 
 
 class OpeningModel:
-
     collection_name = "openings"
 
     @staticmethod
@@ -22,7 +21,7 @@ class OpeningModel:
             softskills_collection = database[softskills_collection_name]
             for ss_ref in opening[key]:
                 softskill_from_db = softskills_collection.find_one({"_id": ObjectId(ss_ref)})
-                softskills.append(Softskill(name=softskill_from_db["name"], score=0))
+                softskills.append(Softskill(name=softskill_from_db["name"]))
 
         hardskills = []
         key = "hardskills"
@@ -33,28 +32,7 @@ class OpeningModel:
                 hardskill_from_db = hardskills_collection.find_one({"_id": ObjectId(hs_ref)})
                 hardskills.append(Hardskill(name=hardskill_from_db["name"]))
 
-        # TODO: Do we need area?
-        area = ""
-        key = "area"
-        if key in opening:
-            area = opening[key]
-
-        # TODO: Do we need sector?
-        sector = ""
-        key = "sector"
-        if key in opening:
-            sector = opening[key]
-
-        # TODO: Do we need languages here?
-        languages = []
-        key = "languages"
-        if key in opening:
-            languages_collection = database[languages_collection_name]
-            for l_ref in opening[key]:
-                language_from_db = languages_collection.find_one({"_id": ObjectId(l_ref)})
-                languages.append(Language(name=language_from_db["name"]))
-
-        return Opening(str(opening["_id"]), sector, area, languages, hardskills, softskills)
+        return Opening(str(opening["_id"]), hardskills, softskills)
 
     @staticmethod
     def get_opening(opening_id: str, database: Database) -> Opening:
