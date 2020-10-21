@@ -68,8 +68,8 @@ class Cluster:
         else:
             node_similarities = [
                 similarity_metric(test_instance, compare_instance)
-                for i, test_instance in enumerate(self.tag_to_instance.values()[:-1])
-                for compare_instance in self.tag_to_instance.values()[i + 1:]
+                for i, test_instance in enumerate(list(self.tag_to_instance.values())[:-1])
+                for compare_instance in list(self.tag_to_instance.values())[i + 1:]
             ]
 
         sim_mean = np.mean(node_similarities)
