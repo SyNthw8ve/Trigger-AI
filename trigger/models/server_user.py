@@ -1,12 +1,11 @@
-from typing import NamedTuple, List
-
-from attr import dataclass
-
-from trigger.models.softskill import Softskill
 from trigger.models.hardskill import Hardskill
+from typing import List
+from trigger.models.softskill import Softskill
 from trigger.models.user import User
 
 
-@dataclass(frozen=True)
 class ServerUser(User):
-    id: str
+
+    def __init__(self, name: str, softSkills: List[Softskill], hardSkills: List[Hardskill], id: str) -> None:
+        super().__init__(name, softSkills, hardSkills)
+        self.id = id
