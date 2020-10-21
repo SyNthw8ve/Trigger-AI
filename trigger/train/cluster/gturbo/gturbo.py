@@ -1,4 +1,6 @@
 from typing import Any, List, Tuple, Optional, Dict
+
+import numpy
 import numpy as np
 import faiss
 import time
@@ -291,6 +293,10 @@ class GTurbo(Processor):
     def get_custom_data_by_tag(self, tag: str) -> Optional[Any]:
 
         return self.tag_to_data[tag]
+
+    def get_instance_by_tag(self, tag: str) -> Optional[numpy.ndarray]:
+
+        return self.instances.get(tag, None)
 
     def get_instances_and_tags_in_cluster(self, cluster_id: int) -> Tuple[List[np.ndarray], List[str]]:
 

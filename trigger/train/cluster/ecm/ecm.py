@@ -216,13 +216,13 @@ class ECM(Processor):
         return f"ECM = distance_threshold={self.distance_threshold}"
 
     def predict(self, instance: Any) -> Optional[int]:
-        #FIXME: What should predict do in this case?
+        # FIXME: What should predict do in this case?
         if not self.did_first_add:
             return None
 
         search_result, (index, distance) = self._search_index_and_distance(instance)
-        
-        #FIXME: What should predict do in this case?
+
+        # FIXME: What should predict do in this case?
         if search_result == SearchResultType.OUTSIDE:
             return index
 
@@ -232,8 +232,10 @@ class ECM(Processor):
         elif search_result == SearchResultType.RADIUS:
             return index
 
-
     def get_custom_data_by_tag(self, tag: str) -> Optional[Any]:
         # TODO: We assume the tag exists?
         index = self.get_cluster_by_tag(tag)
         return self.clusters[index].tag_to_custom.get(tag, None)
+
+    def get_instance_by_tag(self, tag: str) -> Optional[numpy.ndarray]:
+        return self.tag_to_instance.get(tag, None)

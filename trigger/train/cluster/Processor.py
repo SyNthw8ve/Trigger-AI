@@ -27,6 +27,10 @@ class Processor(ABC):
         pass
 
     @abstractmethod
+    def get_instance_by_tag(self, tag: str) -> Optional[numpy.ndarray]:
+        pass
+
+    @abstractmethod
     def get_instances_and_tags_in_cluster(self, cluster_id: int) -> Tuple[List[numpy.ndarray], List[str]]:
         pass
 
