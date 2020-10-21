@@ -3,11 +3,13 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy
 
 from trigger.train.cluster.Processor import Processor
-from scipy.spatial.distance import cdist, euclidean
+from scipy.spatial.distance import cdist, euclidean, cosine
 
 import numpy as np
 
 from enum import Enum
+
+from util.metrics.matches import similarity_metric
 
 
 class Cluster:
@@ -58,6 +60,24 @@ class Cluster:
 
         if farthest is not None and farthest[0] == tag and second is not None:
             self._adapt(second[1], self.tag_to_instance[second[0]])
+
+    def delta_score(self):
+        if len(self.tag_to_instance) == 1:
+            node_similarities = [1.0]
+
+        else:
+            node_similarities = [
+                similarity_metric(test_instance, compare_instance)
+                for i, test_instance in enumerate(self.tag_to_instance.values()[:-1])
+                for compare_instance in self.tag_to_instance.values()[i + 1:]
+            ]
+
+        sim_mean = np.mean(node_similarities)
+        sim_std = np.std(node_similarities)
+
+        node_dispersion = sim_std / sim_mean
+
+        return (node_dispersion - 1) / (np.power(5, 0.5) / 5)
 
 
 class SearchResultType(Enum):
@@ -239,3 +259,15 @@ class ECM(Processor):
 
     def get_instance_by_tag(self, tag: str) -> Optional[numpy.ndarray]:
         return self.tag_to_instance.get(tag, None)
+
+    def compute_cluster_score(self):
+        node_scores = []
+
+        for cluster in self.clusters:
+            node_dispersion_delta = cluster.delta_score()
+            node_delta = np.power(node_dispersion_delta, 2)
+
+            node_score = np.exp(-(node_delta)) * np.log(len(cluster.tag_to_instance))
+            node_scores.append(node_score)
+
+        return np.sum(node_scores)
