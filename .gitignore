@@ -12,3 +12,5 @@ tf_policy/train
 tf_policy/policies
 
 venv_w/
+
+server/config.json
