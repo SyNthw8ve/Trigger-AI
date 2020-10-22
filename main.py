@@ -2,14 +2,12 @@ import logging
 import os
 from typing import List
 
-from tests.ecm_tests import test_ecm
 from trigger.models.match import Match
 from trigger.train.transformers.opening_transformer import OpeningInstance
 from trigger.train.transformers.user_transformer import UserInstance
 from util.metrics.matches import computeScore
 from util.readers.setup_reader import DataInitializer
-from tests.gng_test import test_gng
-from tests.ecm_tests import test_ecm
+from data_analysis.analysis import load_data, skills_count_openings, skills_count_users
 
 from trigger.train.cluster.gturbo.gturbo import GTurbo
 
