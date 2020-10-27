@@ -15,7 +15,6 @@ def load_data(users_path, openings_path):
 
     return (users, openings)
 
-
 def data_frame_build_openings(openings: List[Opening]):
 
     soft_skills = []
@@ -63,6 +62,12 @@ def skills_count_openings(openings: List[Opening]):
     soft_skill_frame['Softskill'].value_counts().to_csv('./data/csv/openings/soft_skill_count.csv')
     hard_skill_frame['Hardskill'].value_counts().to_csv('./data/csv/openings/hard_skill_count.csv')
 
+def dulicate(users: List[User]):
+
+    soft_skill_frame, hard_skill_frame = data_frame_build_users(users)
+
+    soft_skill_group = soft_skill_frame.groupby('User Name')
+    
 if __name__ == "__main__":
     
     users_path = './examples/openings_users_softskills_confirmed/users'

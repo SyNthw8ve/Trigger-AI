@@ -5,9 +5,10 @@ from typing import List
 from trigger.models.match import Match
 from trigger.train.transformers.opening_transformer import OpeningInstance
 from trigger.train.transformers.user_transformer import UserInstance
+from trigger.train.transformers.input_transformer import SentenceEmbedder
 from util.metrics.matches import computeScore
 from util.readers.setup_reader import DataInitializer
-from data_analysis.analysis import load_data, skills_count_openings, skills_count_users
+from data_analysis.analysis import load_data, skills_count_openings, skills_count_users, dulicate
 
 from trigger.train.cluster.gturbo.gturbo import GTurbo
 
@@ -29,7 +30,7 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
 
 if __name__ == "__main__":
 
-    opening_instance_file = 'openings_instances_avg'
+    """ opening_instance_file = 'openings_instances_avg'
 
     openings_instances_path = os.path.join(
         instances_path, opening_instance_file)
@@ -44,4 +45,14 @@ if __name__ == "__main__":
 
         gturbo.turbo_step(opening_instance.opening.entityId, opening_instance.embedding)
 
-    print(gturbo.compute_cluster_score())
+    print(gturbo.compute_cluster_score()) """
+
+    users_path = './examples/openings_users_softskills_confirmed/users'
+    openings_path = './examples/openings_users_softskills_confirmed/openings'
+
+    users_file = os.path.join(users_path, 'users_0.txt')
+    openings_file = os.path.join(openings_path, 'openings_0.txt')
+
+    users, openings = load_data(users_file, openings_file)
+
+    dulicate(users)
