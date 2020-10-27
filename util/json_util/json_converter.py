@@ -1,4 +1,5 @@
 import json
+from trigger.models.project import Project
 from trigger.models.softskill import Softskill
 import pandas
 
@@ -8,17 +9,21 @@ from trigger.models.opening import Opening
 from trigger.models.match import Match
 from trigger.models.user import User
 
-import dataclasses, json
+import dataclasses
+import json
+
 
 class EnhancedJSONEncoder(json.JSONEncoder):
-        def default(self, o):
-            if dataclasses.is_dataclass(o):
-                return dataclasses.asdict(o)
-            return super().default(o)
+    def default(self, o):
+        if dataclasses.is_dataclass(o):
+            return dataclasses.asdict(o)
+        return super().default(o)
+
 
 def opening_to_json(opening: Opening):
 
     return {'hard_skills': opening.hardSkills, 'soft_skills': opening.softSkills}
+
 
 def user_to_json(user: User, matches: List[Match]):
 
@@ -43,6 +48,12 @@ def user_to_json(user: User, matches: List[Match]):
     user_json['matches'] = user_matches
 
     return user_json
+
+
+def project_to_json(project: Project, variability):
+
+    return {'openings': [opening_to_json(opening.opening) for opening in project.openings], 'variability': variability}
+
 
 def json_to_csv(file_path, output_path):
 

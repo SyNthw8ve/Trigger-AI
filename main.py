@@ -6,11 +6,15 @@ from trigger.models.match import Match
 from trigger.train.transformers.opening_transformer import OpeningInstance
 from trigger.train.transformers.user_transformer import UserInstance
 from trigger.train.transformers.input_transformer import SentenceEmbedder
+
 from util.metrics.matches import computeScore
 from util.readers.setup_reader import DataInitializer
 from data_analysis.analysis import load_data, skills_count_openings, skills_count_users, dulicate
 
 from trigger.train.cluster.gturbo.gturbo import GTurbo
+
+from util.generators.project_generator import ProjectGenerator
+from util.test.project_test import test_variability
 
 users_path = './examples/openings_users_softskills_confirmed/users'
 openings_path = './examples/openings_users_softskills_confirmed/openings'
@@ -30,6 +34,16 @@ def getOpenings(id: int, user: UserInstance, openings: List[OpeningInstance], th
 
 if __name__ == "__main__":
 
+    opening_instance_file = 'openings_instances_no_ss'
+
+    openings_instances_path = os.path.join(
+        instances_path, opening_instance_file)
+
+    projects = ProjectGenerator.projects_from_file(
+        instances_path=openings_instances_path, path=openings_path, num_projects=10, min_openings_per_project=5, max_openings_per_project=5)
+
+    test_variability(projects)
+
     """ opening_instance_file = 'openings_instances_avg'
 
     openings_instances_path = os.path.join(
@@ -47,7 +61,7 @@ if __name__ == "__main__":
 
     print(gturbo.compute_cluster_score()) """
 
-    users_path = './examples/openings_users_softskills_confirmed/users'
+    """ users_path = './examples/openings_users_softskills_confirmed/users'
     openings_path = './examples/openings_users_softskills_confirmed/openings'
 
     users_file = os.path.join(users_path, 'users_0.txt')
@@ -55,4 +69,4 @@ if __name__ == "__main__":
 
     users, openings = load_data(users_file, openings_file)
 
-    dulicate(users)
+    dulicate(users) """

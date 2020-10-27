@@ -6,8 +6,11 @@ from util.readers.setup_reader import DataInitializer
 
 class ProjectGenerator:
 
-    @classmethod
-    def projects_from_file(instances_path: str, path: str, num_projects=1, min_openings_per_project=1, max_openings_per_project=1) -> List[Project]:
+    def __init__(self) -> None:
+        pass
+
+    @staticmethod
+    def projects_from_file(instances_path: str, path: str, num_projects=1, min_openings_per_project=2, max_openings_per_project=3) -> List[Project]:
 
         openings = DataInitializer.read_openings(
             openings_instances_path=instances_path, openings_path=path)

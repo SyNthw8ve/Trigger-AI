@@ -22,28 +22,13 @@ def eval_matches_and_cluster(processor: Processor, users_instances: List[UserIns
 
     return results
 
-def _get_distances(openings: List[OpeningInstance], metric='cos'):
-
-    similarities = []
-
-    for i in range(len(openings) - 1):
-
-        test_instance = openings[openings[i]].embedding
-
-        for j in range(i + 1, len(openings)):
-
-            compare_instance = openings[openings[j]].embedding
-
-            cos_sim = 1 - cosine(test_instance, compare_instance)
-            similarities.append(cos_sim)
-
-    return similarities
-
 def eval_variability(project: Project):
 
-    similarities = _get_distances(project.openings)
+    embeddings = [opening.embedding for opening in project.openings]
 
-    mean_sim = np.mean(similarities)
-    var_sim = np.var(similarities)
+    mean_emb = np.mean(embeddings, axis=0)
 
-    return var_sim / mean_sim
+    dist_to_mean = cdist([mean_emb], embeddings)
+    #dist_to_mean_norm = dist_to_mean / np.linalg.norm(dist_to_mean)
+
+    return np.mean(dist_to_mean)
