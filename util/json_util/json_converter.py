@@ -52,7 +52,7 @@ def user_to_json(user: User, matches: List[Match]):
 
 def project_to_json(project: Project, variability):
 
-    return {'openings': [opening_to_json(opening.opening) for opening in project.openings], 'variability': variability}
+    return {'name': project.name, 'openings': [opening_to_json(opening.opening) for opening in project.openings], 'variability': variability}
 
 
 def json_to_csv(file_path, output_path):
