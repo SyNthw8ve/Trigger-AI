@@ -40,7 +40,7 @@ if __name__ == "__main__":
         instances_path, opening_instance_file)
 
     projects = ProjectGenerator.projects_from_file(
-        instances_path=openings_instances_path, path=openings_path, num_projects=10, min_openings_per_project=5, max_openings_per_project=5)
+        instances_path=openings_instances_path, path=openings_path, num_projects=3, min_openings_per_project=5, max_openings_per_project=5)
 
     test_variability(projects)
 

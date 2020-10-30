@@ -1,6 +1,5 @@
 import numpy as np
 
-from trigger.train.transformers.opening_transformer import OpeningInstance
 from typing import List
 
 from trigger.train.cluster.Processor import Processor
@@ -11,7 +10,7 @@ from util.metrics.matches import eval_matches
 from trigger.models.project import Project
 
 from scipy.spatial.distance import cdist
-
+from scipy.stats import kurtosis
 
 def eval_matches_and_cluster(processor: Processor, users_instances: List[UserInstance]):
     cluster_results = eval_cluster(processor)
@@ -22,7 +21,6 @@ def eval_matches_and_cluster(processor: Processor, users_instances: List[UserIns
 
     return results
 
-
 def eval_variability(project: Project):
 
     embeddings = [opening.embedding for opening in project.openings]
@@ -31,4 +29,7 @@ def eval_variability(project: Project):
 
     dist_to_mean = cdist([mean_emb], embeddings)
 
-    return abs(np.std(dist_to_mean) - np.mean(dist_to_mean))/np.mean(dist_to_mean)
+    std = np.std(dist_to_mean)
+    mean = np.mean(dist_to_mean)
+    
+    return {'std': std, 'mean': mean, 'mean-std-ration': std/mean, 'kurtosis': kurtosis(dist_to_mean[0])}

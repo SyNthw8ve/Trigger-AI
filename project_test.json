@@ -4,31 +4,16 @@
             {
                 "hard_skills": [
                     [
-                        "Military Training"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Leadership"
-                    },
-                    {
-                        "name": "Teamwork"
-                    },
-                    {
-                        "name": "Ethics"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Transportation"
+                        "CSS"
                     ],
                     [
-                        "Traffic Management Warehousing"
+                        "Typescript"
                     ],
                     [
-                        "JIT Purchasing and Procurement Shipping"
+                        "JavaScript"
+                    ],
+                    [
+                        "Web"
                     ]
                 ],
                 "soft_skills": [
@@ -36,7 +21,7 @@
                         "name": "Communication"
                     },
                     {
-                        "name": "Proactivity"
+                        "name": "Teamwork"
                     },
                     {
                         "name": "Resilience"
@@ -46,7 +31,43 @@
             {
                 "hard_skills": [
                     [
-                        "Art"
+                        "User Interface Vendor Sourcing"
+                    ],
+                    [
+                        "System Development"
+                    ],
+                    [
+                        "UNIX"
+                    ],
+                    [
+                        "Intranet Development Languages \ufffd JAVA"
+                    ],
+                    [
+                        "EAP Enterprise Resource Planning ERP"
+                    ],
+                    [
+                        "Voice and Data Communications Web Development/Design"
+                    ],
+                    [
+                        "Integration Software"
+                    ],
+                    [
+                        "Technical Writing"
+                    ],
+                    [
+                        "Telecommunications Tracking System"
+                    ],
+                    [
+                        "Enterprise Asset Management"
+                    ],
+                    [
+                        "System Analysis System Design"
+                    ],
+                    [
+                        "Hardware Management Information Management"
+                    ],
+                    [
+                        "Algorithm Development"
                     ]
                 ],
                 "soft_skills": [
@@ -57,38 +78,77 @@
                         "name": "Proactivity"
                     },
                     {
-                        "name": "Ethics"
+                        "name": "Teamwork"
+                    },
+                    {
+                        "name": "Resilience"
                     }
                 ]
             },
             {
                 "hard_skills": [
                     [
-                        "Investor Relations IPO"
-                    ],
+                        "Medicine"
+                    ]
+                ],
+                "soft_skills": [
+                    {
+                        "name": "Complex Thinking"
+                    },
+                    {
+                        "name": "Emotional Intelligence"
+                    },
+                    {
+                        "name": "Resilience"
+                    }
+                ]
+            },
+            {
+                "hard_skills": [
                     [
-                        "Negotiation Profit and Loss"
-                    ],
-                    [
-                        "Business Planning"
-                    ],
-                    [
-                        "Diversification Employee Evaluation"
+                        "Business Re-engineering Change Management"
                     ],
                     [
                         "Developing Policies"
                     ],
                     [
-                        "International Management"
+                        "Joint Ventures"
                     ],
                     [
                         "Multi-sites Management"
                     ],
                     [
+                        "Strategic Planning Supervision"
+                    ],
+                    [
+                        "Organizational Development"
+                    ],
+                    [
+                        "Labour Relations Merger and Acquisitions"
+                    ],
+                    [
+                        "Project Management Staff Development"
+                    ],
+                    [
+                        "Diversification Employee Evaluation"
+                    ],
+                    [
+                        "Budgeting"
+                    ],
+                    [
+                        "Business Planning"
+                    ],
+                    [
                         "Consolidation"
                     ],
                     [
-                        "Cost Control Decision Making"
+                        "Negotiation Profit and Loss"
+                    ],
+                    [
+                        "Investor Relations IPO"
+                    ],
+                    [
+                        "Government Relations Hiring"
                     ],
                     [
                         "Financing"
@@ -96,117 +156,10 @@
                 ],
                 "soft_skills": [
                     {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Leadership"
-                    },
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
-                        "name": "Teamwork"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Finances"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Leadership"
-                    },
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Ethics"
-                    }
-                ]
-            }
-        ],
-        "variability": 0.7433959299233887
-    },
-    {
-        "openings": [
-            {
-                "hard_skills": [
-                    [
-                        "International Agreements"
-                    ],
-                    [
-                        "Shareholder proxies Stock Administration"
-                    ],
-                    [
-                        "Corporate Law Company Secretary"
-                    ],
-                    [
-                        "Copyrights and Trademarks"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
                         "name": "Communication"
                     },
                     {
                         "name": "Emotional Intelligence"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Computer Science"
-                    ],
-                    [
-                        "Psychology"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Teamwork"
-                    },
-                    {
-                        "name": "Ethics"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Web Server"
-                    ],
-                    [
-                        "Scraping"
-                    ],
-                    [
-                        "JavaScript"
-                    ],
-                    [
-                        "Web"
-                    ],
-                    [
-                        "Angular"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Emotional Intelligence"
-                    },
-                    {
-                        "name": "Teamwork"
                     },
                     {
                         "name": "Resilience"
@@ -216,63 +169,19 @@
             {
                 "hard_skills": [
                     [
-                        "Archaeology"
+                        "Bidding"
                     ],
                     [
-                        "Biology"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
-                        "name": "Emotional Intelligence"
-                    },
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Ethics"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Design"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Emotional Intelligence"
-                    },
-                    {
-                        "name": "Resilience"
-                    },
-                    {
-                        "name": "Ethics"
-                    }
-                ]
-            }
-        ],
-        "variability": 0.8296527267724193
-    },
-    {
-        "openings": [
-            {
-                "hard_skills": [
-                    [
-                        "Labour Relations Merger and Acquisitions"
+                        "Policies and Procedures"
                     ],
                     [
-                        "Negotiation Profit and Loss"
+                        "Operations Research Outsourcing"
                     ],
                     [
-                        "Multi-sites Management"
+                        "Project Co-ordination Project Management"
                     ],
                     [
-                        "Strategic Partnership"
+                        "Continuous Improvement Contract Management"
                     ]
                 ],
                 "soft_skills": [
@@ -284,176 +193,67 @@
                     },
                     {
                         "name": "Communication"
-                    },
-                    {
-                        "name": "Teamwork"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Community Relations"
-                    ],
-                    [
-                        "Employee Communication"
-                    ],
-                    [
-                        "Investor Collateral Media Presentations"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Emotional Intelligence"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Mechanical Engineering"
-                    ],
-                    [
-                        "Environment"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Emotional Intelligence"
-                    },
-                    {
-                        "name": "Ethics"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Story Line Development"
-                    ],
-                    [
-                        "Creative Writing"
-                    ],
-                    [
-                        "Drawing Musical Composition"
-                    ],
-                    [
-                        "Character Development"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
-                        "name": "Teamwork"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Character Development"
-                    ],
-                    [
-                        "Story Line Development"
-                    ],
-                    [
-                        "Drawing Musical Composition"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
-                        "name": "Communication"
                     }
                 ]
             }
         ],
-        "variability": 0.8435302409970558
+        "variability": {
+            "std": 4.550687969656426,
+            "mean": 12.293193828526663,
+            "mean-std-ration": 0.37017946947980607,
+            "kurtosis": -0.3563940755072035
+        }
     },
     {
         "openings": [
             {
                 "hard_skills": [
                     [
-                        "Technical Writing"
+                        "ISO 9XXX / 1XXXXX"
                     ],
                     [
-                        "Portal Design/Development Software Customization"
+                        "Equipment Maintenance and Repair"
                     ],
                     [
-                        "CAD EDI"
+                        "Plant Design and Layout"
                     ],
                     [
-                        "Business Systems Planning"
+                        "Equipment Design"
                     ],
                     [
-                        "UNIX"
-                    ],
-                    [
-                        "Hardware Management Information Management"
-                    ],
-                    [
-                        "Software Development"
-                    ],
-                    [
-                        "User Documentation"
-                    ],
-                    [
-                        "Application Database Administration Applications Development"
-                    ],
-                    [
-                        "System Analysis System Design"
-                    ],
-                    [
-                        "System Development"
+                        "Equipment Management"
                     ]
                 ],
                 "soft_skills": [
                     {
-                        "name": "Communication"
+                        "name": "Complex Thinking"
                     },
                     {
-                        "name": "Teamwork"
+                        "name": "Leadership"
                     },
                     {
                         "name": "Proactivity"
+                    },
+                    {
+                        "name": "Emotional Intelligence"
                     }
                 ]
             },
             {
                 "hard_skills": [
                     [
-                        "Mechanical Engineering"
+                        "Construction"
                     ],
                     [
-                        "Environment"
+                        "Painting"
                     ]
                 ],
                 "soft_skills": [
                     {
-                        "name": "Leadership"
+                        "name": "Proactivity"
                     },
                     {
-                        "name": "Proactivity"
+                        "name": "Communication"
                     },
                     {
                         "name": "Resilience"
@@ -463,21 +263,18 @@
             {
                 "hard_skills": [
                     [
-                        "Computer Science"
-                    ],
-                    [
-                        "Design"
+                        "Corporate Philanthropy"
                     ]
                 ],
                 "soft_skills": [
                     {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
                         "name": "Communication"
+                    },
+                    {
+                        "name": "Emotional Intelligence"
+                    },
+                    {
+                        "name": "Teamwork"
                     }
                 ]
             },
@@ -489,343 +286,76 @@
                 ],
                 "soft_skills": [
                     {
+                        "name": "Leadership"
+                    },
+                    {
                         "name": "Communication"
                     },
                     {
                         "name": "Emotional Intelligence"
-                    },
-                    {
-                        "name": "Proactivity"
                     }
                 ]
             },
             {
                 "hard_skills": [
                     [
-                        "Archaeology"
-                    ],
-                    [
-                        "Biology"
+                        "Military Training"
                     ]
                 ],
                 "soft_skills": [
                     {
+                        "name": "Leadership"
+                    },
+                    {
                         "name": "Proactivity"
                     },
                     {
-                        "name": "Emotional Intelligence"
-                    },
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Ethics"
+                        "name": "Teamwork"
                     }
                 ]
             }
         ],
-        "variability": 0.856342648251697
+        "variability": {
+            "std": 3.152661432856669,
+            "mean": 19.794722020861023,
+            "mean-std-ration": 0.15926778004430575,
+            "kurtosis": -0.8675464691038037
+        }
     },
     {
         "openings": [
             {
                 "hard_skills": [
                     [
-                        "Forecasting Incentive Programs"
+                        "Contract Negotiation"
                     ],
                     [
-                        "New Account Development"
+                        "Equipment Purchasing"
                     ],
                     [
-                        "Contract Negotiation Customer Relations"
+                        "Forms and Methods Leases"
                     ],
                     [
-                        "Sales Analysis"
+                        "Space Planning"
                     ],
                     [
-                        "Salespersons Recruitment"
-                    ],
-                    [
-                        "Sales Administration"
-                    ],
-                    [
-                        "Show Room Management Sales Support"
-                    ],
-                    [
-                        "Sales Kits Sales Management"
-                    ],
-                    [
-                        "International Business Development International Expansion"
-                    ],
-                    [
-                        "Direct Sales Distributor Relations"
-                    ],
-                    [
-                        "Customer Service"
-                    ],
-                    [
-                        "E-Commerce"
-                    ],
-                    [
-                        "Sales Training"
-                    ],
-                    [
-                        "Trade Shows"
-                    ],
-                    [
-                        "B2B"
-                    ],
-                    [
-                        "Proposal Writing Product Demonstrations"
-                    ],
-                    [
-                        "Telemarketing"
+                        "Records Management Security"
                     ]
                 ],
                 "soft_skills": [
+                    {
+                        "name": "Complex Thinking"
+                    },
                     {
                         "name": "Communication"
                     },
                     {
                         "name": "Emotional Intelligence"
-                    },
-                    {
-                        "name": "Teamwork"
-                    },
-                    {
-                        "name": "Proactivity"
                     }
                 ]
             },
             {
                 "hard_skills": [
-                    [
-                        "Math"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
-                        "name": "Teamwork"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Processes"
-                    ],
-                    [
-                        "Software development"
-                    ],
-                    [
-                        "Computer Engineering"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Teamwork"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Lab Management"
-                    ],
-                    [
-                        "Diagnostics"
-                    ],
-                    [
-                        "RandD Management Simulation Dev."
-                    ],
-                    [
-                        "Design and Specification"
-                    ],
-                    [
-                        "Patent Application"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Resilience"
-                    },
-                    {
-                        "name": "Ethics"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Soldering"
-                    ],
-                    [
-                        "Architecture"
-                    ],
-                    [
-                        "Painting"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Leadership"
-                    },
-                    {
-                        "name": "Resilience"
-                    },
-                    {
-                        "name": "Ethics"
-                    }
-                ]
-            }
-        ],
-        "variability": 0.7175027816578413
-    },
-    {
-        "openings": [
-            {
-                "hard_skills": [
-                    [
-                        "Gastronomy"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
-                        "name": "Resilience"
-                    },
-                    {
-                        "name": "Communication"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Accounting Management"
-                    ],
-                    [
-                        "Treasury"
-                    ],
-                    [
-                        "Credit/Collections Debt Negotiations"
-                    ],
-                    [
-                        "Stockholder Relations Tax"
-                    ],
-                    [
-                        "Venture Capital Relations Accounts Receivable"
-                    ],
-                    [
-                        "Internal Controls"
-                    ],
-                    [
-                        "Capital Investment"
-                    ],
-                    [
-                        "Payroll"
-                    ],
-                    [
-                        "Investor Relations IPO"
-                    ],
-                    [
-                        "Math"
-                    ],
-                    [
-                        "Actuarial/Rating Analysis Auditing"
-                    ],
-                    [
-                        "Cash Management Cost Accounting"
-                    ],
-                    [
-                        "General Ledger Insurance"
-                    ],
-                    [
-                        "Lines of Credit Management Reporting"
-                    ],
-                    [
-                        "Fund Management Profit Planning"
-                    ],
-                    [
-                        "Acquisitions and Mergers"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Leadership"
-                    },
-                    {
-                        "name": "Teamwork"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Gastronomy"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Leadership"
-                    },
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
-                        "name": "Emotional Intelligence"
-                    },
-                    {
-                        "name": "Teamwork"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Speech Writing Corporate Image"
-                    ],
-                    [
-                        "B2B Communication"
-                    ],
-                    [
-                        "Investor Collateral Media Presentations"
-                    ],
-                    [
-                        "Community Relations"
-                    ],
-                    [
-                        "Corporate Publications Corporate Relations"
-                    ],
-                    [
-                        "Risk Mgt Communicat"
-                    ],
-                    [
-                        "Event Planning Fund Raising"
-                    ],
                     [
                         "Government Relations"
                     ],
@@ -833,101 +363,33 @@
                         "Employee Communication"
                     ],
                     [
-                        "Corporate Philanthropy"
+                        "Event Planning Fund Raising"
+                    ],
+                    [
+                        "Corporate Publications Corporate Relations"
+                    ],
+                    [
+                        "Investor Collateral Media Presentations"
+                    ],
+                    [
+                        "Speech Writing Corporate Image"
+                    ],
+                    [
+                        "Risk Mgt Communicat"
+                    ],
+                    [
+                        "B2B Communication"
+                    ],
+                    [
+                        "Press Release"
                     ]
                 ],
                 "soft_skills": [
-                    {
-                        "name": "Leadership"
-                    },
                     {
                         "name": "Communication"
                     },
                     {
-                        "name": "Teamwork"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Web Site Content Writer"
-                    ],
-                    [
-                        "Software Development"
-                    ],
-                    [
-                        "Hardware Management Information Management"
-                    ],
-                    [
-                        "User Documentation"
-                    ],
-                    [
-                        "User Interface Vendor Sourcing"
-                    ],
-                    [
-                        "CRM"
-                    ],
-                    [
-                        "Usability Engineering User Education"
-                    ],
-                    [
-                        "Technical Evangelism Technical Support"
-                    ],
-                    [
-                        "CAD EDI"
-                    ],
-                    [
-                        "Business Systems Planning"
-                    ],
-                    [
-                        "Portal Design/Development Software Customization"
-                    ],
-                    [
-                        "Word Processing"
-                    ],
-                    [
-                        "Voice and Data Communications Web Development/Design"
-                    ],
-                    [
-                        "Technical Writing"
-                    ],
-                    [
-                        "Telecommunications Tracking System"
-                    ],
-                    [
-                        "UNIX"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Teamwork"
-                    },
-                    {
-                        "name": "Ethics"
-                    }
-                ]
-            }
-        ],
-        "variability": 0.907524333857676
-    },
-    {
-        "openings": [
-            {
-                "hard_skills": [
-                    [
-                        "Android"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Leadership"
+                        "name": "Emotional Intelligence"
                     },
                     {
                         "name": "Teamwork"
@@ -936,430 +398,19 @@
             },
             {
                 "hard_skills": [
-                    [
-                        "Architecture"
-                    ],
-                    [
-                        "Painting"
-                    ],
                     [
                         "Soldering"
                     ]
                 ],
                 "soft_skills": [
                     {
-                        "name": "Leadership"
-                    },
-                    {
-                        "name": "Resilience"
-                    },
-                    {
-                        "name": "Ethics"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Merchandising New Product Development"
-                    ],
-                    [
-                        "Packaging Pricing"
-                    ],
-                    [
-                        "Copywriting"
-                    ],
-                    [
-                        "Logo Development"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Teamwork"
-                    },
-                    {
-                        "name": "Resilience"
-                    },
-                    {
-                        "name": "Ethics"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "History"
-                    ],
-                    [
-                        "Biology"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Leadership"
-                    },
-                    {
                         "name": "Proactivity"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "JIT Purchasing and Procurement Shipping"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
-                        "name": "Emotional Intelligence"
-                    }
-                ]
-            }
-        ],
-        "variability": 0.7720471728261256
-    },
-    {
-        "openings": [
-            {
-                "hard_skills": [
-                    [
-                        "Government Relations Hiring"
-                    ],
-                    [
-                        "Budgeting"
-                    ],
-                    [
-                        "Cost Control Decision Making"
-                    ],
-                    [
-                        "Labour Relations Merger and Acquisitions"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Teamwork"
-                    },
-                    {
-                        "name": "Proactivity"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Visual Composition"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
-                        "name": "Emotional Intelligence"
-                    },
-                    {
-                        "name": "Teamwork"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Patents"
-                    ],
-                    [
-                        "Licensing Mergers and Acquisitions"
-                    ],
-                    [
-                        "Employment Ordinance"
-                    ],
-                    [
-                        "Corporate Law Company Secretary"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Communication"
                     },
                     {
                         "name": "Emotional Intelligence"
                     },
                     {
                         "name": "Ethics"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Patents"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Leadership"
-                    },
-                    {
-                        "name": "Communication"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Military Training"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Leadership"
-                    },
-                    {
-                        "name": "Proactivity"
-                    }
-                ]
-            }
-        ],
-        "variability": 0.7231357899866506
-    },
-    {
-        "openings": [
-            {
-                "hard_skills": [
-                    [
-                        "Consolidation"
-                    ],
-                    [
-                        "Budgeting"
-                    ],
-                    [
-                        "Investor Relations IPO"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Teamwork"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Military Training"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Resilience"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "UNIX"
-                    ],
-                    [
-                        "Angular"
-                    ],
-                    [
-                        "API"
-                    ],
-                    [
-                        "Web Server"
-                    ],
-                    [
-                        "Internet"
-                    ],
-                    [
-                        "Typescript"
-                    ],
-                    [
-                        "Web"
-                    ],
-                    [
-                        "JavaScript"
-                    ],
-                    [
-                        "Scraping"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Proactivity"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "CSS"
-                    ],
-                    [
-                        "Web"
-                    ],
-                    [
-                        "HTML"
-                    ],
-                    [
-                        "React"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Proactivity"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Risk Mgt Communicat"
-                    ],
-                    [
-                        "Employee Communication"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Leadership"
-                    },
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Emotional Intelligence"
-                    }
-                ]
-            }
-        ],
-        "variability": 0.7093688546057266
-    },
-    {
-        "openings": [
-            {
-                "hard_skills": [
-                    [
-                        "Environmental Protection"
-                    ],
-                    [
-                        "Bidding"
-                    ],
-                    [
-                        "Continuous Improvement Contract Management"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Leadership"
-                    },
-                    {
-                        "name": "Emotional Intelligence"
-                    },
-                    {
-                        "name": "Resilience"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Android"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Teamwork"
-                    },
-                    {
-                        "name": "Ethics"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Law"
-                    ],
-                    [
-                        "Environment"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
-                        "name": "Communication"
-                    },
-                    {
-                        "name": "Resilience"
-                    }
-                ]
-            },
-            {
-                "hard_skills": [
-                    [
-                        "Java"
-                    ],
-                    [
-                        "Android"
-                    ]
-                ],
-                "soft_skills": [
-                    {
-                        "name": "Complex Thinking"
-                    },
-                    {
-                        "name": "Proactivity"
-                    },
-                    {
-                        "name": "Resilience"
                     }
                 ]
             },
@@ -1371,17 +422,46 @@
                 ],
                 "soft_skills": [
                     {
-                        "name": "Ethics"
+                        "name": "Proactivity"
                     },
                     {
-                        "name": "Proactivity"
+                        "name": "Emotional Intelligence"
                     },
                     {
                         "name": "Resilience"
                     }
                 ]
+            },
+            {
+                "hard_skills": [
+                    [
+                        "Patent Application"
+                    ],
+                    [
+                        "Feasibility Studies Field Studies"
+                    ],
+                    [
+                        "Design and Specification"
+                    ]
+                ],
+                "soft_skills": [
+                    {
+                        "name": "Complex Thinking"
+                    },
+                    {
+                        "name": "Communication"
+                    },
+                    {
+                        "name": "Ethics"
+                    }
+                ]
             }
         ],
-        "variability": 0.8275343090953821
+        "variability": {
+            "std": 4.512291425754323,
+            "mean": 16.724028596934968,
+            "mean-std-ration": 0.26980888005544884,
+            "kurtosis": -1.701075632207452
+        }
     }
 ]
