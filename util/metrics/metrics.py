@@ -31,5 +31,14 @@ def eval_variability(project: Project):
 
     std = np.std(dist_to_mean)
     mean = np.mean(dist_to_mean)
-    
-    return {'std': std, 'mean': mean, 'mean-std-ration': std/mean, 'kurtosis': kurtosis(dist_to_mean[0])}
+    normed_kurtosis = 0
+    mean_std_ratio = 0
+
+    if mean != 0:
+        mean_std_ratio = std/mean
+
+    if std != 0:
+        normed_kurtosis = (-kurtosis(dist_to_mean[0]) + 3)/6
+
+
+    return {'std': std, 'mean': mean, 'mean-std-ration': mean_std_ratio, 'kurtosis': normed_kurtosis}

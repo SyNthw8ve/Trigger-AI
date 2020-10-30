@@ -23,6 +23,6 @@ class ProjectGenerator:
 
             project_openings = random.sample(openings, num_openings)
 
-            projects.append(Project(project_openings))
+            projects.append(Project("", project_openings))
 
         return projects
