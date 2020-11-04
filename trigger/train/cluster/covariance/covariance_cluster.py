@@ -11,7 +11,7 @@ class CovarianceCluster(Processor):
 
         self.initial_std = initial_std
         self.instance_to_cluster: Dict[str, id] = {}
-        self.ids = 0
+        self.id = 0
         self.clusters: Dict[int, ClusterNode] = {}
         self.tag_to_data = {}
         self.intances = {}
@@ -44,16 +44,21 @@ class CovarianceCluster(Processor):
 
         pass
 
+
+    def stat_distance(self, instance, node: ClusterNode):
+
+        return mahalanobis(instance, node.mean, node.cov_matrix)
+
     def brute_search(self, instance) -> ClusterNode:
 
-        nodes = list(self.clusters.items())
+        nodes = list(self.clusters.values())
 
         curr_node = nodes[0]
-        distance = mahalanobis(instance, curr_node.mean, curr_node.cov_matrix)
+        distance = self.stat_distance(instance, nodes[0])
 
         for node in nodes[1:]:
 
-            c_distance = mahalanobis(instance, node.mean, node.cov_matrix)
+            c_distance = self.stat_distance(instance, node)
 
             if c_distance < distance:
 
@@ -131,3 +136,6 @@ class CovarianceCluster(Processor):
     def safe_file_name(self) -> str:
 
         return f"CovCluster = initial_std={self.initial_std}"
+
+    def compute_cluster_score(self):
+        return -1
