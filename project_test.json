@@ -21,12 +21,7 @@
                 ]
             }
         ],
-        "variability": {
-            "std": 0.0,
-            "mean": 0.0,
-            "mean-std-ration": 0,
-            "kurtosis": 0
-        }
+        "variability": 0.0
     },
     {
         "name": "Altice",
@@ -74,12 +69,7 @@
                 ]
             }
         ],
-        "variability": {
-            "std": 0.0,
-            "mean": 0.0,
-            "mean-std-ration": 0,
-            "kurtosis": 0
-        }
+        "variability": 0.0
     },
     {
         "name": "Trigger",
@@ -289,12 +279,7 @@
                 ]
             }
         ],
-        "variability": {
-            "std": 1.8971220426925015,
-            "mean": 5.56822794131618,
-            "mean-std-ration": 0.3407048099837796,
-            "kurtosis": 0.7321410841192751
-        }
+        "variability": 30.249848039645382
     },
     {
         "name": "UESite",
@@ -432,12 +417,7 @@
                 ]
             }
         ],
-        "variability": {
-            "std": 0.18757963646213288,
-            "mean": 3.5260247172205883,
-            "mean-std-ration": 0.05319861643227326,
-            "kurtosis": 0.668870730825078
-        }
+        "variability": 15.049112575675116
     },
     {
         "name": "ItsWindy",
@@ -587,12 +567,7 @@
                 ]
             }
         ],
-        "variability": {
-            "std": 2.1318044010300197,
-            "mean": 8.029630366086241,
-            "mean-std-ration": 0.26549222116547966,
-            "kurtosis": 0.7878341262398626
-        }
+        "variability": 72.36078675624356
     },
     {
         "name": "Sky Evora",
@@ -676,12 +651,7 @@
                 ]
             }
         ],
-        "variability": {
-            "std": 2.000280138026072,
-            "mean": 5.933726614862917,
-            "mean-std-ration": 0.3371035215905853,
-            "kurtosis": 0.75
-        }
+        "variability": 67.33397524068486
     },
     {
         "name": "ThinkTank",
@@ -777,11 +747,6 @@
                 ]
             }
         ],
-        "variability": {
-            "std": 0.9760120150535372,
-            "mean": 8.627883632908771,
-            "mean-std-ration": 0.1131229924486694,
-            "kurtosis": 0.8200541012748798
-        }
+        "variability": 84.15750096124447
     }
 ]

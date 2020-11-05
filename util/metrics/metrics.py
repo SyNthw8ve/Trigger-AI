@@ -9,8 +9,9 @@ from util.metrics.matches import eval_matches
 
 from trigger.models.project import Project
 
-from scipy.spatial.distance import cdist
+from scipy.spatial.distance import cdist, mahalanobis
 from scipy.stats import kurtosis
+
 
 def eval_matches_and_cluster(processor: Processor, users_instances: List[UserInstance]):
     cluster_results = eval_cluster(processor)
@@ -20,6 +21,37 @@ def eval_matches_and_cluster(processor: Processor, users_instances: List[UserIns
     results['matches_results'] = matches_results
 
     return results
+
+
+def eval_variability_mahalanobis(project: Project):
+
+    if len(project.openings) == 1:
+
+        return 0.0
+
+    embeddings = [opening.embedding for opening in project.openings]
+    embeddings_transposed = [opening.embedding.reshape(
+        (1024, 1)) for opening in project.openings]
+
+    observations = np.hstack(embeddings_transposed)
+    cov_matrix = np.cov(observations)
+
+    distances = []
+
+    for i in range(len(embeddings)):
+
+        t_embedding = embeddings[i]
+
+        for j in range(i + 1, len(embeddings)):
+
+            c_embedding = embeddings[j]
+
+            distances.append(mahalanobis(t_embedding, c_embedding, cov_matrix))
+
+    mean_distance = np.mean(distances)
+
+    return mean_distance
+
 
 def eval_variability(project: Project):
 
