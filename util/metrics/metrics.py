@@ -22,6 +22,27 @@ def eval_matches_and_cluster(processor: Processor, users_instances: List[UserIns
 
     return results
 
+def eval_variability_cosine(project: Project):
+
+    if len(project.openings) == 1:
+
+        return 0.0
+
+    embeddings = [opening.embedding for opening in project.openings]
+
+    distances = []
+
+    for i in range(len(embeddings)):
+
+        t_embedding = embeddings[i]
+
+        for j in range(i + 1, len(embeddings)):
+
+            c_embedding = embeddings[j]
+
+            distances.append(cdist([t_embedding], [c_embedding], 'cosine')[0][0])
+
+    return np.mean(distances)
 
 def eval_variability_mahalanobis(project: Project):
 
@@ -47,6 +68,8 @@ def eval_variability_mahalanobis(project: Project):
             c_embedding = embeddings[j]
 
             distances.append(mahalanobis(t_embedding, c_embedding, cov_matrix))
+
+    distances = np.array(distances)
 
     mean_distance = np.mean(distances)
 

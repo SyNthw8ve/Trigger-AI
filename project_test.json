@@ -21,7 +21,11 @@
                 ]
             }
         ],
-        "variability": 0.0
+        "variability": {
+            "cosine": 0.0,
+            "mahalanobis": 0.0,
+            "kurtosis": 0
+        }
     },
     {
         "name": "Altice",
@@ -69,7 +73,11 @@
                 ]
             }
         ],
-        "variability": 0.0
+        "variability": {
+            "cosine": 1.1102230246251565e-16,
+            "mahalanobis": 0.0,
+            "kurtosis": 0
+        }
     },
     {
         "name": "Trigger",
@@ -279,7 +287,11 @@
                 ]
             }
         ],
-        "variability": 30.249848039645382
+        "variability": {
+            "cosine": 0.18376975575643692,
+            "mahalanobis": 30.249848039645382,
+            "kurtosis": 0.7321410841192751
+        }
     },
     {
         "name": "UESite",
@@ -417,7 +429,11 @@
                 ]
             }
         ],
-        "variability": 15.049112575675116
+        "variability": {
+            "cosine": 0.0707933323486959,
+            "mahalanobis": 15.049112575675116,
+            "kurtosis": 0.668870730825078
+        }
     },
     {
         "name": "ItsWindy",
@@ -567,7 +583,11 @@
                 ]
             }
         ],
-        "variability": 72.36078675624356
+        "variability": {
+            "cosine": 0.24469343828955056,
+            "mahalanobis": 72.36078675624356,
+            "kurtosis": 0.7878341262398626
+        }
     },
     {
         "name": "Sky Evora",
@@ -651,7 +671,11 @@
                 ]
             }
         ],
-        "variability": 67.33397524068486
+        "variability": {
+            "cosine": 0.20922969079830434,
+            "mahalanobis": 67.33397524068486,
+            "kurtosis": 0.75
+        }
     },
     {
         "name": "ThinkTank",
@@ -747,6 +771,10 @@
                 ]
             }
         ],
-        "variability": 84.15750096124447
+        "variability": {
+            "cosine": 0.3576134516445501,
+            "mahalanobis": 84.15750096124447,
+            "kurtosis": 0.8200541012748798
+        }
     }
 ]
