@@ -108,8 +108,8 @@ class ECM(Processor):
             cluster.remove(tag)
 
             cluster = Cluster(tag, instance, custom_data, len(self.clusters))
+            index = cluster.index
             self.clusters.append(cluster)
-            return
 
         elif result == SearchResultType.RADIUS:
             if index == old_index:
@@ -126,6 +126,9 @@ class ECM(Processor):
                 cluster.remove(tag)
                 cluster = self.clusters[index]
                 cluster.add_threshold(distance, tag, instance, custom_data)
+
+        self.tag_to_cluster[tag] = index
+        self.tag_to_instance[tag] = tuple(instance)
 
     def remove(self, tag: str) -> None:
         index = self.get_cluster_by_tag(tag)
