@@ -81,8 +81,7 @@ def test_ecm_matches_instances():
 
 def test_ecm_operations():
     param_grid = {
-        "distance_threshold": [0.001, 0.01, 0.1, 0.3, 0.5,
-                               0.7, 0.9, 1, 1.2, 1.4, 1.5]
+        "distance_threshold": [0.4, 0.5, 0.6, 0.7, 0.8]
     }
 
     for folder in os.listdir("data/operations_update_remove_instances_ss_confirmed"):
@@ -116,7 +115,7 @@ def test_ecm_operations():
                 param_grid=param_grid,
                 operations=operations,
                 user_instances=users_instances,
-                calculate_score_frequency=20,
+                calculate_score_frequency=100,
                 output_path=output_path,
                 output_type='json',
                 include_individual_matches=False,
