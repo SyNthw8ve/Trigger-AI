@@ -58,7 +58,7 @@ class TestRunnerOperationsMatches(TestRunner):
 
                 processor.update(tag, opening_instance.embedding, opening)
 
-            if i % self.calculate_score_frequency == 0 or i == len(self.instances) - 1:
+            if i > 0 and i % self.calculate_score_frequency == 0 or i == len(self.instances) - 1:
                 these_results = eval_matches_and_cluster(processor, self.user_instances)
                 if not self.include_individual_matches:
                     del these_results['matches_results']['by_user']
