@@ -46,6 +46,7 @@ def eval_cluster(cluster: Processor) -> Dict[str, Any]:
     return {
         'ss': float(Ss),
         'chs': float(CHs),
+        'cluster_score': cluster.compute_cluster_score(),
         '#clusters': len(labels_set),
         '#instances': len(tags),
         'distribution': {score: count for score, count in counter.most_common()},
