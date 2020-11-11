@@ -83,6 +83,9 @@ class ECM(Processor):
         self.tag_to_cluster: Dict[str, int] = {}
         self.tag_to_instance: Dict[str, tuple] = {}
         self.cluster_index = 0
+        self.cached_cluster_keys: List[int] = []
+        self.cached_cluster_centers: List[float] = []
+        self.cached_cluster_radiuses: List[float] = []
 
     @property
     def instances(self) -> List[tuple]:
@@ -128,6 +131,7 @@ class ECM(Processor):
 
         self.tag_to_cluster[tag] = index
         self.tag_to_instance[tag] = tuple(instance)
+        self._invalidate_cached()
 
     def _remove_from_cluster(self, cluster: Cluster, tag: str) -> None:
         cluster.remove(tag)
@@ -148,6 +152,7 @@ class ECM(Processor):
         del self.tag_to_instance[tag]
 
         self._remove_from_cluster(cluster, tag)
+        self._invalidate_cached()
 
     def get_cluster_by_tag(self, tag: str) -> Optional[int]:
         return self.tag_to_cluster.get(tag, None)
@@ -187,29 +192,36 @@ class ECM(Processor):
 
         self.tag_to_cluster[tag] = cluster.index
         self.tag_to_instance[tag] = tuple(instance)
+        self._invalidate_cached()
+
+    def _invalidate_cached(self):
+        self.cached_cluster_keys = []
+        self.cached_cluster_centers = []
+        self.cached_cluster_radiuses = []
+
+    def _ensure_cached(self):
+        if not self.cached_cluster_keys and len(self.clusters) > 0:
+            self.cached_cluster_keys = []
+            self.cached_cluster_centers = []
+            self.cached_cluster_radiuses = []
+            for index, cluster in self.clusters.items():
+                self.cached_cluster_keys.append(index)
+                self.cached_cluster_centers.append(cluster.center)
+                self.cached_cluster_radiuses.append(cluster.radius)
+
 
     def _search_index_and_distance(self, instance: Any) -> \
             Tuple[SearchResultType, Tuple[Optional[int], Optional[int]]]:
 
-        cluster_keys = list(self.clusters.keys())
-
-        centers = [
-            cluster.center
-            for cluster in self.clusters.values()
-        ]
+        self._ensure_cached()
 
         distances = cdist(
             np.array([instance]),
-            np.array(centers),
+            np.array(self.cached_cluster_centers),
             'euclidean'
         )[0]
 
-        radiuses = [
-            cluster.radius
-            for cluster in self.clusters.values()
-        ]
-
-        diffs = distances - radiuses
+        diffs = distances - self.cached_cluster_radiuses
 
         possible_indexes = np.where(diffs <= 0)[0]
 
@@ -218,13 +230,13 @@ class ECM(Processor):
         min_index = None if possible.size == 0 else possible_indexes[possible.argmin()]
 
         if min_index is not None:
-            return SearchResultType.RADIUS, (cluster_keys[min_index], distances[min_index])
+            return SearchResultType.RADIUS, (self.cached_cluster_keys[min_index], distances[min_index])
 
-        distances_plus_radiuses = np.add(distances, radiuses)
+        distances_plus_radiuses = np.add(distances, self.cached_cluster_radiuses)
         lowest_distance_and_radius_index = np.argmin(distances_plus_radiuses)
         lowest_distance_and_radius = distances_plus_radiuses[lowest_distance_and_radius_index]
 
-        actual_index = cluster_keys[lowest_distance_and_radius_index]
+        actual_index = self.cached_cluster_keys[lowest_distance_and_radius_index]
 
         if lowest_distance_and_radius > 2 * self.distance_threshold:
             return SearchResultType.OUTSIDE, (actual_index, lowest_distance_and_radius)
