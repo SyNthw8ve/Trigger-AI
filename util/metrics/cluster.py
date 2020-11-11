@@ -31,11 +31,6 @@ def eval_cluster(cluster: Processor) -> Dict[str, Any]:
     except:
 
         Ss = -1.0
-    try:
-        CHs = calinski_harabasz_score(X, labels)
-
-    except:
-        CHs = 0
 
     num_instances_per_cluster = [
         len(cluster.get_instances_and_tags_in_cluster(label)[1]) for label in labels_set
@@ -45,7 +40,6 @@ def eval_cluster(cluster: Processor) -> Dict[str, Any]:
 
     return {
         'ss': float(Ss),
-        'chs': float(CHs),
         'cluster_score': cluster.compute_cluster_score(),
         '#clusters': len(labels_set),
         '#instances': len(tags),
