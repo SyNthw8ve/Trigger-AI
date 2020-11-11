@@ -24,11 +24,6 @@ class Cluster:
         }
         self.index = index
 
-    def _get_farthest(self, instance: numpy.ndarray, n: int) -> List[Tuple[str, float]]:
-        tags_and_distances = [(tag, euclidean(instance, _instance)) for tag, _instance in self.tag_to_instance.items()]
-        tags_and_distances.sort(key=lambda td: td[1], reverse=True)
-        return tags_and_distances[:n]
-
     def add_radius(self, tag: str, instance: numpy.ndarray, custom: Any) -> None:
         self.tag_to_instance[tag] = instance
         self.tag_to_custom[tag] = custom
@@ -51,15 +46,8 @@ class Cluster:
         self._adapt(distance, instance)
 
     def remove(self, tag: str) -> None:
-        instance = self.tag_to_instance[tag]
-
-        farthest, second = self._get_farthest(instance, 2)
-
         del self.tag_to_instance[tag]
         del self.tag_to_custom[tag]
-
-        if farthest is not None and farthest[0] == tag and second is not None:
-            self._adapt(second[1], self.tag_to_instance[second[0]])
 
     def delta_score(self):
         if len(self.tag_to_instance) == 1:
