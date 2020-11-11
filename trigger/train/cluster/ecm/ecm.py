@@ -77,53 +77,77 @@ class SearchResultType(Enum):
 class ECM(Processor):
 
     def __init__(self, distance_threshold: float) -> None:
-        self.clusters: List[Cluster] = []
+        self.clusters: Dict[int, Cluster] = {}
         self.distance_threshold = distance_threshold
         self.did_first_add = False
         self.tag_to_cluster: Dict[str, int] = {}
         self.tag_to_instance: Dict[str, tuple] = {}
+        self.cluster_index = 0
 
     @property
     def instances(self) -> List[tuple]:
         return list(self.tag_to_instance.values())
 
     def update(self, tag: str, instance: numpy.array, custom_data: Any = None) -> None:
-        result, (index, distance) = self._search_index_and_distance(instance)
+        result, (searched_index, searched_distance) = self._search_index_and_distance(instance)
         old_index = self.get_cluster_by_tag(tag)
-        cluster = self.clusters[old_index]
+        old_cluster = self.clusters[old_index]
 
         if result == SearchResultType.OUTSIDE:
-            cluster.remove(tag)
+            self._remove_from_cluster(old_cluster, tag)
 
-            cluster = Cluster(tag, instance, custom_data, len(self.clusters))
+            cluster = self._create_cluster(tag, instance, custom_data)
             index = cluster.index
-            self.clusters.append(cluster)
 
         elif result == SearchResultType.RADIUS:
-            if index == old_index:
-                cluster.update_radius(tag, instance, custom_data)
-            else:
-                cluster.remove(tag)
-                cluster = self.clusters[index]
-                cluster.add_radius(tag, instance, custom_data)
+            if searched_index == old_index:
+                old_cluster.update_radius(tag, instance, custom_data)
 
-        elif result == SearchResultType.THRESHOLD:
-            if index == old_index:
-                cluster.update_threshold(distance, tag, instance, custom_data)
+                index = searched_index
             else:
-                cluster.remove(tag)
-                cluster = self.clusters[index]
-                cluster.add_threshold(distance, tag, instance, custom_data)
+                self._remove_from_cluster(old_cluster, tag)
+
+                new_cluster = self.clusters[searched_index]
+                new_cluster.add_radius(tag, instance, custom_data)
+
+                index = searched_index
+
+        # elif result == SearchResultType.THRESHOLD:
+        else:
+            if searched_index == old_index:
+                old_cluster.update_threshold(searched_distance, tag, instance, custom_data)
+
+                index = searched_index
+            else:
+                self._remove_from_cluster(old_cluster, tag)
+
+                new_cluster = self.clusters[searched_index]
+                new_cluster.add_threshold(searched_distance, tag, instance, custom_data)
+
+                index = searched_index
 
         self.tag_to_cluster[tag] = index
         self.tag_to_instance[tag] = tuple(instance)
 
+    def _remove_from_cluster(self, cluster: Cluster, tag: str) -> None:
+        cluster.remove(tag)
+        if len(cluster.tag_to_instance) == 0:
+            del self.clusters[cluster.index]
+
+    def _create_cluster(self, tag: str, instance: numpy.array, custom_data: Any = None) -> Cluster:
+        cluster = Cluster(tag, instance, custom_data, self.cluster_index)
+        self.clusters[self.cluster_index] = cluster
+        self.cluster_index += 1
+        return cluster
+
     def remove(self, tag: str) -> None:
         index = self.get_cluster_by_tag(tag)
         cluster = self.clusters[index]
+
         del self.tag_to_cluster[tag]
         del self.tag_to_instance[tag]
-        cluster.remove(tag)
+
+        self._remove_from_cluster(cluster, tag)
 
     def get_cluster_by_tag(self, tag: str) -> Optional[int]:
         return self.tag_to_cluster.get(tag, None)
@@ -135,52 +159,44 @@ class ECM(Processor):
     def get_all_instances_with_tags(self) -> Tuple[List[numpy.array], List[str]]:
         tags = []
         instances = []
-        for cluster in self.clusters:
-            c_instances, c_tags = self.get_instances_and_tags_in_cluster(cluster.index)
+        for index, cluster in self.clusters.items():
+            c_instances, c_tags = self.get_instances_and_tags_in_cluster(index)
             tags.extend(c_tags)
             instances.extend(c_instances)
         return instances, tags
 
     def process(self, tag: str, instance: numpy.array, custom_data: Any = None) -> None:
         if not self.did_first_add:
-            cluster = Cluster(tag, instance, custom_data, len(self.clusters))
-
-            self.clusters.append(cluster)
-
-            self.tag_to_cluster[tag] = cluster.index
-            self.tag_to_instance[tag] = tuple(instance)
-
+            cluster = self._create_cluster(tag, instance, custom_data)
             self.did_first_add = True
-            return
 
-        search_result, (index, distance) = self._search_index_and_distance(instance)
+        else:
+            search_result, (index, distance) = self._search_index_and_distance(instance)
 
-        if search_result == SearchResultType.RADIUS:
-            cluster = self.clusters[index]
-            cluster.add_radius(tag, instance, custom_data)
+            if search_result == SearchResultType.RADIUS:
+                cluster = self.clusters[index]
+                cluster.add_radius(tag, instance, custom_data)
 
-            self.tag_to_cluster[tag] = index
-            self.tag_to_instance[tag] = tuple(instance)
+            elif search_result == SearchResultType.THRESHOLD:
+                cluster = self.clusters[index]
+                cluster.add_threshold(distance, tag, instance, custom_data)
 
-        elif search_result == SearchResultType.THRESHOLD:
-            cluster = self.clusters[index]
-            cluster.add_threshold(distance, tag, instance, custom_data)
+            # search_result == SearchResultType.OUTSIDE
+            else:
+                cluster = self._create_cluster(tag, instance, custom_data)
 
-            self.tag_to_cluster[tag] = index
-            self.tag_to_instance[tag] = tuple(instance)
-
-        elif search_result == SearchResultType.OUTSIDE:
-            cluster = Cluster(tag, instance, custom_data, len(self.clusters))
-
-            self.clusters.append(cluster)
-
-            self.tag_to_cluster[tag] = cluster.index
-            self.tag_to_instance[tag] = tuple(instance)
+        self.tag_to_cluster[tag] = cluster.index
+        self.tag_to_instance[tag] = tuple(instance)
 
     def _search_index_and_distance(self, instance: Any) -> \
             Tuple[SearchResultType, Tuple[Optional[int], Optional[int]]]:
 
-        centers = [cluster.center for cluster in self.clusters]
+        cluster_keys = list(self.clusters.keys())
+
+        centers = [
+            cluster.center
+            for cluster in self.clusters.values()
+        ]
 
         distances = cdist(
             np.array([instance]),
@@ -188,7 +204,10 @@ class ECM(Processor):
             'euclidean'
         )[0]
 
-        radiuses = [cluster.radius for cluster in self.clusters]
+        radiuses = [
+            cluster.radius
+            for cluster in self.clusters.values()
+        ]
 
         diffs = distances - radiuses
 
@@ -199,17 +218,19 @@ class ECM(Processor):
         min_index = None if possible.size == 0 else possible_indexes[possible.argmin()]
 
         if min_index is not None:
-            return SearchResultType.RADIUS, (min_index, distances[min_index])
+            return SearchResultType.RADIUS, (cluster_keys[min_index], distances[min_index])
 
         distances_plus_radiuses = np.add(distances, radiuses)
         lowest_distance_and_radius_index = np.argmin(distances_plus_radiuses)
         lowest_distance_and_radius = distances_plus_radiuses[lowest_distance_and_radius_index]
 
+        actual_index = cluster_keys[lowest_distance_and_radius_index]
+
         if lowest_distance_and_radius > 2 * self.distance_threshold:
-            return SearchResultType.OUTSIDE, (lowest_distance_and_radius_index, lowest_distance_and_radius)
+            return SearchResultType.OUTSIDE, (actual_index, lowest_distance_and_radius)
 
         else:
-            return SearchResultType.THRESHOLD, (lowest_distance_and_radius_index, lowest_distance_and_radius)
+            return SearchResultType.THRESHOLD, (actual_index, lowest_distance_and_radius)
 
     def describe(self) -> Dict[str, Any]:
         """
@@ -254,7 +275,7 @@ class ECM(Processor):
     def compute_cluster_score(self):
         node_scores = []
 
-        for cluster in self.clusters:
+        for cluster in self.clusters.values():
             node_dispersion_delta = cluster.delta_score()
             node_delta = np.power(node_dispersion_delta, 2)
 
