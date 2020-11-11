@@ -85,12 +85,12 @@ def test_ecm_operations():
                                0.7, 0.9, 1, 1.2, 1.4, 1.5]
     }
 
-    for instances_path in ["data/operations_instances_ss_confirmed"]:
+    for folder in os.listdir("data/operations_update_remove_instances_ss_confirmed"):
+        folder_path = os.path.join("data/operations_update_remove_instances_ss_confirmed", folder)
 
-        logger.info("Doing all instances @ %s", instances_path)
+        logger.info("Doing all instances @ %s", folder_path)
 
-        instances_files = [os.path.join(instances_path, f) for f in os.listdir(
-            instances_path) if os.path.isfile(os.path.join(instances_path, f))]
+        instances_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path)]
 
         users_instances_files = [instance_path for instance_path in instances_files if
                                  instance_path.find("users") != -1]
@@ -99,27 +99,28 @@ def test_ecm_operations():
                             instance_path.find("operations") != -1]
 
         for users_instances_path, operations_instances_path in zip(users_instances_files, operations_files):
-            logger.info("Doing users + operations @ %s, %s",
-                        users_instances_path, operations_instances_path)
+            logger.info("Doing users + operations @ %s, %s", users_instances_path, operations_instances_path)
 
             operations = read_operations(operations_instances_path)
-            users_instances = DataInitializer.read_users(
-                users_instances_path, users_path)
+            users_instances = DataInitializer.read_users(users_instances_path, users_path)
 
-            instances_folder_name = pathlib.PurePath(instances_path).name
+            instances_folder_name = pathlib.PurePath(folder_path).name
 
-            layer_folder = from_instance_path_to_layer_name(
-                operations_instances_path)
+            layer_folder = from_instance_path_to_layer_name(operations_instances_path)
+
+            output_path = f'./results/openings_users/operations_update_remove_instances_ss_confirmed/' \
+                          f'{layer_folder}/{instances_folder_name}/ECM'
 
             tester = TestRunnerOperationsMatches(
-                ECM,
-                param_grid,
-                operations,
-                users_instances,
-                10,
-                f'./results/openings_users/{instances_folder_name}/{layer_folder}/ECM',
-                'json',
-                True
+                processor_class=ECM,
+                param_grid=param_grid,
+                operations=operations,
+                user_instances=users_instances,
+                calculate_score_frequency=20,
+                output_path=output_path,
+                output_type='json',
+                include_individual_matches=False,
+                skip_done=False
             )
 
             tester.run_tests()
