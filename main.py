@@ -3,6 +3,7 @@ import pathlib
 import pickle
 
 from tests.ecm_tests import test_ecm_operations
+from tests.gng_test import test_gng_operations
 from util.generators.operation_generator import OperationGenerator
 from util.operation import read_operations
 from util.readers.setup_reader import DataInitializer
@@ -35,4 +36,4 @@ if __name__ == "__main__":
     #         with open(out_path, 'wb') as f:
     #             pickle.dump(operations, f)
 
-    test_ecm_operations()
+    test_gng_operations()

@@ -339,8 +339,6 @@ class GTurbo(Processor):
     def compute_cluster_score(self):
 
         instance_dist = self._get_instances_per_node()
-        instance_mean = self._mean_instances_per_node(instance_dist)
-        instance_std = self._std_instances_per_node(instance_dist)
 
         node_scores = []
 
