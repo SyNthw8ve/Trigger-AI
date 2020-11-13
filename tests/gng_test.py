@@ -45,12 +45,12 @@ def from_instance_path_to_layer_name(instance_path: str) -> str:
 
 def test_gng_operations():
 
-    param_grid = {"epsilon_b": [0.001],
+    param_grid = {"epsilon_b": [0.01],
                     "epsilon_n": [0],
-                    "lam": [200],
+                    "lam": [500],
                     "beta": [0.9995],
                     "alpha": [0.95],
-                    "max_age": [200],
+                    "max_age": [500],
                     "r0": [0.5, 1, 2.5]
                 }
 
