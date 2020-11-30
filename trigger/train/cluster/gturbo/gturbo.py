@@ -3,7 +3,6 @@ from typing import Any, List, Tuple, Optional, Dict
 import numpy
 import numpy as np
 import faiss
-import time
 
 from scipy.spatial.distance import cosine
 from scipy.spatial.distance import cdist
@@ -101,8 +100,6 @@ class GTurbo(Processor):
 
         r = self.create_node(q, f, self.r0)
 
-        link = self.graph.get_link(q, f)
-
         q.remove_neighbor(f)
         f.remove_neighbor(q)
 
@@ -119,7 +116,7 @@ class GTurbo(Processor):
 
     def get_best_match(self, instance) -> Tuple[Node, Node]:
 
-        D, I = self.index.search(np.array([instance]).astype('float32'), 2)
+        _, I = self.index.search(np.array([instance]).astype('float32'), 2)
 
         return (self.graph.get_node(I[0][0]), self.graph.get_node(I[0][1]))
 
@@ -254,17 +251,6 @@ class GTurbo(Processor):
     def get_cluster(self, instance) -> int:
 
         return self.point_to_cluster.get(instance)
-
-    def re_ignite(self, epsilon_b, lam, max_age, r0) -> "GTurbo":
-
-        new_turbo = GTurbo(epsilon_b=epsilon_b, epsilon_n=self.epsilon_n, lam=lam, beta=self.beta,
-                           alpha=self.alpha, max_age=max_age, r0=r0, dimensions=self.dimensions)
-
-        for tag, instance in self.instances.items():
-
-            new_turbo.turbo_step(tag, instance)
-
-        return new_turbo
 
     def process(self, tag: str, instance: np.ndarray, custom_data: Any = None) -> None:
 
