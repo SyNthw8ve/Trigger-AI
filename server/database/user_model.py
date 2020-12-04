@@ -69,7 +69,7 @@ class UserModel:
     @staticmethod
     def insert_user_matches(user_id: str, _database: Database, matches: List[ServerMatch], backend_endpoint: str):
         UserModel._insert_user_matches_impl(user_id, _database, matches)
-        UserModel.notify_did_matches(user_id, "user_created", backend_endpoint)
+        UserModel.notify_BE(f"user_created/{user_id}", backend_endpoint)
 
     @staticmethod
     def _insert_user_matches_impl(user_id: str, _database: Database, matches: List[ServerMatch]):
@@ -101,11 +101,8 @@ class UserModel:
         )
 
         UserModel._insert_user_matches_impl(user_id, _database, matches)
-        UserModel.notify_did_matches(user_id, "user_updated", backend_endpoint)
+        UserModel.notify_BE(f"user_updated/{user_id}", backend_endpoint)
 
     @staticmethod
-    def notify_did_matches(user_id: str, restricted_endpoint: str, backend_endpoint: str):
-
-        # sending post request and saving response as response object 
-        r = requests.post(url=f"{backend_endpoint}/{restricted_endpoint}/{user_id}", data={})
-        print(r)
+    def notify_BE(restricted_endpoint: str, backend_endpoint: str, data = {}):
+        requests.post(url=f"{backend_endpoint}/{restricted_endpoint}", data=data)
