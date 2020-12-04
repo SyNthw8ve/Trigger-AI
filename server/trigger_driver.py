@@ -19,7 +19,7 @@ from util.metrics.matches import similarity_metric, quality_metric, real_metric
 def calculate_score(user: User, embedding1: numpy.ndarray, opening: Opening, embedding2: numpy.ndarray):
     similarity = similarity_metric(embedding1, embedding2)
     quality = quality_metric(user, opening)
-    # FIXME: Temporary
+    # FIXME: Don't hardcode
     return real_metric(similarity_weight=.5, similarity_score=similarity, quality_weight=.5, quality_score=quality)
 
 
@@ -68,8 +68,8 @@ class TriggerDriver:
         good_matches = [
             match
             for match in matches
-            # TODO: TEMPORARY
-            if match.score > 0.0
+            # FIXME: Don't hardcode
+            if match.score > 0.5
         ]
 
         return good_matches
@@ -80,17 +80,8 @@ class TriggerDriver:
 
             user = UserModel.get_user_data(user_id, database)
 
-            print("Passed")
-
-            # TODO: cache user instance?
             matches = self.calculate_matches_of_user(user_id, UserInstance(user, self.sentence_embedder))
 
-            print("Matches")
-
-            print(self.processor.get_all_instances_with_tags())
-            print()
-            print(user)
-            print()
             print(f"Did matches for user: {user_id}: {matches}")
 
             UserModel.insert_user_matches(user_id, database, matches, self.config["backend_matches_endpoint"])
@@ -99,7 +90,6 @@ class TriggerDriver:
         with self.connect() as client:
             database = client[self.config["database"]]
             user = UserModel.get_user_data(user_id, database)
-            # TODO: cache user instance?
             user_instance = UserInstance(user, self.sentence_embedder)
 
             opening = self.processor.get_custom_data_by_tag(opening_id)
@@ -117,11 +107,6 @@ class TriggerDriver:
             matches = self.calculate_matches_of_user(user_id, UserInstance(user, self.sentence_embedder))
 
             UserModel.update_user_matches(user_id, database, matches, self.config["backend_matches_endpoint"])
-
-            print(self.processor.get_all_instances_with_tags())
-            print()
-            print(user)
-            print()
             print(f"Updated matches: {matches}")
 
     def insert_opening_to_cluster(self, opening_id: str):
@@ -132,11 +117,9 @@ class TriggerDriver:
 
             opening_instance = OpeningInstance(opening, self.sentence_embedder)
 
-            # FIXME: always online here?
             self.processor.process(opening_id, opening_instance.embedding, opening_instance.opening)
 
             print(f"Opening {opening_id} added!")
-            print(self.processor.get_all_instances_with_tags())
 
     def update_opening(self, opening_id: str):
         with self.connect() as client:
@@ -150,10 +133,11 @@ class TriggerDriver:
         self.processor.remove(opening_id)
 
     def sweep(self):
+        # TODO How to do this? Update everyone? Have another endpoint to register an update?
+
         with self.connect() as client:
             database = client[self.config["database"]]
             users = UserModel.get_all_users_data(database)
 
             for user in users:
-                # TODO does this make sense?
-                self.update_user_matches(user.id)
+                pass
