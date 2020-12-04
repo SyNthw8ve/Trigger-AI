@@ -8,7 +8,7 @@ def on_compute_user_matches(user_id: str):
 
 def on_compute_user_score(user_id: str, opening_id: str):
     driver = get_driver()
-    return driver.compute_user_score(user_id, opening_id)
+    driver.compute_user_score(user_id, opening_id)
 
 
 def on_update_user_matches(user_id: str):
