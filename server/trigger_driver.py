@@ -15,6 +15,8 @@ from trigger.train.transformers.opening_transformer import OpeningInstance
 from trigger.train.transformers.user_transformer import UserInstance
 from util.metrics.matches import similarity_metric, quality_metric, real_metric
 
+import logging
+
 
 def calculate_score(user: User, embedding1: numpy.ndarray, opening: Opening, embedding2: numpy.ndarray):
     similarity = similarity_metric(embedding1, embedding2)
@@ -22,6 +24,8 @@ def calculate_score(user: User, embedding1: numpy.ndarray, opening: Opening, emb
     # FIXME: Don't hardcode
     return real_metric(similarity_weight=.5, similarity_score=similarity, quality_weight=.5, quality_score=quality)
 
+logger = logging.getLogger('trigger_driver')
+logger.setLevel(logging.INFO)
 
 class TriggerDriver:
 
@@ -38,13 +42,13 @@ class TriggerDriver:
         return client
 
     def init_processor(self) -> "TriggerDriver":
-        print("Initializing processor")
+        logger.info("Initializing processor")
 
         with self.connect() as client:
             database = client[self.config["database"]]
 
             for opening in OpeningModel.get_all_openings(database):
-                print("Inserting into cluster", opening)
+                logger.info("Inserting into cluster %s", opening)
                 opening_instance = OpeningInstance(opening, self.sentence_embedder)
                 self.processor.process(opening.entityId, opening_instance.embedding, opening_instance.opening)
 
@@ -82,7 +86,7 @@ class TriggerDriver:
 
             matches = self.calculate_matches_of_user(user_id, UserInstance(user, self.sentence_embedder))
 
-            print(f"Did matches for user: {user_id}: {matches}")
+            logger.info("Did matches for user with id %s: %s", user_id, matches)
 
             UserModel.insert_user_matches(user_id, database, matches, self.config["backend_matches_endpoint"])
 
@@ -96,6 +100,7 @@ class TriggerDriver:
             embedding = self.processor.get_instance_by_tag(opening_id)
 
             match = ServerMatch(user_id, calculate_score(user, user_instance.embedding, opening, embedding), opening_id)
+            logger.info("Score between user with id %s: and opening with id %s is %s", user_id, opening_id, match)
 
     def update_user_matches(self, user_id: str):
         with self.connect() as client:
@@ -107,7 +112,8 @@ class TriggerDriver:
             matches = self.calculate_matches_of_user(user_id, UserInstance(user, self.sentence_embedder))
 
             UserModel.update_user_matches(user_id, database, matches, self.config["backend_matches_endpoint"])
-            print(f"Updated matches: {matches}")
+
+            logger.info("Update matches for user with id %s: %s", user_id, matches)
 
     def insert_opening_to_cluster(self, opening_id: str):
         with self.connect() as client:
@@ -119,7 +125,7 @@ class TriggerDriver:
 
             self.processor.process(opening_id, opening_instance.embedding, opening_instance.opening)
 
-            print(f"Opening {opening_id} added!")
+            logger.info("Added opening with id %s", opening_id)
 
     def update_opening(self, opening_id: str):
         with self.connect() as client:
