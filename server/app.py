@@ -31,18 +31,6 @@ def compute_user_matches(user_id: str):
 def compute_user_score(user_id: str, opening_id: str):
     job = processing.enqueue(on_compute_user_score, args=[user_id, opening_id])
 
-    registries = [processing.started_job_registry,
-                  processing.deferred_job_registry,
-                  processing.finished_job_registry,
-                  processing.failed_job_registry,
-                  processing.scheduled_job_registry
-                  ]
-
-    for re in registries:
-        for job_id in re.get_job_ids():
-            job = Job.fetch(job_id, connection=processing.connection)
-            print(re, job, job.exc_info, job.result)
-
     if job:
         return "Scheduled"
     else:
