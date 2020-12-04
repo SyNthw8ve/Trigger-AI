@@ -86,7 +86,7 @@ class TriggerDriver:
 
             UserModel.insert_user_matches(user_id, database, matches, self.config["backend_matches_endpoint"])
 
-    def compute_user_score(self, user_id: str, opening_id: str) -> ServerMatch:
+    def compute_user_score(self, user_id: str, opening_id: str):
         with self.connect() as client:
             database = client[self.config["database"]]
             user = UserModel.get_user_data(user_id, database)
@@ -95,7 +95,7 @@ class TriggerDriver:
             opening = self.processor.get_custom_data_by_tag(opening_id)
             embedding = self.processor.get_instance_by_tag(opening_id)
 
-            return ServerMatch(user_id, calculate_score(user, user_instance.embedding, opening, embedding), opening_id)
+            match = ServerMatch(user_id, calculate_score(user, user_instance.embedding, opening, embedding), opening_id)
 
     def update_user_matches(self, user_id: str):
         with self.connect() as client:
