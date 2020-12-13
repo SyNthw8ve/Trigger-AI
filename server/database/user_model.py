@@ -1,13 +1,12 @@
+from server.database.server_score import ServerScore
 from typing import Any, List
 
-import requests
 from bson.objectid import ObjectId
 from pymongo.database import Database
 
 from server.database.names import hardskills_collection_name, softskills_collection_name, matches_collection_name
 from trigger.models.hardskill import Hardskill
-from trigger.models.server_match import ServerMatch
-from trigger.models.server_user import ServerUser
+from server.database.server_user import ServerUser
 from trigger.models.softskill import Softskill
 
 
@@ -34,8 +33,10 @@ class UserModel:
                 hardskill_from_db = hardskills_collection.find_one({"_id": ObjectId(hs_ref)})
                 hardskills.append(Hardskill(name=hardskill_from_db["name"]))
 
+        name = user_from_db['name'] if 'name' in user_from_db else '?' 
+
         return ServerUser(
-            name=user_from_db['name'],
+            name=name,
             softSkills=softskills,
             hardSkills=hardskills,
             id=str(user_from_db['_id'])
@@ -57,52 +58,3 @@ class UserModel:
             for user_from_db
             in users_from_db
         ]
-
-    @staticmethod
-    def is_super_match(_database: Database, match: ServerMatch):
-        # TODO: Implement this
-        # FIXME: Is this here? Or in nest ?
-        user_likes_project = False
-        manager_likes_user = False
-        return user_likes_project and manager_likes_user
-
-    @staticmethod
-    def insert_user_matches(user_id: str, _database: Database, matches: List[ServerMatch], backend_endpoint: str):
-        UserModel._insert_user_matches_impl(user_id, _database, matches)
-        UserModel.notify_BE(f"user_created/{user_id}", backend_endpoint)
-
-    @staticmethod
-    def _insert_user_matches_impl(user_id: str, _database: Database, matches: List[ServerMatch]):
-        matches_collection = _database[matches_collection_name]
-
-        match_documents = [
-            {
-                "type": "opening",
-                "user": ObjectId(user_id),
-                "matching": ObjectId(match.opening_id_string),
-                "superMatch": UserModel.is_super_match(_database, match),
-                "score": match.score
-            }
-            for match in matches
-        ]
-
-        if len(match_documents) == 0:
-            return
-
-        matches_collection.insert_many(match_documents)
-
-    @staticmethod
-    def update_user_matches(user_id: str, _database: Database, matches: List[ServerMatch], backend_endpoint: str):
-        matches_collection = _database[matches_collection_name]
-
-        # FIXME: This would mean it's possible for a match to disapear if the user/opening change
-        matches_collection.delete_many(
-            {"user": ObjectId(user_id)}
-        )
-
-        UserModel._insert_user_matches_impl(user_id, _database, matches)
-        UserModel.notify_BE(f"user_updated/{user_id}", backend_endpoint)
-
-    @staticmethod
-    def notify_BE(restricted_endpoint: str, backend_endpoint: str, data = {}):
-        requests.post(url=f"{backend_endpoint}/{restricted_endpoint}", data=data)
