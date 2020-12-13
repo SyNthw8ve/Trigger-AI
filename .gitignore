@@ -17,3 +17,5 @@ venv_w/
 server/config.json
 
 pythonenv3.8/
+
+*.rdb
