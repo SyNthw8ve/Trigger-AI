@@ -1,14 +1,19 @@
 import logging
 import os
 
-from util.operation import read_operations
-from util.test.test_runner_matches import TestRunnerMatches
-
 import pathlib
+import sys
+
+if __name__ == "__main__":
+    sys.path.append("..")
+    sys.path.append(".")
 
 from trigger.train.cluster.ecm.ecm import ECM
-from util.readers.setup_reader import DataInitializer
-from util.test.test_runner_operations_matches import TestRunnerOperationsMatches
+
+from trigger_project.operation import read_operations
+from trigger_project.test.test_runner_matches import TestRunnerMatches
+from trigger_project.util.readers.setup_reader import DataInitializer
+from trigger_project.test.test_runner_operations_matches import TestRunnerOperationsMatches
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('ecm_tests')
@@ -50,23 +55,30 @@ def test_ecm_matches_instances():
 
         logger.info("Doing all instances @ %s", instances_path)
 
-        instances_files = [os.path.join(instances_path, f) for f in os.listdir(
-            instances_path) if os.path.isfile(os.path.join(instances_path, f))]
+        instances_files = [
+            os.path.join(instances_path, f)
+            for f in os.listdir(instances_path)
+            if os.path.isfile(os.path.join(instances_path, f))
+        ]
 
-        users_instances_files = [instance_path for instance_path in instances_files if
-                                 instance_path.find("users") != -1]
+        users_instances_files = [
+            instance_path
+            for instance_path in instances_files
+            if  instance_path.find("users") != -1
+        ]
 
-        openings_instances_files = [instance_path for instance_path in instances_files if
-                                    instance_path.find("openings") != -1]
+        openings_instances_files = [
+            instance_path
+            for instance_path in instances_files
+            if instance_path.find("openings") != -1
+        ]
 
         for users_instances_path, openings_instances_path in zip(users_instances_files, openings_instances_files):
             logger.info("Doing users + openings instances @ %s, %s",
                         users_instances_path, openings_instances_path)
 
-            openings_instances = DataInitializer.read_openings(
-                openings_instances_path, openings_path)
-            users_instances = DataInitializer.read_users(
-                users_instances_path, users_path)
+            openings_instances = DataInitializer.read_openings(openings_instances_path, openings_path)
+            users_instances = DataInitializer.read_users(users_instances_path, users_path)
 
             instances_folder_name = pathlib.PurePath(instances_path).name
 

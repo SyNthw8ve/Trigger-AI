@@ -9,7 +9,7 @@ import numpy as np
 
 from enum import Enum
 
-from util.metrics.matches import similarity_metric
+from ....metrics.match import similarity_metric
 
 
 class Cluster:

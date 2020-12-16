@@ -1,16 +1,9 @@
-import numpy as np
 import logging
 import os
-import json
-
-from matplotlib import pyplot as plt
-from sklearn.metrics import silhouette_score, calinski_harabasz_score
-from sklearn.metrics.cluster import adjusted_rand_score
-from typing import Tuple, List
 
 from trigger.train.cluster.covariance.covariance_cluster import CovarianceCluster
-from util.readers.setup_reader import DataInitializer
-from util.test.test_runner_matches import TestRunnerMatches
+from trigger_project.util.readers.setup_reader import DataInitializer
+from trigger_project.test.test_runner_matches import TestRunnerMatches
 
 logger = logging.getLogger('matplotlib')
 logger.setLevel(logging.WARNING)

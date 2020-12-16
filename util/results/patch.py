@@ -3,8 +3,8 @@ import statistics
 from collections import Counter
 from typing import List, Callable, Optional, Dict, Any
 
-from util.metrics.matches import average_from_distribution, max_from_distribution, min_from_distribution, \
-    make_distribution, to_range
+from trigger.metrics.match import\
+    average_from_distribution, max_from_distribution, min_from_distribution, to_range
 
 default_order = [
     "distribution #matches",
