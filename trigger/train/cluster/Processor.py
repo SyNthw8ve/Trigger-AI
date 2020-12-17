@@ -53,5 +53,5 @@ class Processor(ABC):
         pass
 
     @abstractmethod
-    def compute_cluster_score(self) -> numpy.ndarray:
+    def compute_cluster_score(self) -> float:
         pass

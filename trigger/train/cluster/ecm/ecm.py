@@ -284,14 +284,14 @@ class ECM(Processor):
     def get_instance_by_tag(self, tag: str) -> Optional[numpy.ndarray]:
         return self.tag_to_instance.get(tag, None)
 
-    def compute_cluster_score(self):
+    def compute_cluster_score(self) -> float:
         node_scores = []
 
         for cluster in self.clusters.values():
             node_dispersion_delta = cluster.delta_score()
             node_delta = np.power(node_dispersion_delta, 2)
 
-            node_score = np.exp(-(node_delta)) * np.log(len(cluster.tag_to_instance))
+            node_score = numpy.ex(-(node_delta)) * np.log(len(cluster.tag_to_instance))
             node_scores.append(node_score)
 
         return np.sum(node_scores)

@@ -322,7 +322,7 @@ class GTurbo(Processor):
 
         return f"GTurbo = epsilon_b={self.epsilon_b};epsilon_n={self.epsilon_n};lam={self.lam};beta={self.beta};alpha={self.alpha};max_age={self.max_age};radius={self.r0}"
 
-    def compute_cluster_score(self):
+    def compute_cluster_score(self) -> float:
 
         instance_dist = self._get_instances_per_node()
 

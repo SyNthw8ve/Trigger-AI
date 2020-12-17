@@ -137,5 +137,5 @@ class CovarianceCluster(Processor):
 
         return f"CovCluster = initial_std={self.initial_std}"
 
-    def compute_cluster_score(self):
+    def compute_cluster_score(self) -> float:
         return -1

@@ -1,6 +1,6 @@
 from pathlib import Path
 from trigger_project.util.json_util.json_converter import EnhancedJSONEncoder
-from typing import Type
+from typing import Any, Dict, List, Type
 
 import logging
 
@@ -19,8 +19,15 @@ logger.setLevel(logging.INFO)
 
 class TestRunner:
 
-    def __init__(self, processor_class: Type[Processor], param_grid, instances, output_path='', output_type='json',
-                 skip_done=False):
+    def __init__(
+        self,
+        processor_class: Type[Processor],
+        param_grid: Dict[str, Any],
+        instances: List[Any],
+        output_path:str='',
+        output_type:str='json',
+        skip_done:bool=False
+    ):
         self.processor_class = processor_class
         self.param_grid = param_grid
         self.instances = instances
