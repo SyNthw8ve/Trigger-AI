@@ -1,3 +1,4 @@
+from trigger_project.models.opening import Opening
 from trigger_project.scoring_options import ScoringOptions
 from .metrics.match import calculate_scores
 from .models.trigger_match import TriggerMatch
