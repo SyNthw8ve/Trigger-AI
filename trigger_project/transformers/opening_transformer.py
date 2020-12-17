@@ -1,3 +1,4 @@
+from trigger_project.instances.opening_instance import OpeningInstance
 from trigger.train.transformers.sentence_embedder import SentenceEmbedder
 from trigger.train.transformers.transformer import Transformer
 
@@ -6,15 +7,14 @@ import tensorflow as tf
 
 from ..models.opening import Opening
 
-class OpeningTransformer(Transformer[Opening]):
+class OpeningTransformer(Transformer[Opening, OpeningInstance]):
 
     def __init__(self, sentenceEmbedder: SentenceEmbedder, layer:str='avg', normed=False):
         self.sentenceEmbedder = sentenceEmbedder
         self.layer = layer
         self.normed = normed
 
-    def transform(self, opening: Opening) -> numpy.array:
-
+    def calculate_embedding(self, opening: Opening) -> numpy.ndarray:
         hardSkillsEmbedding = self.sentenceEmbedder.generateEmbeddingsFromList(opening.hardSkills)
 
         softSkillsEmbedding = self.sentenceEmbedder.generateEmbeddingsFromList(opening.softSkills)
@@ -39,3 +39,7 @@ class OpeningTransformer(Transformer[Opening]):
             resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
 
         return resultingEmbedding
+
+    def transform_to_instance(self, opening: Opening) -> OpeningInstance:
+        embedding = self.calculate_embedding(opening)
+        return OpeningInstance(opening, embedding)

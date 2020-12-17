@@ -6,7 +6,7 @@ from ..models.user import User
 
 class UserInstance:
 
-    def __init__(self, user: User, embedding: numpy.array):
+    def __init__(self, user: User, embedding: numpy.ndarray):
         self.user = user
         self.embedding = embedding
 

@@ -6,7 +6,7 @@ from ..models.opening import Opening
 
 class OpeningInstance:
 
-    def __init__(self, opening: Opening, embedding: numpy.array):
+    def __init__(self, opening: Opening, embedding: numpy.ndarray):
         self.opening = opening
         self.embedding = embedding
 

@@ -1,3 +1,4 @@
+from trigger_project.instances.user_instance import UserInstance
 from trigger.train.transformers.transformer import Transformer
 from trigger.train.transformers.sentence_embedder import SentenceEmbedder
 
@@ -7,14 +8,14 @@ import numpy
 from ..models.user import User
 
 
-class UserTransformer(Transformer[User]):
+class UserTransformer(Transformer[User, UserInstance]):
 
     def __init__(self, sentenceEmbedder: SentenceEmbedder, layer:str='avg', normed=False):
         self.sentenceEmbedder = sentenceEmbedder
         self.layer = layer
         self.normed = normed
 
-    def transform(self, user: User) -> numpy.array:
+    def calculate_embedding(self, user: User) -> numpy.ndarray:
         
         hardSkillsEmbedding = self.sentenceEmbedder.generateEmbeddingsFromList(user.hardSkills)
 
@@ -40,3 +41,7 @@ class UserTransformer(Transformer[User]):
             resultingEmbedding = resultingEmbedding / numpy.linalg.norm(resultingEmbedding)
 
         return resultingEmbedding
+
+    def transform_to_instance(self, user: User) -> UserInstance:
+        embedding = self.calculate_embedding(user)
+        return UserInstance(user, embedding)

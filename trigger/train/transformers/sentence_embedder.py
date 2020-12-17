@@ -16,12 +16,12 @@ class SentenceEmbedder:
 
         self.model = SentenceTransformer(modelname)
 
-    def generateEmbeddings(self, sentence: str) -> numpy.array:
+    def generateEmbeddings(self, sentence: str) -> numpy.ndarray:
 
         return self.model.encode(sentence)
 
 
-    def generateEmbeddingsFromList(self, skill_list: List[Any]) -> numpy.array:
+    def generateEmbeddingsFromList(self, skill_list: List[Any]) -> numpy.ndarray:
         if len(skill_list) == 0:
 
             return numpy.zeros(1024)

@@ -29,7 +29,8 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            OpeningInstance(opening, opening_transformer.transform(opening)) for opening in openings
+            opening_transformer.transform_to_instance(opening)
+            for opening in openings
         ]
 
         eid += len(opening_instances)
@@ -67,7 +68,8 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            OpeningInstance(opening, opening_transformer.transform(opening)) for opening in openings
+            opening_transformer.transform_to_instance(opening)
+            for opening in openings
         ]
 
         eid += len(opening_instances)
@@ -178,7 +180,8 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            OpeningInstance(opening, opening_transformer.transform(opening)) for opening in openings
+            opening_transformer.transform_to_instance(opening)
+            for opening in openings
         ]
 
         eid += len(opening_instances)
@@ -255,7 +258,8 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            OpeningInstance(opening, opening_transformer.transform(opening)) for opening in openings
+            opening_transformer.transform_to_instance(opening) 
+            for opening in openings
         ]
 
         eid += len(opening_instances)
@@ -351,7 +355,8 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            OpeningInstance(opening, opening_transformer.transform(opening)) for opening in openings
+            opening_transformer.transform_to_instance(opening)
+            for opening in openings
         ]
 
         eid += len(opening_instances)
@@ -405,7 +410,8 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            OpeningInstance(opening, opening_transformer.transform(opening)) for opening in openings
+            opening_transformer.transform_to_instance(opening)
+            for opening in openings
         ]
 
         eid += len(opening_instances)
@@ -469,7 +475,8 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            OpeningInstance(opening, opening_transformer.transform(opening)) for opening in openings
+            opening_transformer.transform_to_instance(opening)
+            for opening in openings
         ]
 
         eid += len(opening_instances)

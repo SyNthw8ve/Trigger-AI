@@ -17,7 +17,7 @@ class TriggerInterface:
                  processor: Processor,
                  user_transformer: UserTransformer,
                  opening_transformer: OpeningTransformer,
-                 scoring_options: ScoringOptions) -> None:
+                 scoring_options: ScoringOptions = ScoringOptions()) -> None:
         self.processor: Final[Processor] = processor
         self.user_transfomer: Final[UserTransformer] = user_transformer
         self.opening_transformer: Final[OpeningTransformer] = opening_transformer
@@ -45,7 +45,7 @@ class TriggerInterface:
             self.processor.update(tag, opening_instance.embedding, opening)
 
     def calculate_matches_of_user(self, user: User) -> List[TriggerMatch]:
-        user_instance = UserInstance(user, self.sentence_embedder)
+        user_instance = self.user_transfomer.transform_to_instance(user)
 
         would_be_cluster_id = self.processor.predict(user_instance.embedding)
 
@@ -67,9 +67,9 @@ class TriggerInterface:
         return matches
 
     def compute_user_score_by_opening_tag(self, user: User, opening_id: str) -> ScoringResult:
-        user_instance = UserInstance(user, self.sentence_embedder)
+        user_instance = self.user_transfomer.transform_to_instance(user)
 
         opening: Opening = self.processor.get_custom_data_by_tag(opening_id)
         embedding = self.processor.get_instance_by_tag(opening_id)
 
-        return calculate_scores(self.scoring_options, user, user_instance.embedding, opening, embedding)
+        return calculate_scores(user_instance, opening, embedding, self.scoring_options)

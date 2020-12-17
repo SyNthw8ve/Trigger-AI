@@ -42,7 +42,7 @@ class DataInitializer:
             logging.info("Creating instances...")
 
             users_instances = [
-                UserInstance(user, user_transformer.transform(user))
+                user_transformer.transform_to_instance(user)
                 for user in users
             ]
 
@@ -81,7 +81,7 @@ class DataInitializer:
             logging.info("Creating instances...")
 
             openings_instances = [
-                OpeningInstance(opening, opening_transformer.transform(opening)) 
+                opening_transformer.transform_to_instance(opening)
                 for opening in openings
             ]
 

@@ -91,7 +91,7 @@ class ECM(Processor):
     def instances(self) -> List[tuple]:
         return list(self.tag_to_instance.values())
 
-    def update(self, tag: str, instance: numpy.array, custom_data: Any = None) -> None:
+    def update(self, tag: str, instance: numpy.ndarray, custom_data: Any = None) -> None:
         result, (searched_index, searched_distance) = self._search_index_and_distance(instance)
         old_index = self.get_cluster_by_tag(tag)
         old_cluster = self.clusters[old_index]
@@ -138,7 +138,7 @@ class ECM(Processor):
         if len(cluster.tag_to_instance) == 0:
             del self.clusters[cluster.index]
 
-    def _create_cluster(self, tag: str, instance: numpy.array, custom_data: Any = None) -> Cluster:
+    def _create_cluster(self, tag: str, instance: numpy.ndarray, custom_data: Any = None) -> Cluster:
         cluster = Cluster(tag, instance, custom_data, self.cluster_index)
         self.clusters[self.cluster_index] = cluster
         self.cluster_index += 1
@@ -157,11 +157,11 @@ class ECM(Processor):
     def get_cluster_by_tag(self, tag: str) -> Optional[int]:
         return self.tag_to_cluster.get(tag, None)
 
-    def get_instances_and_tags_in_cluster(self, cluster_id: int) -> Tuple[List[numpy.array], List[str]]:
+    def get_instances_and_tags_in_cluster(self, cluster_id: int) -> Tuple[List[numpy.ndarray], List[str]]:
         tag_to_instance = self.clusters[cluster_id].tag_to_instance
         return list(tag_to_instance.values()), list(tag_to_instance.keys())
 
-    def get_all_instances_with_tags(self) -> Tuple[List[numpy.array], List[str]]:
+    def get_all_instances_with_tags(self) -> Tuple[List[numpy.ndarray], List[str]]:
         tags = []
         instances = []
         for index, cluster in self.clusters.items():
@@ -170,7 +170,7 @@ class ECM(Processor):
             instances.extend(c_instances)
         return instances, tags
 
-    def process(self, tag: str, instance: numpy.array, custom_data: Any = None) -> None:
+    def process(self, tag: str, instance: numpy.ndarray, custom_data: Any = None) -> None:
         if not self.did_first_add:
             cluster = self._create_cluster(tag, instance, custom_data)
             self.did_first_add = True
