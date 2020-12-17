@@ -50,7 +50,7 @@ class TriggerInterface:
 
         instances, tags = self.processor.get_instances_and_tags_in_cluster(would_be_cluster_id)
 
-        openings = [self.processor.get_custom_data_by_tag(tag) for tag in tags]
+        openings: List[Opening] = [self.processor.get_custom_data_by_tag(tag) for tag in tags]
 
         scores = [
             calculate_scores(user_instance, opening, instance)
@@ -68,7 +68,7 @@ class TriggerInterface:
     def compute_user_score_by_opening_tag(self, user: User, opening_id: str) -> ScoringResult:
         user_instance = UserInstance(user, self.sentence_embedder)
 
-        opening = self.processor.get_custom_data_by_tag(opening_id)
+        opening: Opening = self.processor.get_custom_data_by_tag(opening_id)
         embedding = self.processor.get_instance_by_tag(opening_id)
 
         return calculate_scores(self.scoring_options, user, user_instance.embedding, opening, embedding)
