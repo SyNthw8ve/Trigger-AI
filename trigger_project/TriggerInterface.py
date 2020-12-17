@@ -58,7 +58,7 @@ class TriggerInterface:
         ]
 
         matches = [
-            TriggerMatch(user, score.final_score, score.opening)
+            TriggerMatch(score.final_score, user, score.opening)
             for score in scores
             if score.final_score >= 0.5
         ]
