@@ -98,7 +98,7 @@ def eval_matches(processor: Processor, users_instances: List[UserInstance], scor
         matches = []
         for i, real in enumerate(reals):
             if real >= .5:
-                matches.append(TriggerMatch(user_instance.user, real, openings[i]))
+                matches.append(TriggerMatch(real, user_instance.user, openings[i]))
 
         match_scores = [match.score for match in matches]
 
