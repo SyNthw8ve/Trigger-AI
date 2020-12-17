@@ -188,10 +188,10 @@ def eval_matches_and_cluster(processor: Processor, users_instances: List[UserIns
     return results
 
 
-def calculate_scores(scoring_options: ScoringOptions,
-                     user_instance: UserInstance,
+def calculate_scores(user_instance: UserInstance,
                      opening: Opening,
-                     embedding2: numpy.ndarray) -> ScoringResult:
+                     embedding2: numpy.ndarray,
+                     scoring_options: ScoringOptions = ScoringOptions()) -> ScoringResult:
 
     similarity = similarity_metric(user_instance.embedding, embedding2)
     quality = quality_metric(user_instance.user, opening)
