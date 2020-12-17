@@ -1,5 +1,5 @@
 from typing import List
-from util import pickle
+import pickle
 import numpy
 from ..models.opening import Opening
 
