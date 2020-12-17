@@ -1,4 +1,5 @@
 from pathlib import Path
+from trigger_project.util.json_util.json_converter import EnhancedJSONEncoder
 from typing import Type
 
 import logging
@@ -89,7 +90,7 @@ class TestRunner:
         Path(file_path).parent.mkdir(parents=True, exist_ok=True)
 
         with open(file_path, 'w') as f:
-            json.dump(test_descriptor, f)
+            json.dump(test_descriptor, f, cls=EnhancedJSONEncoder)
 
     def _save_results_csv(self, params, result):
         pass
