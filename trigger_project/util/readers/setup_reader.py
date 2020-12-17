@@ -1,5 +1,6 @@
 import os
 import logging
+from trigger.train.transformers.sentence_embedder import SentenceEmbedder
 
 from ...transformers.user_transformer import UserTransformer
 from ...transformers.opening_transformer import OpeningTransformer
@@ -14,7 +15,11 @@ from typing import List
 class DataInitializer:
 
     @staticmethod
-    def read_users(users_instances_path: str, users_path: str, user_transformer: UserTransformer) -> List[UserInstance]:
+    def read_users(
+        users_instances_path: str,
+        users_path: str,
+        user_transformer: UserTransformer = UserTransformer(SentenceEmbedder())
+    ) -> List[UserInstance]:
 
         if os.path.exists(users_instances_path):
 
@@ -50,7 +55,11 @@ class DataInitializer:
             return users_instances
 
     @staticmethod
-    def read_openings(openings_instances_path: str, openings_path: str, opening_transformer: OpeningTransformer) -> List[OpeningInstance]:
+    def read_openings(
+        openings_instances_path: str, 
+        openings_path: str,
+        opening_transformer: OpeningTransformer=OpeningTransformer(SentenceEmbedder())
+    ) -> List[OpeningInstance]:
 
         if os.path.exists(openings_instances_path):
 
@@ -59,8 +68,7 @@ class DataInitializer:
 
         else:
 
-            logging.info(
-                "Openings instances file not found. Reading Openings...")
+            logging.info("Openings instances file not found. Reading Openings...")
 
             openings_files = [os.path.join(openings_path, f) for f in os.listdir(
                 openings_path) if os.path.isfile(os.path.join(openings_path, f))]
