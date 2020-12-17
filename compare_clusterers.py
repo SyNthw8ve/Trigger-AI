@@ -1,14 +1,13 @@
 import json
 import os
 import statistics
+from trigger.metrics.match import to_range
+from trigger_project.models.opening import Opening
+from trigger_project.util.json_util.json_converter import EnhancedJSONEncoder
 import numpy as np
 import sys
 from collections import Counter
 from typing import List, NamedTuple, Dict, Tuple
-
-from trigger.models.opening import Opening
-from util.metrics.matches import to_range
-
 
 class MatchResult(NamedTuple):
     score: float
@@ -131,7 +130,6 @@ def load_distributions(directory_path):
         results.append(test_result)
 
     with open("./compared_test.json", "w") as f:
-        from util.json_util.json_converter import EnhancedJSONEncoder
         json.dump(results, f, cls=EnhancedJSONEncoder)
 
 
