@@ -1,5 +1,3 @@
-from trigger_project.instances.opening_instance import OpeningInstance
-from trigger.train.transformers.sentence_embedder import SentenceEmbedder
 from typing import List
 
 from ...models.hardskill import Hardskill
@@ -10,7 +8,7 @@ from ...transformers.opening_transformer import OpeningTransformer
 
 def sample_projects(start_id: int) -> List[Project]:
     eid = start_id + 1
-    opening_transformer = OpeningTransformer(SentenceEmbedder())
+    opening_transformer = OpeningTransformer()
 
     def create_solo() -> Project:
         nonlocal eid
@@ -29,7 +27,7 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            opening_transformer.transform_to_instance(opening)
+            opening_transformer.transform(opening)
             for opening in openings
         ]
 
@@ -68,7 +66,7 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            opening_transformer.transform_to_instance(opening)
+            opening_transformer.transform(opening)
             for opening in openings
         ]
 
@@ -180,7 +178,7 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            opening_transformer.transform_to_instance(opening)
+            opening_transformer.transform(opening)
             for opening in openings
         ]
 
@@ -258,7 +256,7 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            opening_transformer.transform_to_instance(opening) 
+            opening_transformer.transform(opening) 
             for opening in openings
         ]
 
@@ -355,7 +353,7 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            opening_transformer.transform_to_instance(opening)
+            opening_transformer.transform(opening)
             for opening in openings
         ]
 
@@ -410,7 +408,7 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            opening_transformer.transform_to_instance(opening)
+            opening_transformer.transform(opening)
             for opening in openings
         ]
 
@@ -475,7 +473,7 @@ def sample_projects(start_id: int) -> List[Project]:
         ]
 
         opening_instances = [
-            opening_transformer.transform_to_instance(opening)
+            opening_transformer.transform(opening)
             for opening in openings
         ]
 
