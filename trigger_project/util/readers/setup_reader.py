@@ -1,6 +1,5 @@
 import os
 import logging
-from trigger.train.transformers.sentence_embedder import SentenceEmbedder
 
 from ...transformers.user_transformer import UserTransformer
 from ...transformers.opening_transformer import OpeningTransformer
@@ -18,7 +17,7 @@ class DataInitializer:
     def read_users(
         users_instances_path: str,
         users_path: str,
-        user_transformer: UserTransformer = UserTransformer(SentenceEmbedder())
+        user_transformer: UserTransformer = UserTransformer()
     ) -> List[UserInstance]:
 
         if os.path.exists(users_instances_path):
@@ -42,7 +41,7 @@ class DataInitializer:
             logging.info("Creating instances...")
 
             users_instances = [
-                user_transformer.transform_to_instance(user)
+                user_transformer.transform(user)
                 for user in users
             ]
 
@@ -58,7 +57,7 @@ class DataInitializer:
     def read_openings(
         openings_instances_path: str, 
         openings_path: str,
-        opening_transformer: OpeningTransformer=OpeningTransformer(SentenceEmbedder())
+        opening_transformer: OpeningTransformer=OpeningTransformer()
     ) -> List[OpeningInstance]:
 
         if os.path.exists(openings_instances_path):
@@ -81,7 +80,7 @@ class DataInitializer:
             logging.info("Creating instances...")
 
             openings_instances = [
-                opening_transformer.transform_to_instance(opening)
+                opening_transformer.transform(opening)
                 for opening in openings
             ]
 
