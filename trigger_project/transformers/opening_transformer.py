@@ -1,15 +1,15 @@
+from trigger_project.transformers.input_transformer import SentenceEmbedder
 from trigger_project.instances.opening_instance import OpeningInstance
-from trigger.train.transformers.sentence_embedder import SentenceEmbedder
-from trigger.train.transformers.transformer import Transformer
+from trigger.transformers.transformer_pipeline import TransformerPipeline, Instance
 
 import numpy
 import tensorflow as tf
 
 from ..models.opening import Opening
 
-class OpeningTransformer(Transformer[Opening, OpeningInstance]):
+class OpeningTransformer(TransformerPipeline[Opening]):
 
-    def __init__(self, sentenceEmbedder: SentenceEmbedder, layer:str='avg', normed=False):
+    def __init__(self, sentenceEmbedder: SentenceEmbedder = SentenceEmbedder(), layer: str = 'avg', normed=False):
         self.sentenceEmbedder = sentenceEmbedder
         self.layer = layer
         self.normed = normed
@@ -40,6 +40,6 @@ class OpeningTransformer(Transformer[Opening, OpeningInstance]):
 
         return resultingEmbedding
 
-    def transform_to_instance(self, opening: Opening) -> OpeningInstance:
+    def transform(self, opening: Opening) -> OpeningInstance:
         embedding = self.calculate_embedding(opening)
         return OpeningInstance(opening, embedding)

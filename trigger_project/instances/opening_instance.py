@@ -1,14 +1,11 @@
 from typing import List
 import pickle
-import numpy
 from ..models.opening import Opening
 
+from trigger.transformers.transformer_pipeline import Instance
 
-class OpeningInstance:
 
-    def __init__(self, opening: Opening, embedding: numpy.ndarray):
-        self.opening = opening
-        self.embedding = embedding
+class OpeningInstance(Instance[Opening]):
 
     @staticmethod
     def save_instances(filename: str, instances: List["OpeningInstance"]) -> None:

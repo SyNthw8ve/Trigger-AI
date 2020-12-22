@@ -1,6 +1,6 @@
+from trigger_project.transformers.input_transformer import SentenceEmbedder
 from trigger_project.instances.user_instance import UserInstance
-from trigger.train.transformers.transformer import Transformer
-from trigger.train.transformers.sentence_embedder import SentenceEmbedder
+from trigger.transformers.transformer_pipeline import TransformerPipeline, Instance
 
 import tensorflow as tf
 import numpy
@@ -8,9 +8,9 @@ import numpy
 from ..models.user import User
 
 
-class UserTransformer(Transformer[User, UserInstance]):
+class UserTransformer(TransformerPipeline[User]):
 
-    def __init__(self, sentenceEmbedder: SentenceEmbedder, layer:str='avg', normed=False):
+    def __init__(self, sentenceEmbedder: SentenceEmbedder = SentenceEmbedder(), layer:str='avg', normed=False):
         self.sentenceEmbedder = sentenceEmbedder
         self.layer = layer
         self.normed = normed
@@ -42,6 +42,6 @@ class UserTransformer(Transformer[User, UserInstance]):
 
         return resultingEmbedding
 
-    def transform_to_instance(self, user: User) -> UserInstance:
+    def transform(self, user: User) -> UserInstance:
         embedding = self.calculate_embedding(user)
         return UserInstance(user, embedding)
