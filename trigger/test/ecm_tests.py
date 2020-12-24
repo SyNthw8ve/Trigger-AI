@@ -1,10 +1,10 @@
 import logging
 
-from trigger_project.scoring import TriggerScoringCalculator
-from trigger_project.operation import read_operations
+from trigger.scoring import TriggerScoringCalculator
+from trigger.operation import read_operations
 
 from interference.clusters.ecm import ECM
-from trigger_project.test.trigger_test_runner import TriggerTestRunner
+from trigger.test.trigger_test_runner import TriggerTestRunner
 from data.operations_instances_ss_confirmed import fetch_operations_files
 
 logging.basicConfig(level=logging.INFO)

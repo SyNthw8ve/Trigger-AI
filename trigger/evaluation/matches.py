@@ -1,6 +1,6 @@
 from collections import Counter
 import statistics
-from trigger_project.scoring import TriggerScoring
+from trigger.scoring import TriggerScoring
 from typing import List
 
 from interference.util.statistics import to_range, stats_from_counter, Stats

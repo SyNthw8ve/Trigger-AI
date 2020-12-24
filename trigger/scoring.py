@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
-from trigger_project.metrics.match import quality_metric, real_metric
+from trigger.metrics.match import quality_metric, real_metric
 from typing import Any, Dict
-from trigger_project.models.user import User
+from trigger.models.user import User
 
 from .models.opening import Opening
 from interference.scoring import ScoringOptions, Scoring, ScoringCalculator

@@ -1,5 +1,5 @@
-from trigger_project.scoring import TriggerScoring
-from trigger_project.evaluation.matches import eval_matches
+from trigger.scoring import TriggerScoring
+from trigger.evaluation.matches import eval_matches
 from typing import List, cast
 from interference.interface import Interface
 from interference.operations import CalculateMatchesInfo

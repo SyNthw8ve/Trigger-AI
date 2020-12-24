@@ -1,5 +1,5 @@
 import random
-from trigger_project.instances.user_instance import UserInstance
+from trigger.instances.user_instance import UserInstance
 
 from typing import Dict, List, Tuple
 

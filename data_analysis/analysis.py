@@ -2,9 +2,9 @@ import os
 import pandas as pd
 from typing import List
 
-from trigger_project.models.opening import Opening
-from trigger_project.models.user import User
-from trigger_project.util.readers.data_reader import DataReaderOpenings, DataReaderUsers
+from trigger.models.opening import Opening
+from trigger.models.user import User
+from trigger.util.readers.data_reader import DataReaderOpenings, DataReaderUsers
 
 def load_data(users_path, openings_path):
 

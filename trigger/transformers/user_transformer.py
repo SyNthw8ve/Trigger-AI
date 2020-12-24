@@ -1,27 +1,28 @@
-from trigger_project.transformers.input_transformer import SentenceEmbedder
-from trigger_project.instances.opening_instance import OpeningInstance
+from trigger.transformers.opening_transformer import LAYER
+from trigger.transformers.input_transformer import SentenceEmbedder
+from trigger.instances.user_instance import UserInstance
 from interference.transformers.transformer_pipeline import TransformerPipeline, Instance
 
-from typing_extensions import Literal, Final
+from typing_extensions import Final
 
-import numpy
 import tensorflow as tf
+import numpy
 
-from ..models.opening import Opening
+from ..models.user import User
 
-LAYER = Literal['avg', 'concat', 'no_ss']
 
-class OpeningTransformer(TransformerPipeline[Opening]):
+class UserTransformer(TransformerPipeline[User]):
 
-    def __init__(self, sentenceEmbedder: SentenceEmbedder = SentenceEmbedder(), layer: LAYER = 'avg', normed=False):
+    def __init__(self, sentenceEmbedder: SentenceEmbedder = SentenceEmbedder(), layer: LAYER ='avg', normed=False):
         self.sentenceEmbedder = sentenceEmbedder
         self.layer: Final[LAYER] = layer
         self.normed = normed
 
-    def calculate_embedding(self, opening: Opening) -> numpy.ndarray:
-        hardSkillsEmbedding = self.sentenceEmbedder.generateEmbeddingsFromList(opening.hardSkills)
+    def calculate_embedding(self, user: User) -> numpy.ndarray:
+        
+        hardSkillsEmbedding = self.sentenceEmbedder.generateEmbeddingsFromList(user.hardSkills)
 
-        softSkillsEmbedding = self.sentenceEmbedder.generateEmbeddingsFromList(opening.softSkills)
+        softSkillsEmbedding = self.sentenceEmbedder.generateEmbeddingsFromList(user.softSkills)
 
         if self.layer == 'avg':
             jointEmbedding = tf.keras.layers.Average()([hardSkillsEmbedding, softSkillsEmbedding])
@@ -44,6 +45,6 @@ class OpeningTransformer(TransformerPipeline[Opening]):
 
         return resultingEmbedding
 
-    def transform(self, opening: Opening) -> OpeningInstance:
-        embedding = self.calculate_embedding(opening)
-        return OpeningInstance(opening, embedding)
+    def transform(self, user: User) -> UserInstance:
+        embedding = self.calculate_embedding(user)
+        return UserInstance(user, embedding)

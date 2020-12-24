@@ -2,8 +2,8 @@ import os
 import logging
 from typing import List
 
-from trigger_project.instances.opening_instance import OpeningInstance
-from trigger_project.instances.user_instance import UserInstance
+from trigger.instances.opening_instance import OpeningInstance
+from trigger.instances.user_instance import UserInstance
 
 from interference.operations import Operation, OperationType, AddInfo, UpdateInfo, RemoveInfo
 
@@ -14,7 +14,7 @@ import pickle
 
 class RenameUnpickler(pickle.Unpickler):
     def find_class(self, module: str, name):
-        renamed_module = module.replace("trigger.", "interference.")
+        renamed_module = module.replace("trigger_project.", "trigger.")
         return super(RenameUnpickler, self).find_class(renamed_module, name)
 
 

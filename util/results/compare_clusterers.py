@@ -2,8 +2,8 @@ import json
 import os
 import statistics
 from interference.metrics.match import to_range
-from trigger_project.models.opening import Opening
-from trigger_project.util.json_util.json_converter import EnhancedJSONEncoder
+from trigger.models.opening import Opening
+from trigger.util.json_util.json_converter import EnhancedJSONEncoder
 import numpy as np
 import sys
 from collections import Counter

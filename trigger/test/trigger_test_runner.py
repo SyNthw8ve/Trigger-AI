@@ -1,4 +1,4 @@
-from trigger_project.trigger_interface import TriggerInterface
+from trigger.trigger_interface import TriggerInterface
 from interference.test.test_operations_runner import TestRunner
 from interference.interface import Interface
 
