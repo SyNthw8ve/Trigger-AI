@@ -2,7 +2,7 @@ from typing import List
 import pickle
 from ..models.opening import Opening
 
-from trigger.transformers.transformer_pipeline import Instance
+from interference.transformers.transformer_pipeline import Instance
 
 
 class OpeningInstance(Instance[Opening]):

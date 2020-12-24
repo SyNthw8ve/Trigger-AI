@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "625d8c06826c213d4042f89c122525121afffd9b3ddc9394b06da07238cfe07d"
+            "sha256": "f9979850cbc190e9185096357477bfd289e94a51cbe27f5a45a0b1cd14b82643"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -113,7 +113,7 @@
                 "sha256:65b65bc39ad8cab15039b35e5898455d3d66296d0584d96fe0e79d67d04c51d9",
                 "sha256:d4d98c831ea21d574699978827490a41b94f05d565c617fe1b420e88f1fc8d8d"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==0.4.2"
         },
         "google-pasta": {
@@ -210,12 +210,17 @@
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.10"
         },
+        "interference": {
+            "editable": true,
+            "git": "https://github.com/daxtery/Trigger-Recommendations.git",
+            "ref": "36bcf02625093a8e60d4434b037c17c5f4dad450"
+        },
         "joblib": {
             "hashes": [
                 "sha256:75ead23f13484a2a414874779d69ade40d4fa1abe62b222a23cd50d4bc822f6f",
                 "sha256:7ad866067ac1fdec27d51c8678ea760601b70e32ff1881d4dc8e1171f2b64b24"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==1.0.0"
         },
         "keras-preprocessing": {
@@ -230,7 +235,7 @@
                 "sha256:5d9f2b5ca24bc4c7a390d22323ca4bad200368612b5aaa7796babf971d2b2f18",
                 "sha256:c109c15b7dc20a9ac454c9e6025927d44460b85bd039da028d85e2b6d0bcc328"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==3.3.3"
         },
         "nltk": {
@@ -276,7 +281,7 @@
                 "sha256:fe45becb4c2f72a0907c1d0246ea6449fe7a9e2293bb0e11c4e9a32bb0930a15",
                 "sha256:fedbd128668ead37f33917820b704784aff695e0019309ad446a6d0b065b57e4"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==1.19.4"
         },
         "oauthlib": {
@@ -437,7 +442,7 @@
                 "sha256:109ea5a66744dd859bf16fe904b8d8b627adafb9408753161e766a92e7d681fa",
                 "sha256:6166864e23d6b5195a5cfed6cd9fed0fe774e226d8f854fcb23b7bbef0350233"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==4.6"
         },
         "sacremoses": {
@@ -474,7 +479,7 @@
                 "sha256:d819d625832fb2969911a243e009cfa135cb8ef1e150866e417d6e9d75290087",
                 "sha256:e534f5f3796db6781c87e9835dcd51b7854c8c5a379c9210b93605965c1941fd"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==0.24.0"
         },
         "scipy": {
@@ -696,13 +701,8 @@
                 "sha256:3a525c33b544eccc0afbf03f7636db92e6d56d728dc6a4cdae7862af379c2193",
                 "sha256:f2cf80855edfb47d87894a4462dde0d9973b99ee1b78ef4cfb16191b92b79858"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==4.1.1"
-        },
-        "trigger-recommendations": {
-            "editable": true,
-            "git": "https://github.com/daxtery/Trigger-Recommendations.git",
-            "ref": "89cb16625dc534a77ed7e87c926c4a7a0a8a1410"
         },
         "typing-extensions": {
             "hashes": [

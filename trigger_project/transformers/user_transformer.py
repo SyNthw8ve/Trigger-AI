@@ -1,7 +1,7 @@
 from trigger_project.transformers.opening_transformer import LAYER
 from trigger_project.transformers.input_transformer import SentenceEmbedder
 from trigger_project.instances.user_instance import UserInstance
-from trigger.transformers.transformer_pipeline import TransformerPipeline, Instance
+from interference.transformers.transformer_pipeline import TransformerPipeline, Instance
 
 from typing_extensions import Final
 

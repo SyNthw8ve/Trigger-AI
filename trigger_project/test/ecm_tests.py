@@ -3,7 +3,7 @@ import logging
 from trigger_project.scoring import TriggerScoringCalculator
 from trigger_project.operation import read_operations
 
-from trigger.clusters.ecm import ECM
+from interference.clusters.ecm import ECM
 from trigger_project.test.trigger_test_runner import TriggerTestRunner
 from data.operations_instances_ss_confirmed import fetch_operations_files
 

@@ -1,7 +1,7 @@
 import json
 import os
 import statistics
-from trigger.metrics.match import to_range
+from interference.metrics.match import to_range
 from trigger_project.models.opening import Opening
 from trigger_project.util.json_util.json_converter import EnhancedJSONEncoder
 import numpy as np

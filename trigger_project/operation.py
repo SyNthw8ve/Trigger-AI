@@ -1,7 +1,7 @@
 import pickle
 from typing import List
 
-from trigger.operations import Operation
+from interference.operations import Operation
 
 
 def read_operations(path: str) -> List[Operation]:

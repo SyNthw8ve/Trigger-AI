@@ -3,7 +3,7 @@ from typing import List
 import numpy
 from ..models.user import User
 
-from trigger.transformers.transformer_pipeline import Instance
+from interference.transformers.transformer_pipeline import Instance
 
 class UserInstance(Instance[User]):
 

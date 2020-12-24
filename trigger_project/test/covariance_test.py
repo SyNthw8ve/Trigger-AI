@@ -2,7 +2,7 @@ import logging
 from trigger_project.scoring import TriggerScoringCalculator
 from trigger_project.operation import read_operations
 
-from trigger.clusters.covariance import CovarianceCluster
+from interference.clusters.covariance import CovarianceCluster
 from trigger_project.test.trigger_test_runner import TriggerTestRunner
 from data.operations_instances_ss_confirmed import fetch_operations_files
 

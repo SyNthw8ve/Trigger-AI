@@ -1,6 +1,6 @@
 from trigger_project.transformers.input_transformer import SentenceEmbedder
 from trigger_project.instances.opening_instance import OpeningInstance
-from trigger.transformers.transformer_pipeline import TransformerPipeline, Instance
+from interference.transformers.transformer_pipeline import TransformerPipeline, Instance
 
 from typing_extensions import Literal, Final
 

@@ -3,7 +3,7 @@ import statistics
 from collections import Counter
 from typing import List, Callable, Optional, Dict, Any
 
-from trigger.metrics.match import\
+from interference.metrics.match import\
     average_from_distribution, max_from_distribution, min_from_distribution, to_range
 
 default_order = [

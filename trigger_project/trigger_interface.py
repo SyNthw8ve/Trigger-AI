@@ -1,8 +1,8 @@
 from trigger_project.scoring import TriggerScoring
 from trigger_project.evaluation.matches import eval_matches
 from typing import List, cast
-from trigger.interface import Interface
-from trigger.operations import CalculateMatchesInfo
+from interference.interface import Interface
+from interference.operations import CalculateMatchesInfo
 
 class TriggerInterface(Interface):
 

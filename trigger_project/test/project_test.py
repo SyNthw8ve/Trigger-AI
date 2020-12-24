@@ -27,5 +27,5 @@ def test_variability(projects: List[Project]):
         projects_json.append(json_project)
 
     with open("./project_test.json", "w") as f:
-        from trigger.util.json_encoder import EnhancedJSONEncoder
+        from interference.util.json_encoder import EnhancedJSONEncoder
         json.dump(projects_json, f, cls=EnhancedJSONEncoder)

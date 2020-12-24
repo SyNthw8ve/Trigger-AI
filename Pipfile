@@ -4,10 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-trigger-recommendations = {editable = true, git = "https://github.com/daxtery/Trigger-Recommendations.git"}
 sentence-transformers = "*"
 tensorflow = "*"
 scipy = "*"
+interference = {editable = true, git = "https://github.com/daxtery/Trigger-Recommendations.git"}
 
 [dev-packages]
 

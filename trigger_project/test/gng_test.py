@@ -3,7 +3,7 @@ from trigger_project.test.trigger_test_runner import TriggerTestRunner
 from data.operations_instances_ss_confirmed import fetch_operations_files
 import logging
 
-from trigger.clusters.gturbo import GTurbo
+from interference.clusters.gturbo import GTurbo
 from trigger_project.operation import read_operations
 
 

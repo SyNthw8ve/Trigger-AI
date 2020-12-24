@@ -5,7 +5,7 @@ from typing import Dict, List, Tuple
 
 from ...instances.opening_instance import OpeningInstance
 
-from trigger.operations import Operation, OperationType, AddInfo, UpdateInfo, RemoveInfo, CalculateMatchesInfo, CalculateScoringInfo, EvaluateClustersInfo, EvaluateMatchesInfo
+from interference.operations import Operation, OperationType, AddInfo, UpdateInfo, RemoveInfo, CalculateMatchesInfo, CalculateScoringInfo, EvaluateClustersInfo, EvaluateMatchesInfo
 
 def random_from_instances(
             opening_instances: List[OpeningInstance],

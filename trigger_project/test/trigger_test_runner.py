@@ -1,6 +1,6 @@
 from trigger_project.trigger_interface import TriggerInterface
-from trigger.test.test_operations_runner import TestRunner
-from trigger.interface import Interface
+from interference.test.test_operations_runner import TestRunner
+from interference.interface import Interface
 
 class TriggerTestRunner(TestRunner):
 

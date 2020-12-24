@@ -5,7 +5,7 @@ from typing import List
 from trigger_project.instances.opening_instance import OpeningInstance
 from trigger_project.instances.user_instance import UserInstance
 
-from trigger.operations import Operation, OperationType, AddInfo, UpdateInfo, RemoveInfo
+from interference.operations import Operation, OperationType, AddInfo, UpdateInfo, RemoveInfo
 
 
 import io
@@ -13,27 +13,8 @@ import pickle
 
 
 class RenameUnpickler(pickle.Unpickler):
-    def find_class(self, module, name):
-        renamed_module = module
-        if module == "trigger.models.softskill":
-            renamed_module = "trigger_project.models.softskill"
-        elif module == "trigger.models.hardskill":
-            renamed_module = "trigger_project.models.hardskill"
-        elif module == "trigger.models.user":
-            renamed_module = "trigger_project.models.user"
-        elif module == "trigger.models.opening":
-            renamed_module = "trigger_project.models.opening"
-        elif module == "trigger.models.project":
-            renamed_module = "trigger_project.models.project"
-        elif module == "trigger.train.transformers.user_transformer":
-            renamed_module = "trigger_project.instances.user_instance"
-        elif module == "trigger.train.transformers.opening_transformer":
-            renamed_module = "trigger_project.instances.opening_instance"
-        elif module == "util.operation":
-            renamed_module = "trigger_project.operation"
-        if name == "OperationType":
-            renamed_module = "trigger.operations"
-
+    def find_class(self, module: str, name):
+        renamed_module = module.replace("trigger.", "interference.")
         return super(RenameUnpickler, self).find_class(renamed_module, name)
 
 

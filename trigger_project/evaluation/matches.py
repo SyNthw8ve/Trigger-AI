@@ -3,9 +3,9 @@ import statistics
 from trigger_project.scoring import TriggerScoring
 from typing import List
 
-from trigger.util.statistics import to_range, stats_from_counter, Stats
+from interference.util.statistics import to_range, stats_from_counter, Stats
 
-from trigger.transformers.transformer_pipeline import Instance
+from interference.transformers.transformer_pipeline import Instance
 
 def eval_matches(
         instances_to_match: List[Instance],

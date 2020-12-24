@@ -4,8 +4,8 @@ from typing import Any, Dict
 from trigger_project.models.user import User
 
 from .models.opening import Opening
-from trigger.scoring import ScoringOptions, Scoring, ScoringCalculator
-from trigger.transformers.transformer_pipeline import Instance
+from interference.scoring import ScoringOptions, Scoring, ScoringCalculator
+from interference.transformers.transformer_pipeline import Instance
 
 
 @dataclass()
