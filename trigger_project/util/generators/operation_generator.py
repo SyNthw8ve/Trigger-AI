@@ -32,7 +32,7 @@ def random_from_instances(
                     operations.append(
                         Operation(
                             type=operation_type,
-                            info=AddInfo(tag, opening_instance, "i"),                        )
+                            info=AddInfo(tag, opening_instance, "identity"))
                     )
 
                 elif operation_type == OperationType.UPDATE:
@@ -55,7 +55,7 @@ def random_from_instances(
                     operations.append(
                         Operation(
                             type=operation_type,
-                            info=UpdateInfo(tag_to_replace, opening_instance, "i"),
+                            info=UpdateInfo(tag_to_replace, opening_instance, "identity"),
                         )
                     )
                 elif operation_type == OperationType.REMOVE:
@@ -77,7 +77,7 @@ def random_from_instances(
 
                     operation = Operation(
                             type=operation_type,
-                            info=CalculateScoringInfo(user_instance, "i")
+                            info=CalculateScoringInfo(user_instance, "identity")
                     )
 
                     operations.append(operation)
@@ -103,7 +103,7 @@ def random_from_instances(
                         Operation(
                             type=operation_type,
                             info=EvaluateMatchesInfo(values=[
-                                CalculateMatchesInfo(user_instance, "i")
+                                CalculateMatchesInfo(user_instance, "identity")
                                 for user_instance in users_instances
                             ]),
                         )
