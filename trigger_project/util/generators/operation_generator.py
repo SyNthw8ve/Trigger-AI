@@ -1,44 +1,131 @@
 import random
+from trigger_project.instances.user_instance import UserInstance
 
-from typing import List, cast
+from typing import Dict, List, Tuple
 
 from ...instances.opening_instance import OpeningInstance
-from ...operation import Operation, OperationType
 
+from trigger.operations import Operation, OperationType, AddInfo, UpdateInfo, RemoveInfo, CalculateMatchesInfo, CalculateScoringInfo, EvaluateClustersInfo, EvaluateMatchesInfo
 
-class OperationGenerator:
-
-    @staticmethod
-    def random_from_openings_instances(opening_instances: List[OpeningInstance], n: int) -> List[Operation]:
+def random_from_instances(
+            opening_instances: List[OpeningInstance],
+            users_instances: List[UserInstance],
+            operation_blueprints: List[Tuple[OperationType, int]]
+        ) -> List[Operation]:
         operations = []
-        # TODO: A set is better suited?
-        present_map = {
-            opening.opening.entityId: False
-            for opening in opening_instances
-        }
-        for _ in range(n):
-            opening_instance = cast(OpeningInstance, random.choice(opening_instances))
-            opening = opening_instance.opening
-            tag = opening.entityId
 
-            if present_map[tag]:
-                op_type = cast(OperationType,
-                               random.choice([OperationType.UPDATE_OPENING, OperationType.REMOVE_OPENING]))
-                if op_type == OperationType.REMOVE_OPENING:
-                    present_map[tag] = False
-                elif op_type == OperationType.UPDATE_OPENING:
-                    opening_instance = cast(OpeningInstance, random.choice(opening_instances))
-                    opening_instance.opening.entityId = tag
-            else:
-                op_type = OperationType.NEW_OPENING
-                present_map[tag] = True
+        usable_opening_instances = random.sample(opening_instances, len(opening_instances))
+        added_opening_instances: Dict[str, OpeningInstance] = {}
 
-            operations.append(
-                Operation(
-                    type=op_type,
-                    opening_instance_tag=tag,
-                    opening_instance=opening_instance
-                )
-            )
+        for operation_type, number  in operation_blueprints:
+
+            for _ in range(number):
+            
+                if operation_type == OperationType.ADD:
+
+                    opening_instance = random.choice(usable_opening_instances)
+                    tag = opening_instance.value.entityId
+
+                    usable_opening_instances.remove(opening_instance)
+                    added_opening_instances[tag] = opening_instance
+
+                    operations.append(
+                        Operation(
+                            type=operation_type,
+                            info=AddInfo(tag, opening_instance, "i"),                        )
+                    )
+
+                elif operation_type == OperationType.UPDATE:
+
+                    opening_instance = random.choice(usable_opening_instances)
+
+                    old_opening_instance = random.choice(list(added_opening_instances.values()))
+
+                    usable_opening_instances.remove(opening_instance)
+                    usable_opening_instances.append(old_opening_instance)
+
+                    tag_to_replace = old_opening_instance.value.entityId
+                    tag = opening_instance.value.entityId
+
+                    opening_instance.value.entityId = tag_to_replace
+                    old_opening_instance.value.entityId = tag
+
+                    added_opening_instances[tag_to_replace] = opening_instance
+
+                    operations.append(
+                        Operation(
+                            type=operation_type,
+                            info=UpdateInfo(tag_to_replace, opening_instance, "i"),
+                        )
+                    )
+                elif operation_type == OperationType.REMOVE:
+
+                    old_opening_instance = random.choice(list(added_opening_instances.keys()))
+
+                    usable_opening_instances.append(added_opening_instances.pop(old_opening_instance))
+
+                    operations.append(
+                        Operation(
+                            type=operation_type,
+                            info=RemoveInfo(old_opening_instance),
+                        )
+                    )
+                    
+                elif operation_type == OperationType.CALCULATE_SCORES:
+
+                    user_instance = random.choice(users_instances)
+
+                    operation = Operation(
+                            type=operation_type,
+                            info=CalculateScoringInfo(user_instance, "i")
+                    )
+
+                    operations.append(operation)
+
+                elif operation_type == OperationType.CALCULATE_MATCHES:
+                    operations.append(
+                        Operation(
+                            type=operation_type,
+                            info=EvaluateClustersInfo(),
+                        )
+                    )
+
+                elif operation_type == OperationType.EVALUATE_CLUSTERS:
+                    operations.append(
+                        Operation(
+                            type=operation_type,
+                            info=EvaluateClustersInfo(),
+                        )
+                    )
+
+                elif operation_type == OperationType.EVALUATE_MATCHES:
+                    operations.append(
+                        Operation(
+                            type=operation_type,
+                            info=EvaluateMatchesInfo(values=[
+                                CalculateMatchesInfo(user_instance, "i")
+                                for user_instance in users_instances
+                            ]),
+                        )
+                    )
 
         return operations
+
+    
+def add_all_then_evaluate(
+        opening_instances: List[OpeningInstance],
+        users_instances: List[UserInstance],
+        eval_matches: bool = True,
+        eval_clusters: bool = True,
+    ) -> List[Operation]:
+
+    add_all: List[Tuple[OperationType, int]] = [
+        (OperationType.ADD, len(opening_instances)),
+    ]
+
+    if eval_clusters:
+        add_all.append((OperationType.EVALUATE_CLUSTERS, 1))
+    if eval_matches:
+        add_all.append((OperationType.EVALUATE_MATCHES, 1))
+
+    return random_from_instances(opening_instances, users_instances, add_all)
