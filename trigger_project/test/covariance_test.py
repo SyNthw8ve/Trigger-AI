@@ -13,12 +13,18 @@ logger.setLevel(logging.INFO)
 def test_cov():
 
     param_grid = {
-        "initial_std": [10]
+        "initial_std": [10],
+        "dimensions": [1024],
     }
 
     for operations_file in fetch_operations_files():
 
         logger.info("Doing operations @ %s", operations_file)
+
+        if operations_file.layer.find("concat") != -1:
+            param_grid["dimensions"] = [2048]
+        else:
+            param_grid["dimensions"] = [1024]
 
         TriggerTestRunner(
             processor_class = CovarianceCluster,
