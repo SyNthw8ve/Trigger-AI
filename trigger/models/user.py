@@ -2,8 +2,8 @@ from typing import List
 
 from dataclasses import dataclass
 
-from trigger.models.softskill import Softskill
-from trigger.models.hardskill import Hardskill
+from .softskill import Softskill
+from .hardskill import Hardskill
 
 
 @dataclass(frozen=True)

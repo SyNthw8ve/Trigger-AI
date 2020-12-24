@@ -1,12 +1,10 @@
 import os
 import pandas as pd
+from typing import List
 
 from trigger.models.opening import Opening
 from trigger.models.user import User
-from typing import List
-from util.readers.reader import DataReaderOpenings, DataReaderUsers
-
-from sklearn.preprocessing import LabelEncoder
+from trigger.util.readers.data_reader import DataReaderOpenings, DataReaderUsers
 
 def load_data(users_path, openings_path):
 
