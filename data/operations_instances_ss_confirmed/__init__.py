@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 
 import os
 
@@ -17,59 +17,22 @@ class OperationFile:
 
 _BASE = "data/operations_instances_ss_confirmed"
 
-
-def fetch_by_layer_name(*layers: str) -> List[OperationFile]:
-    collected: List[OperationFile]= []
-
-    for folder_name in os.listdir(_BASE):
-        if folder_name.find("__pycache__") != -1:
-            continue
-
-        folder_path = os.path.join(_BASE, folder_name)
-
-        for layer in os.listdir(folder_path):
-
-            if not layer in layers:
-                continue
-
-            full_path = os.path.join(folder_path, layer)
-            test_subpath = os.path.join(folder_name, layer)
-
-            collected.append(OperationFile(layer, test_subpath, full_path))
-
-    return collected
-
-def fetch_by_subfolder(*sub_folders: str) -> List[OperationFile]:
-    collected: List[OperationFile]= []
-
-    for folder_name in os.listdir(_BASE):
-        if folder_name.find("__pycache__") != -1:
-            continue
-
-        if not folder_name in sub_folders:
-            continue
-
-        folder_path = os.path.join(_BASE, folder_name)
-
-        for layer in os.listdir(folder_path):
-            if layer in sub_folders:
-                full_path = os.path.join(folder_path, layer)
-                test_subpath = os.path.join(folder_name, layer)
-
-                collected.append(OperationFile(layer, test_subpath, full_path))
-
-    return collected
-
-def fetch_all() -> List[OperationFile]:
+def fetch_operations_files(sub_folders: Optional[List[str]] = None, layers: Optional[List[str]] = None) -> List[OperationFile]:
     collected: List[OperationFile]= []
 
     for folder_name in os.listdir(_BASE):
         if folder_name in ["__pycache__", "__init__.py"]:
             continue
 
+        if sub_folders is not None and not folder_name in sub_folders:
+            continue
+
         folder_path = os.path.join(_BASE, folder_name)
 
         for layer in os.listdir(folder_path):
+            if layers is not None and layer not in layers:
+                continue
+
             full_path = os.path.join(folder_path, layer)
             test_subpath = os.path.join(folder_name, layer)
 
