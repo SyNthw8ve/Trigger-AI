@@ -1,34 +1,29 @@
 import logging
-import os
+from trigger_project.scoring import TriggerScoringCalculator
+from trigger_project.operation import read_operations
 
-from trigger.train.cluster.covariance.covariance_cluster import CovarianceCluster
-from trigger_project.util.readers.setup_reader import DataInitializer
-from trigger_project.test.test_runner_matches import TestRunnerMatches
+from trigger.clusters.covariance import CovarianceCluster
+from trigger_project.test.trigger_test_runner import TriggerTestRunner
+from data.operations_instances_ss_confirmed import fetch_operations_files
 
-logger = logging.getLogger('matplotlib')
-logger.setLevel(logging.WARNING)
-
-users_path = './examples/openings_users/users'
-openings_path = './examples/openings_users/openings'
-instances_path = './data/instances_ss_confirmed'
-results_path = './results/openings_users'
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('covariance_tests')
+logger.setLevel(logging.INFO)
 
 def test_cov():
 
-    param_grid = {"initial_std": [10]
-                }
+    param_grid = {
+        "initial_std": [10]
+    }
 
-    opening_instance_file = 'openings_instances_no_ss'
+    for operations_file in fetch_operations_files():
 
-    openings_instances_path = os.path.join(instances_path, opening_instance_file)
+        logger.info("Doing operations @ %s", operations_file)
 
-    openings_instances = DataInitializer.read_openings(openings_instances_path, openings_path)
-
-    users_instance_file = 'users_instances_no_ss'
-
-    users_instances_path = os.path.join(instances_path, users_instance_file)
-
-    users_instances = DataInitializer.read_users(users_instances_path, users_path)
-
-    cov_tester = TestRunnerMatches(CovarianceCluster, param_grid, openings_instances, users_instances, './results/openings_users/instances_ss_confirmed/no_softskills/CovCluster')
-    cov_tester.run_tests()
+        TriggerTestRunner(
+            processor_class = CovarianceCluster,
+            param_grid=param_grid,
+            operations=read_operations(operations_file.full_path),
+            scoring_calculator=TriggerScoringCalculator(),
+            output_base_folder=f"results/openings_users/operations/{operations_file.test_subpath}",
+        ).run_tests()
