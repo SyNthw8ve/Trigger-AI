@@ -7,9 +7,9 @@ import os
 @dataclass
 class OperationFile:
     """
-    "avg"\n
-    "0/avg"\n
-    "data/operations_instances_ss_confirmed/0/avg"
+    layer: "avg"\n
+    test_subpath: "0/avg"\n
+    full_path: "data/operations_instances_ss_confirmed/0/avg"
     """
     layer: str
     test_subpath: str
