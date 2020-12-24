@@ -2,16 +2,20 @@ from trigger_project.transformers.input_transformer import SentenceEmbedder
 from trigger_project.instances.opening_instance import OpeningInstance
 from trigger.transformers.transformer_pipeline import TransformerPipeline, Instance
 
+from typing_extensions import Literal, Final
+
 import numpy
 import tensorflow as tf
 
 from ..models.opening import Opening
 
+LAYER = Literal['avg', 'concat', 'no_ss']
+
 class OpeningTransformer(TransformerPipeline[Opening]):
 
-    def __init__(self, sentenceEmbedder: SentenceEmbedder = SentenceEmbedder(), layer: str = 'avg', normed=False):
+    def __init__(self, sentenceEmbedder: SentenceEmbedder = SentenceEmbedder(), layer: LAYER = 'avg', normed=False):
         self.sentenceEmbedder = sentenceEmbedder
-        self.layer = layer
+        self.layer: Final[LAYER] = layer
         self.normed = normed
 
     def calculate_embedding(self, opening: Opening) -> numpy.ndarray:
