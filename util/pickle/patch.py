@@ -5,6 +5,8 @@ from typing import List
 from trigger_project.instances.opening_instance import OpeningInstance
 from trigger_project.instances.user_instance import UserInstance
 
+from trigger.operations import Operation, OperationType, AddInfo, UpdateInfo, RemoveInfo
+
 
 import io
 import pickle
@@ -29,7 +31,8 @@ class RenameUnpickler(pickle.Unpickler):
             renamed_module = "trigger_project.instances.opening_instance"
         elif module == "util.operation":
             renamed_module = "trigger_project.operation"
-        
+        if name == "OperationType":
+            renamed_module = "trigger.operations"
 
         return super(RenameUnpickler, self).find_class(renamed_module, name)
 
