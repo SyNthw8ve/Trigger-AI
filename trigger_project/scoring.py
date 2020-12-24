@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from trigger_project.metrics.match import quality_metric, real_metric
 from typing import Any, Dict
 from trigger_project.models.user import User
@@ -19,7 +19,18 @@ class TriggerScoringOptions(ScoringOptions):
 @dataclass()
 class TriggerScoring(Scoring[Opening]):
     quality_score: float
-    final_score: float
+    is_quality_match: bool = field(repr=False)
+
+    real_score: float
+    is_real_match: bool = field(repr=False)
+
+    @property
+    def is_match(self) -> bool:
+        return self.is_real_match
+    
+    @property
+    def score(self) -> float:
+        return self.real_score
 
 
 class TriggerScoringCalculator(ScoringCalculator):
@@ -52,11 +63,12 @@ class TriggerScoringCalculator(ScoringCalculator):
 
         return TriggerScoring(
             opening_tag,
-            opening_instance,
             base_scoring.similarity_score,
-            real_score >= self.scoring_options.score_to_be_match,
+            base_scoring.is_match,
             quality_score,
-            real_score
+            quality_score >= self.scoring_options.score_to_be_match,
+            real_score,
+            real_score >= self.scoring_options.score_to_be_match
         )
 
     def describe(self) -> Dict[str, Any]:
