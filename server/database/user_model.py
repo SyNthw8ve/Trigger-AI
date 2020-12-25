@@ -1,12 +1,11 @@
-from server.database.server_score import ServerScore
+from trigger.models.user import User
 from typing import Any, List
 
 from bson.objectid import ObjectId
 from pymongo.database import Database
 
-from server.database.names import hardskills_collection_name, softskills_collection_name, matches_collection_name
+from server.database.names import hardskills_collection_name, softskills_collection_name
 from trigger.models.hardskill import Hardskill
-from server.database.server_user import ServerUser
 from trigger.models.softskill import Softskill
 
 
@@ -14,7 +13,7 @@ class UserModel:
     collection_name = "users"
 
     @staticmethod
-    def transform_user_data(user_from_db: Any, db: Database) -> ServerUser:
+    def transform_user_data(user_from_db: Any, db: Database) -> User:
         softskills = []
         key = "softSkills"
 
@@ -35,21 +34,20 @@ class UserModel:
 
         name = user_from_db['name'] if 'name' in user_from_db else '?' 
 
-        return ServerUser(
+        return User(
             name=name,
             softSkills=softskills,
-            hardSkills=hardskills,
-            id=str(user_from_db['_id'])
+            hardSkills=hardskills
         )
 
     @staticmethod
-    def get_user_data(user_id: str, db: Database) -> ServerUser:
+    def get_user_data(user_id: str, db: Database) -> User:
         users_collection = db[UserModel.collection_name]
         user_from_db = users_collection.find_one({"_id": ObjectId(user_id)})
         return UserModel.transform_user_data(user_from_db, db)
 
     @staticmethod
-    def get_all_users_data(db: Database) -> List[ServerUser]:
+    def get_all_users_data(db: Database) -> List[User]:
         users_collection = db[UserModel.collection_name]
         users_from_db = users_collection.find({})
 

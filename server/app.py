@@ -1,13 +1,9 @@
 import sys
 from pathlib import Path
 
-sys.path.append(str(Path('.').absolute().parent))
-sys.path.append(str(Path('..').absolute().parent))
-
 from flask import Flask
 from redis import Redis
 from rq import Queue
-from rq.job import Job
 
 from server.jobs import on_compute_user_matches, on_compute_user_score, on_update_user_matches, \
     on_insert_opening_to_cluster, on_update_opening, on_remove_opening_from_cluster

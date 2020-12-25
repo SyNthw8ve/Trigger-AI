@@ -1,5 +1,5 @@
 {
     "database_host": "localhost:27017",
     "database": "database",
-    "backend_flask_endpoint": "http://localhost:3000/flask",
+    "backend_endpoint": "http://localhost:3000/flask"
 }

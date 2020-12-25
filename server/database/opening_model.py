@@ -2,9 +2,8 @@ from typing import Any, List
 from bson.objectid import ObjectId
 from pymongo.database import Database
 
-from server.database.names import softskills_collection_name, hardskills_collection_name, languages_collection_name
+from server.database.names import softskills_collection_name, hardskills_collection_name
 from trigger.models.hardskill import Hardskill
-from trigger.models.language import Language
 from trigger.models.opening import Opening
 from trigger.models.softskill import Softskill
 

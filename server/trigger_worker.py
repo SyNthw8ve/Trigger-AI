@@ -1,8 +1,12 @@
+from trigger.scoring import TriggerScoringCalculator
+from trigger.transformers.opening_transformer import OpeningTransformer
+from trigger.transformers.user_transformer import UserTransformer
+from trigger.trigger_interface import TriggerInterface
 from rq.worker import SimpleWorker
 
-from trigger.train.cluster.ecm.ecm import ECM
-from trigger.train.transformers.input_transformer import SentenceEmbedder
 from server.trigger_driver import TriggerDriver
+from interference.clusters.ecm import ECM
+
 from rq.defaults import DEFAULT_LOGGING_DATE_FORMAT, DEFAULT_LOGGING_FORMAT
 from rq.local import LocalStack
 
@@ -33,9 +37,15 @@ class TriggerWorker(SimpleWorker):
             logger.info("Starting Worker with config %s", config)
 
         driver = TriggerDriver(
-            sentence_embedder=SentenceEmbedder(),
+            interface=TriggerInterface(
+                ECM(0.5),
+                {
+                    "user": UserTransformer(),
+                    "opening": OpeningTransformer()
+                },
+                TriggerScoringCalculator()
+            ),
             config=config,
-            processor=ECM(.5)
         )
 
         driver.init_processor()

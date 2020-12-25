@@ -8,6 +8,12 @@ sentence-transformers = "*"
 tensorflow = "*"
 scipy = "*"
 interference = {editable = true, git = "https://github.com/daxtery/Trigger-Recommendations.git"}
+pymongo = "*"
+mongoengine = "*"
+rq = "*"
+flask = "*"
+redis = "*"
+dnspython = "*"
 
 [dev-packages]
 

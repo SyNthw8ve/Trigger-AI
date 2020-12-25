@@ -1,8 +1,9 @@
+from trigger.trigger_interface import TriggerInterface
 from server.trigger_BE import notify_BE
 from server.database.server_score import ServerScore
 from typing import Dict, List
+from typing_extensions import Final
 
-import numpy
 import pymongo
 
 from server.database.apply_scores_model import ApplyScoresModel
@@ -11,38 +12,21 @@ from server.database.opening_model import OpeningModel
 from server.database.user_model import UserModel
 from trigger.models.opening import Opening
 from trigger.models.user import User
-from trigger.train.cluster.Processor import Processor
-from trigger.train.transformers.input_transformer import SentenceEmbedder
-
-from trigger.train.transformers.opening_transformer import OpeningInstance
-from trigger.train.transformers.user_transformer import UserInstance
-from util.metrics.matches import similarity_metric, quality_metric, real_metric
 
 import logging
-
-
-def calculate_scores(user: User, embedding1: numpy.ndarray, opening: Opening, embedding2: numpy.ndarray):
-    similarity = similarity_metric(embedding1, embedding2)
-    quality = quality_metric(user, opening)
-    # FIXME: Don't hardcode
-    final = real_metric(similarity_weight=.5, similarity_score=similarity, quality_weight=.5, quality_score=quality)
-    return { 
-        "similarity_score": similarity, 
-        "quality_score": quality, 
-        "final_score": final,  
-    }
 
 logger = logging.getLogger('trigger_driver')
 logger.setLevel(logging.INFO)
 
 class TriggerDriver:
 
-    def __init__(self, sentence_embedder: SentenceEmbedder,
-                 config: Dict,
-                 processor: Processor):
-        self.processor = processor
+    def __init__(
+        self,
+        interface: TriggerInterface,
+        config: Dict
+    ):
+        self.interface: Final[TriggerInterface] = interface
         self.config = config
-        self.sentence_embedder = sentence_embedder
 
     def connect(self) -> pymongo.MongoClient:
         # FIXME: when using mongodb+srv:// URIs for host it needs to have dnspython
@@ -56,72 +40,60 @@ class TriggerDriver:
             database = client[self.config["database"]]
 
             for opening in OpeningModel.get_all_openings(database):
-                logger.info("Inserting into cluster %s", opening)
-                opening_instance = OpeningInstance(opening, self.sentence_embedder)
-                self.processor.process(opening.entityId, opening_instance.embedding, opening_instance.opening)
+                self.interface.add(opening.entityId, "opening", opening)
 
         return self
 
-    def calculate_matches_of_user(self, user_id: str, user_instance: UserInstance) -> List[ServerScore]:
+    def calculate_matches_of_user(self, user_id: str, user: User) -> List[ServerScore]:
 
-        would_be_cluster_id = self.processor.predict(user_instance.embedding)
-        instances, tags = self.processor.get_instances_and_tags_in_cluster(would_be_cluster_id)
-        openings = [self.processor.get_custom_data_by_tag(tag) for tag in tags]
+        matches = self.interface.get_matches_for("user", user)
 
-        scores = [
+        score_objects = [
             ServerScore(
                 user_id=user_id,
-                opening_id=opening_id,
-                **calculate_scores(user_instance.user, user_instance.embedding, opening, instance),
+                opening_id=match.scored_tag,
+                similarity_score=match.similarity_score,
+                quality_score=match.quality_score,
+                final_score=match.score,
             )
-            for opening, instance, opening_id in zip(openings, instances, tags)
+            for match in matches
         ]
 
-        print(scores)
-
-        matches = [
-            score
-            for score in scores
-            # FIXME: Don't hardcode
-            if score.final_score >= 0.0
-        ]
-
+        print(score_objects)
         print(matches)
 
-        return matches
+        return score_objects
 
     def compute_user_matches(self, user_id: str):
         with self.connect() as client:
             database = client[self.config["database"]]
 
             user = UserModel.get_user_data(user_id, database)
-            matches = self.calculate_matches_of_user(user_id, UserInstance(user, self.sentence_embedder))
+            matches = self.calculate_matches_of_user(user_id, user)
 
             logger.info("Did matches for user with id %s: %s", user_id, matches)
 
             ids = ServerMatchesModel.insert_server_matches(database, matches)
             # FIXME: maybe send the ids?
 
-            notify_BE(f"user_created/{user_id}", self.config["backend_flask_endpoint"])
+            notify_BE(f"user_created/{user_id}", self.config["backend_endpoint"])
 
     def compute_user_score(self, user_id: str, opening_id: str):
         with self.connect() as client:
             database = client[self.config["database"]]
             user = UserModel.get_user_data(user_id, database)
-            user_instance = UserInstance(user, self.sentence_embedder)
 
-            opening = self.processor.get_custom_data_by_tag(opening_id)
-            embedding = self.processor.get_instance_by_tag(opening_id)
+            scoring = self.interface.calculate_scoring_between_value_and_tag("user", user, opening_id)
 
             score = ServerScore(
                 user_id=user_id,
-                opening_id=opening_id,
-                **calculate_scores(user, user_instance.embedding, opening, embedding)
+                opening_id=scoring.scored_tag,
+                similarity_score=scoring.similarity_score,
+                quality_score=scoring.quality_score,
+                final_score=scoring.score,
             )
 
             print(score)
-            print(score.user_id)
-            print(score.opening_id)
             
             score_id = ApplyScoresModel.insert_apply_score(database, score)
 
@@ -130,7 +102,7 @@ class TriggerDriver:
                 # raise Exception
                 return
             
-            notify_BE(f"user_score/{score_id}", self.config["backend_flask_endpoint"])
+            notify_BE(f"user_score/{score_id}", self.config["backend_endpoint"])
             
             logger.info("Score between user with id %s: and opening with id %s has been calculated", user_id, opening_id)
 
@@ -139,13 +111,13 @@ class TriggerDriver:
             database = client[self.config["database"]]
 
             user = UserModel.get_user_data(user_id, database)
-            matches = self.calculate_matches_of_user(user_id, UserInstance(user, self.sentence_embedder))
+            matches = self.calculate_matches_of_user(user_id, user)
 
             # FIXME: The servermatches disappear when the user/opening changes?
             ServerMatchesModel.delete_user_server_matches(database, user_id)
             ServerMatchesModel.insert_server_matches(database, matches)
             
-            notify_BE(f"user_updated/{user_id}", self.config["backend_flask_endpoint"])
+            notify_BE(f"user_updated/{user_id}", self.config["backend_endpoint"])
             
             logger.info("Update matches for user with id %s: %s", user_id, matches)
 
@@ -154,9 +126,7 @@ class TriggerDriver:
             database = client[self.config["database"]]
 
             opening = OpeningModel.get_opening(opening_id, database)
-            opening_instance = OpeningInstance(opening, self.sentence_embedder)
-
-            self.processor.process(opening_id, opening_instance.embedding, opening_instance.opening)
+            self.interface.add(opening_id, "opening", opening)
 
             logger.info("Added opening with id %s", opening_id)
 
@@ -164,12 +134,11 @@ class TriggerDriver:
         with self.connect() as client:
             database = client[self.config["database"]]
             opening = OpeningModel.get_opening(opening_id, database)
-            opening_instance = OpeningInstance(opening, self.sentence_embedder)
 
-            self.processor.update(opening_id, opening_instance.embedding)
+            self.interface.add(opening_id, "opening", opening)
 
     def remove_opening_from_cluster(self, opening_id: str):
-        self.processor.remove(opening_id)
+        self.interface.remove(opening_id)
 
     def sweep(self):
         # TODO How to do this? Update everyone? Have another endpoint to register an update?
