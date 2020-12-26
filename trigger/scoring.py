@@ -17,7 +17,7 @@ class TriggerScoringOptions(ScoringOptions):
 
 
 @dataclass()
-class TriggerScoring(Scoring[Opening]):
+class TriggerScoring(Scoring):
     quality_score: float
     is_quality_match: bool = field(repr=False)
 
@@ -41,11 +41,10 @@ class TriggerScoringCalculator(ScoringCalculator):
     def __call__(
         self,
         user_instance: Instance[User],
-        opening_tag: str,
         opening_instance: Instance[Opening]
     ) -> TriggerScoring:
 
-        base_scoring: Scoring[Opening] = ScoringCalculator.__call__(self, user_instance, opening_tag, opening_instance)
+        base_scoring: Scoring = ScoringCalculator.__call__(self, user_instance, opening_instance)
 
         quality_score = quality_metric(
             user_instance.value,
@@ -62,7 +61,6 @@ class TriggerScoringCalculator(ScoringCalculator):
         )
 
         return TriggerScoring(
-            opening_tag,
             base_scoring.similarity_score,
             base_scoring.is_match,
             quality_score,

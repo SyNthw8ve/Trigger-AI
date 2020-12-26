@@ -3,8 +3,8 @@ import logging
 
 from ...transformers.user_transformer import UserTransformer
 from ...transformers.opening_transformer import OpeningTransformer
-from ...instances.user_instance import UserInstance
-from ...instances.opening_instance import OpeningInstance
+from ...instances.user_instance import UserInstance, UserInstanceHelper
+from ...instances.opening_instance import OpeningInstance, OpeningInstanceHelper
 from ...transformers.opening_transformer import OpeningTransformer
 from .data_reader import DataReaderUsers, DataReaderOpenings
 
@@ -23,7 +23,7 @@ class DataInitializer:
         if os.path.exists(users_instances_path):
 
             logging.info("Users instances file found. Loading...")
-            return UserInstance.load_instances(users_instances_path)
+            return UserInstanceHelper.load_instances(users_instances_path)
 
         else:
             logging.info("Users instances file not found. Reading Users...")
@@ -47,7 +47,7 @@ class DataInitializer:
 
             logging.info(f"Saving instances to {users_instances_path}...")
 
-            UserInstance.save_instances(users_instances_path, users_instances)
+            UserInstanceHelper.save_instances(users_instances_path, users_instances)
 
             logging.info("Saved")
 
@@ -63,7 +63,7 @@ class DataInitializer:
         if os.path.exists(openings_instances_path):
 
             logging.info("Openings instances file found. Loading...")
-            return OpeningInstance.load_instances(openings_instances_path)
+            return OpeningInstanceHelper.load_instances(openings_instances_path)
 
         else:
 
@@ -86,7 +86,7 @@ class DataInitializer:
 
             logging.info(f"Saving instances to {openings_instances_path}...")
 
-            OpeningInstance.save_instances(openings_instances_path, openings_instances)
+            OpeningInstanceHelper.save_instances(openings_instances_path, openings_instances)
 
             logging.info("Saved")
 
