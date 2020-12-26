@@ -10,6 +10,9 @@ scipy = "*"
 interference = {editable = true, git = "https://github.com/daxtery/Trigger-Recommendations.git"}
 
 [dev-packages]
+pandas = "*"
+jupyter = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "3.7"
