@@ -8,8 +8,8 @@ import os
 class OperationFile:
     """
     layer: "avg"\n
-    test_subpath: "0/avg"\n
-    full_path: "data/operations_instances_ss_confirmed/0/avg"
+    test_subpath: "1/avg"\n
+    full_path: "data/operations_instances_ss_confirmed/1/avg"
     """
     layer: str
     test_subpath: str
