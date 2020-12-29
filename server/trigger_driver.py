@@ -1,7 +1,8 @@
+from trigger.scoring import TriggerScoring
 from trigger.trigger_interface import TriggerInterface
 from server.trigger_BE import notify_BE
 from server.database.server_score import ServerScore
-from typing import Dict, List
+from typing import Dict, List, Sequence, cast
 from typing_extensions import Final
 
 import pymongo
@@ -38,15 +39,24 @@ class TriggerDriver:
 
         with self.connect() as client:
             database = client[self.config["database"]]
-
             for opening in OpeningModel.get_all_openings(database):
-                self.interface.add(opening.entityId, "opening", opening)
+                instance = self.interface.try_create_instance_from_value("opening", opening)
+                if instance is not None:
+                    self.interface.add(opening.entityId, instance)
+                else:
+                    logger.error("No transformer for key='opening'")
+
 
         return self
 
-    def calculate_matches_of_user(self, user_id: str, user: User) -> List[ServerScore]:
+    def calculate_matches_of_user(self, user_id: str, user: User) -> Sequence[ServerScore]:
 
-        matches = self.interface.get_matches_for("user", user)
+        instance = self.interface.try_create_instance_from_value("user", user)
+        if instance is None:
+            logger.error("No transformer for key='user'")
+            return []
+
+        matches = cast(Sequence[TriggerScoring], self.interface.get_matches_for(instance))
 
         score_objects = [
             ServerScore(
@@ -58,9 +68,6 @@ class TriggerDriver:
             )
             for match in matches
         ]
-
-        print(score_objects)
-        print(matches)
 
         return score_objects
 
@@ -83,7 +90,20 @@ class TriggerDriver:
             database = client[self.config["database"]]
             user = UserModel.get_user_data(user_id, database)
 
-            scoring = self.interface.calculate_scoring_between_value_and_tag("user", user, opening_id)
+            instances = self.interface.get_instances_by_tag([opening_id])
+
+            if len(instances) == 0:
+                logger.warn("no opening with id %s", opening_id)
+                return
+
+            opening_instance = instances[0]
+
+            user_instance = self.interface.try_create_instance_from_value("user", user)
+            if user_instance is None:
+                logger.error("No transformer for key='user'")
+                return
+
+            scoring = cast(TriggerScoring, self.interface.calculate_scoring_between_instances(user_instance, opening_instance))
 
             score = ServerScore(
                 user_id=user_id,
@@ -93,8 +113,6 @@ class TriggerDriver:
                 final_score=scoring.score,
             )
 
-            print(score)
-            
             score_id = ApplyScoresModel.insert_apply_score(database, score)
 
             if score_id is None:
@@ -102,9 +120,9 @@ class TriggerDriver:
                 # raise Exception
                 return
             
-            notify_BE(f"user_score/{score_id}", self.config["backend_endpoint"])
-            
             logger.info("Score between user with id %s: and opening with id %s has been calculated", user_id, opening_id)
+            notify_BE(f"user_score/{score_id}", self.config["backend_endpoint"])
+
 
     def update_user_matches(self, user_id: str):
         with self.connect() as client:
@@ -117,16 +135,23 @@ class TriggerDriver:
             ServerMatchesModel.delete_user_server_matches(database, user_id)
             ServerMatchesModel.insert_server_matches(database, matches)
             
+            logger.info("Update matches for user with id %s: %s", user_id, matches)
+
             notify_BE(f"user_updated/{user_id}", self.config["backend_endpoint"])
             
-            logger.info("Update matches for user with id %s: %s", user_id, matches)
 
     def insert_opening_to_cluster(self, opening_id: str):
         with self.connect() as client:
             database = client[self.config["database"]]
 
             opening = OpeningModel.get_opening(opening_id, database)
-            self.interface.add(opening_id, "opening", opening)
+
+            opening_instance = self.interface.try_create_instance_from_value("opening", opening)
+            if opening_instance is None:
+                logger.error("No transformer for key='opening'")
+                return
+
+            self.interface.add(opening_id, opening_instance)
 
             logger.info("Added opening with id %s", opening_id)
 
@@ -135,7 +160,18 @@ class TriggerDriver:
             database = client[self.config["database"]]
             opening = OpeningModel.get_opening(opening_id, database)
 
-            self.interface.add(opening_id, "opening", opening)
+            opening_instance = self.interface.try_create_instance_from_value("opening", opening)
+            if opening_instance is None:
+                logger.error("No transformer for key='opening'")
+                return
+
+            instances = self.interface.get_instances_by_tag([opening_id])
+            
+            if len(instances) == 0:
+                logger.warn("no opening with id %s", opening_id)
+                return
+
+            self.interface.add(opening_id, instances[0])
 
     def remove_opening_from_cluster(self, opening_id: str):
         self.interface.remove(opening_id)
