@@ -1,15 +1,15 @@
 from collections import Counter
 import statistics
 from trigger.scoring import TriggerScoring
-from typing import List
+from typing import List, Sequence
 
 from interference.util.statistics import to_range, stats_from_counter, Stats
 
 from interference.transformers.transformer_pipeline import Instance
 
 def eval_matches(
-        instances_to_match: List[Instance],
-        individual_scorings: List[List[TriggerScoring]]
+        instances_to_match: Sequence[Instance],
+        individual_scorings: Sequence[Sequence[TriggerScoring]]
     ):
 
     by_instance = []

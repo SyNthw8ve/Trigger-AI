@@ -16,6 +16,9 @@ redis = "*"
 dnspython = "*"
 
 [dev-packages]
+pandas = "*"
+jupyter = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "3.7"

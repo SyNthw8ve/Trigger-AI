@@ -2,8 +2,8 @@ import os
 import logging
 from typing import List
 
-from trigger.instances.opening_instance import OpeningInstance
-from trigger.instances.user_instance import UserInstance
+from trigger.instances.opening_instance import OpeningInstance, OpeningInstanceHelper
+from trigger.instances.user_instance import UserInstance, UserInstanceHelper
 
 from interference.operations import Operation, OperationType, AddInfo, UpdateInfo, RemoveInfo
 
@@ -14,8 +14,23 @@ import pickle
 
 class RenameUnpickler(pickle.Unpickler):
     def find_class(self, module: str, name):
-        renamed_module = module.replace("trigger_project.", "trigger.")
-        return super(RenameUnpickler, self).find_class(renamed_module, name)
+        new_module = module
+        new_name = name
+
+        #print(">>>", module, name)
+
+        if module.find("trigger_project") != -1:
+            new_module = module.replace("trigger_project", "trigger")
+
+        if name == "OpeningInstance":
+            new_name = "FakeOI"
+
+        elif name == "UserInstance":
+            new_name = "FakeUI"
+
+        #print("<<<", new_module, new_name)
+
+        return super(RenameUnpickler, self).find_class(new_module, new_name)
 
 
 def renamed_load(file_obj):
@@ -67,8 +82,9 @@ def rename_instances(instances_paths: List[str]):
 
             with open(users_instances_path, 'rb') as file:
                 users_instances = renamed_load(file)
+                users_instances = [ UserInstance(fui.value, fui.embedding) for fui in users_instances ]
 
-            UserInstance.save_instances(users_instances_path, users_instances)
+            UserInstanceHelper.save_instances(users_instances_path, users_instances)
 
         for openings_instances_path in openings_instances_files:
 
@@ -76,8 +92,9 @@ def rename_instances(instances_paths: List[str]):
 
             with open(openings_instances_path, 'rb') as file:
                 openings_instances = renamed_load(file)
+                openings_instances = [ OpeningInstance(fui.value, fui.embedding) for fui in openings_instances ]
 
-            OpeningInstance.save_instances(openings_instances_path, openings_instances)
+            OpeningInstanceHelper.save_instances(openings_instances_path, openings_instances)
 
 def rename_operations(operations_folder: str):
     for operations_test in os.listdir(operations_folder):
@@ -107,7 +124,7 @@ def rename_operations(operations_folder: str):
             with open(users_instances_path, 'rb') as file:
                 users_instances = renamed_load(file)
 
-            UserInstance.save_instances(users_instances_path, users_instances)
+            UserInstanceHelper.save_instances(users_instances_path, users_instances)
 
         for openings_instances_path in openings_instances_files:
 
@@ -116,7 +133,7 @@ def rename_operations(operations_folder: str):
             with open(openings_instances_path, 'rb') as file:
                 openings_instances = renamed_load(file)
 
-            OpeningInstance.save_instances(openings_instances_path, openings_instances)
+            OpeningInstanceHelper.save_instances(openings_instances_path, openings_instances)
 
 def rename_projects(projects_folder: str):
 
@@ -153,4 +170,4 @@ def correct_entity_id(instances_paths):
             for i, opening_instance in enumerate(openings_instances):
                 opening_instance.opening.entityId = str(i)
 
-            OpeningInstance.save_instances(openings_instances_path, openings_instances)
+            OpeningInstanceHelper.save_instances(openings_instances_path, openings_instances)

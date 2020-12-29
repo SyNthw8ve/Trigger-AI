@@ -4,8 +4,9 @@ from ..models.opening import Opening
 
 from interference.transformers.transformer_pipeline import Instance
 
+OpeningInstance = Instance[Opening]
 
-class OpeningInstance(Instance[Opening]):
+class OpeningInstanceHelper:
 
     @staticmethod
     def save_instances(filename: str, instances: List["OpeningInstance"]) -> None:
