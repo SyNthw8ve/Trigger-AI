@@ -86,6 +86,9 @@ class TriggerDriver:
             notify_BE(f"user_created/{user_id}", self.config["backend_endpoint"])
 
     def compute_user_score(self, user_id: str, opening_id: str):
+
+        print(":)")
+
         with self.connect() as client:
             database = client[self.config["database"]]
             user = UserModel.get_user_data(user_id, database)

@@ -1,21 +1,27 @@
-import sys
-from pathlib import Path
-
 from flask import Flask
-from redis import Redis
-from rq import Queue
+
+import rq_dashboard
 
 from server.jobs import on_compute_user_matches, on_compute_user_score, on_update_user_matches, \
     on_insert_opening_to_cluster, on_update_opening, on_remove_opening_from_cluster
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
 
-processing = Queue(connection=Redis())
+    from .jobs import rq
+    rq.init_app(app)
 
+    app.config.from_object(rq_dashboard.default_settings)
+    app.register_blueprint(rq_dashboard.blueprint, url_prefix="/rq")
+
+
+    return app
+
+app = create_app()
 
 @app.route('/user_match/<user_id>', methods=['POST'])
 def compute_user_matches(user_id: str):
-    job = processing.enqueue(on_compute_user_matches, args=[user_id])
+    job = on_compute_user_matches.queue(user_id)
 
     if job:
         return "Scheduled"
@@ -25,7 +31,7 @@ def compute_user_matches(user_id: str):
 
 @app.route('/score/<user_id>/<opening_id>', methods=['POST'])
 def compute_user_score(user_id: str, opening_id: str):
-    job = processing.enqueue(on_compute_user_score, args=[user_id, opening_id])
+    job = on_compute_user_score.queue(user_id, opening_id)
 
     if job:
         return "Scheduled"
@@ -35,7 +41,7 @@ def compute_user_score(user_id: str, opening_id: str):
 
 @app.route('/user_match/<user_id>', methods=['PUT'])
 def update_user_matches(user_id: str):
-    job = processing.enqueue(on_update_user_matches, args=[user_id])
+    job = on_update_user_matches.queue(user_id)
 
     if job:
         return "Scheduled"
@@ -45,7 +51,7 @@ def update_user_matches(user_id: str):
 
 @app.route('/opening/<opening_id>', methods=['POST'])
 def insert_opening_to_cluster(opening_id: str):
-    job = processing.enqueue(on_insert_opening_to_cluster, args=[opening_id])
+    job = on_insert_opening_to_cluster.queue(opening_id)
 
     if job:
         return "Scheduled"
@@ -55,7 +61,7 @@ def insert_opening_to_cluster(opening_id: str):
 
 @app.route('/opening/<opening_id>', methods=['PUT'])
 def update_opening(opening_id: str):
-    job = processing.enqueue(on_update_opening, args=[opening_id])
+    job = on_update_opening.queue(opening_id)
 
     if job:
         return "Scheduled"
@@ -65,7 +71,7 @@ def update_opening(opening_id: str):
 
 @app.route('/opening/<opening_id>', methods=['DELETE'])
 def remove_opening_from_cluster(opening_id: str):
-    job = processing.enqueue(on_remove_opening_from_cluster, args=[opening_id])
+    job = on_remove_opening_from_cluster.queue(opening_id)
 
     if job:
         return "Scheduled"

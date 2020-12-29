@@ -28,8 +28,9 @@ class UserModel:
 
         if key in user_from_db:
             hardskills_collection = db[hardskills_collection_name]
-            for hs_ref in user_from_db[key]:
-                hardskill_from_db = hardskills_collection.find_one({"_id": ObjectId(hs_ref)})
+            for hs_info in user_from_db[key]:
+                _id = hs_info["hardskillId"] 
+                hardskill_from_db = hardskills_collection.find_one({"_id": ObjectId(_id)})
                 hardskills.append(Hardskill(name=hardskill_from_db["name"]))
 
         name = user_from_db['name'] if 'name' in user_from_db else '?' 
