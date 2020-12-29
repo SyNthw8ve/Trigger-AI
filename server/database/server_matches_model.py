@@ -1,5 +1,5 @@
 from server.database.server_score import ServerScore
-from typing import Any, List
+from typing import Sequence
 
 from bson.objectid import ObjectId
 from pymongo.database import Database
@@ -11,7 +11,7 @@ class ServerMatchesModel:
     collection_name = matches_collection_name
 
     @staticmethod
-    def insert_server_matches(_database: Database, matches: List[ServerScore]):
+    def insert_server_matches(_database: Database, matches: Sequence[ServerScore]):
 
         if len(matches) == 0:
             return []
