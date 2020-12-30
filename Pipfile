@@ -17,6 +17,9 @@ dnspython = "*"
 flask-rq2 = "*"
 rq-dashboard = "*"
 flask-cli = "*"
+pymongo-inmemory = "*"
+fakeredis = "*"
+dataclasses = "*"
 
 [dev-packages]
 pandas = "*"
@@ -24,4 +27,4 @@ jupyter = "*"
 ipykernel = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"
