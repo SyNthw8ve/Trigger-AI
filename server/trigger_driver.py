@@ -83,11 +83,10 @@ class TriggerDriver:
             ids = ServerMatchesModel.insert_server_matches(database, matches)
             # FIXME: maybe send the ids?
 
-            notify_BE(f"user_created/{user_id}", self.config["backend_endpoint"])
+        print("notifying back end", f"user_created/{user_id}")
+        notify_BE(f"user_created/{user_id}", self.config["backend_endpoint"])
 
     def compute_user_score(self, user_id: str, opening_id: str):
-
-        print(":)")
 
         with self.connect() as client:
             database = client[self.config["database"]]
@@ -102,11 +101,13 @@ class TriggerDriver:
             opening_instance = instances[0]
 
             user_instance = self.interface.try_create_instance_from_value("user", user)
+
             if user_instance is None:
                 logger.error("No transformer for key='user'")
                 return
 
             scoring = cast(TriggerScoring, self.interface.calculate_scoring_between_instances(user_instance, opening_instance))
+            scoring.scored_tag = opening_id
 
             score = ServerScore(
                 user_id=user_id,
@@ -123,8 +124,8 @@ class TriggerDriver:
                 # raise Exception
                 return
             
-            logger.info("Score between user with id %s: and opening with id %s has been calculated", user_id, opening_id)
-            notify_BE(f"user_score/{score_id}", self.config["backend_endpoint"])
+        logger.info("Score between user with id %s: and opening with id %s has been calculated", user_id, opening_id)
+        notify_BE(f"user_score/{score_id}", self.config["backend_endpoint"])
 
 
     def update_user_matches(self, user_id: str):
@@ -138,9 +139,8 @@ class TriggerDriver:
             ServerMatchesModel.delete_user_server_matches(database, user_id)
             ServerMatchesModel.insert_server_matches(database, matches)
             
-            logger.info("Update matches for user with id %s: %s", user_id, matches)
-
-            notify_BE(f"user_updated/{user_id}", self.config["backend_endpoint"])
+        logger.info("Update matches for user with id %s: %s", user_id, matches)
+        notify_BE(f"user_updated/{user_id}", self.config["backend_endpoint"])
             
 
     def insert_opening_to_cluster(self, opening_id: str):
@@ -150,13 +150,17 @@ class TriggerDriver:
             opening = OpeningModel.get_opening(opening_id, database)
 
             opening_instance = self.interface.try_create_instance_from_value("opening", opening)
+            
             if opening_instance is None:
                 logger.error("No transformer for key='opening'")
                 return
 
-            self.interface.add(opening_id, opening_instance)
+            # if len(self.interface.get_instances_by_tag([opening_id])) != 0:
+            #     logger.error("Trying to add an opening with id %s, but it already exists")
+            #     return
 
-            logger.info("Added opening with id %s", opening_id)
+        self.interface.add(opening_id, opening_instance)
+        logger.info("Added opening with id %s", opening_id)
 
     def update_opening(self, opening_id: str):
         with self.connect() as client:
@@ -174,7 +178,7 @@ class TriggerDriver:
                 logger.warn("no opening with id %s", opening_id)
                 return
 
-            self.interface.add(opening_id, instances[0])
+        self.interface.add(opening_id, instances[0])
 
     def remove_opening_from_cluster(self, opening_id: str):
         self.interface.remove(opening_id)

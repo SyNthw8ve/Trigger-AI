@@ -8,13 +8,13 @@ from server.jobs import on_compute_user_matches, on_compute_user_score, on_updat
 def create_app():
     app = Flask(__name__)
 
-    from .jobs import rq
-    rq.init_app(app)
-
     app.config.from_object(rq_dashboard.default_settings)
     app.register_blueprint(rq_dashboard.blueprint, url_prefix="/rq")
 
+    from .jobs import rq
+    rq.init_app(app)
 
+    # more here..
     return app
 
 app = create_app()
