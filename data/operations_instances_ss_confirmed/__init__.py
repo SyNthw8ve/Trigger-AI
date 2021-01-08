@@ -18,7 +18,7 @@ class OperationFile:
 _BASE = "data/operations_instances_ss_confirmed"
 
 def fetch_operations_files(sub_folders: Optional[List[str]] = None, layers: Optional[List[str]] = None) -> List[OperationFile]:
-    collected: List[OperationFile]= []
+    collected: List[OperationFile] = []
 
     for folder_name in os.listdir(_BASE):
         if folder_name in ["__pycache__", "__init__.py"]:
