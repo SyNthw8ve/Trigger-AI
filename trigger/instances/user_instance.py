@@ -1,3 +1,4 @@
+from pathlib import Path
 import pickle
 from typing import List
 import numpy
@@ -11,6 +12,7 @@ class UserInstanceHelper:
 
     @staticmethod
     def save_instances(filename: str, instances: List["UserInstance"]) -> None:
+        Path(filename).parent.mkdir(parents=True, exist_ok=True)
 
         with open(filename, 'wb') as file:
 

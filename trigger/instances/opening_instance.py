@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import List
 import pickle
 from ..models.opening import Opening
@@ -10,9 +11,9 @@ class OpeningInstanceHelper:
 
     @staticmethod
     def save_instances(filename: str, instances: List["OpeningInstance"]) -> None:
-
+        Path(filename).parent.mkdir(parents=True, exist_ok=True)
+        
         with open(filename, 'wb') as file:
-
             pickle.dump(instances, file)
 
     @staticmethod
