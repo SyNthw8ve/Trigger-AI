@@ -1,0 +1,11 @@
+User: Vassilios
+Hardskills: Finances
+Softskills: Ethics,Leadership,Proactivity,Emotional Intelligence
+
+User: Torrell
+Hardskills: C++,python,AI
+Softskills: Complex Thinking,Resilience,Communication,Leadership
+
+User: Nuno
+Hardskills: JavaScript,C#,Node.js
+Softskills: Complex Thinking,Resilience,Communication,Proactivity

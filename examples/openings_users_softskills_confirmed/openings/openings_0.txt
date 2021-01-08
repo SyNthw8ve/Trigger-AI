@@ -1,0 +1,24 @@
+Sector: Private
+Area: Networks
+Hardskills: C++,Python,Artificial Intelligence
+Softskills: Complex Thinking,Resilience
+
+Sector: Private
+Area: Networks
+Hardskills: Finances,Math
+Softskills: Complex Thinking,Proactivity
+
+Sector: Private
+Area: Networks
+Hardskills: Excel,Math
+Softskills: Complex Thinking,Proactivity
+
+Sector: Private
+Area: Networks
+Hardskills: Javascript,C#,Node.js,Web
+Softskills: Complex Thinking
+
+Sector: Private
+Area: Networks
+Hardskills: Economy,Math
+Softskills: Complex Thinking,Proactivity,Leadership
