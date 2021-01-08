@@ -1,3 +1,4 @@
+from typing import Iterable, List, Tuple
 from trigger.transformers.opening_transformer import LAYER
 from trigger.transformers.input_transformer import SentenceEmbedder
 from trigger.instances.user_instance import UserInstance
@@ -13,7 +14,7 @@ from ..models.user import User
 
 class UserTransformer(TransformerPipeline[User]):
 
-    def __init__(self, sentenceEmbedder: SentenceEmbedder = SentenceEmbedder(), layer: LAYER ='avg', normed=False):
+    def __init__(self, sentenceEmbedder: SentenceEmbedder = SentenceEmbedder(), layer: LAYER = 'avg', normed: bool = False):
         self.sentenceEmbedder = sentenceEmbedder
         self.layer: Final[LAYER] = layer
         self.normed = normed
@@ -48,3 +49,17 @@ class UserTransformer(TransformerPipeline[User]):
     def transform(self, user: User) -> UserInstance:
         embedding = self.calculate_embedding(user)
         return UserInstance(user, embedding)
+
+def transform_users_using_layers(
+    openings: List[User],
+    layers: List[LAYER] = ['avg', 'concat', 'no_ss'],
+    normed_options: List[bool] = [True, False]
+) -> Iterable[Tuple[LAYER, bool, List[UserInstance]]]:
+    for layer in layers:
+        for normed_option in normed_options:
+            transformer = UserTransformer(layer=layer, normed=normed_option)
+
+            yield layer, normed_option, [
+                transformer.transform(opening)
+                for opening in openings
+            ]
