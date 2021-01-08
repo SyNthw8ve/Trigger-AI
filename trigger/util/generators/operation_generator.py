@@ -10,7 +10,8 @@ from interference.operations import Operation, OperationType, AddInfo, UpdateInf
 def random_from_instances(
             opening_instances: List[OpeningInstance],
             users_instances: List[UserInstance],
-            operation_blueprints: List[Tuple[OperationType, int]]
+            operation_blueprints: List[Tuple[OperationType, int]],
+            should_evaluate_fetch_instance: bool = False
         ) -> List[Operation]:
         operations = []
 
@@ -76,17 +77,19 @@ def random_from_instances(
                     user_instance = random.choice(users_instances)
 
                     operation = Operation(
-                            type=operation_type,
-                            info=CalculateScoringInfo(user_instance, "identity")
+                        type=operation_type,
+                        info=CalculateScoringInfo(user_instance, "identity")
                     )
 
                     operations.append(operation)
 
                 elif operation_type == OperationType.CALCULATE_MATCHES:
+                    user_instance = random.choice(users_instances)
+                    
                     operations.append(
                         Operation(
                             type=operation_type,
-                            info=EvaluateClustersInfo(),
+                            info=CalculateMatchesInfo(user_instance, "identity"),
                         )
                     )
 
@@ -105,7 +108,7 @@ def random_from_instances(
                             info=EvaluateMatchesInfo(values=[
                                 CalculateMatchesInfo(user_instance, "identity")
                                 for user_instance in users_instances
-                            ]),
+                            ], fetch_instance=should_evaluate_fetch_instance),
                         )
                     )
 
