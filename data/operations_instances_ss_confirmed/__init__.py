@@ -1,5 +1,8 @@
 from dataclasses import dataclass
+from pathlib import Path
 from typing import List, Optional
+from interference.operations import Operation
+import pickle
 
 import os
 
@@ -39,3 +42,12 @@ def fetch_operations_files(sub_folders: Optional[List[str]] = None, layers: Opti
             collected.append(OperationFile(layer, test_subpath, full_path))
 
     return collected
+
+def store_operations(layer: str, subfolder_no_layer: str, operations: List[Operation]) -> OperationFile:
+    subfolder = os.path.join(_BASE, subfolder_no_layer)
+    folder_path = os.path.join(subfolder, layer)
+    Path(folder_path).parent.mkdir(parents=True, exist_ok=True)
+
+    with open(folder_path, 'wb') as f:
+        pickle.dump(operations, f)
+        return OperationFile(layer, subfolder, folder_path)
