@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from trigger.models.opening import Opening
 from trigger.models.user import User
@@ -7,75 +8,146 @@ from typing import List
 from util.readers.reader import DataReaderOpenings, DataReaderUsers
 
 from sklearn.preprocessing import LabelEncoder
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
 
-def load_data(users_path, openings_path):
+from umap import UMAP
 
-    openings = DataReaderOpenings.populate(openings_path)
-    users = DataReaderUsers.populate(users_path)
 
-    return (users, openings)
+class DataAnalyser:
 
-def data_frame_build_openings(openings: List[Opening]):
+    def __init__(self) -> None:
+        pass
 
-    soft_skills = []
-    hard_skills = []
+    @staticmethod
+    def load_data(users_path, openings_path):
 
-    for opening in openings:
+        openings = DataReaderOpenings.populate(openings_path)
+        users = DataReaderUsers.populate(users_path)
 
-        soft_skills += [ [opening.entityId, soft_skill.name] for soft_skill in opening.softSkills ]
-        hard_skills += [ [opening.entityId, hard_skill.name] for hard_skill in opening.hardSkills ]
+        return (users, openings)
 
-    soft_skill_frame = pd.DataFrame(soft_skills, columns=['Opening ID', 'Softskill'])
-    hard_skill_frame = pd.DataFrame(hard_skills, columns=['Opening ID', 'Hardskill'])
+    @staticmethod
+    def data_frame_build_openings(openings: List[Opening]):
 
-    return (soft_skill_frame, hard_skill_frame)
+        soft_skills = []
+        hard_skills = []
 
-def data_frame_build_users(users: List[User]):
+        for opening in openings:
 
-    soft_skills = []
-    hard_skills = []
+            soft_skills += [ [opening.entityId, soft_skill.name] for soft_skill in opening.softSkills ]
+            hard_skills += [ [opening.entityId, hard_skill.name] for hard_skill in opening.hardSkills ]
 
-    for user in users:
+        soft_skill_frame = pd.DataFrame(soft_skills, columns=['Opening ID', 'Softskill'])
+        hard_skill_frame = pd.DataFrame(hard_skills, columns=['Opening ID', 'Hardskill'])
 
-        soft_skills += [ [user.name, soft_skill.name] for soft_skill in user.softSkills ]
-        hard_skills += [ [user.name, hard_skill.name] for hard_skill in user.hardSkills ]
+        return (soft_skill_frame, hard_skill_frame)
 
-    soft_skill_frame = pd.DataFrame(soft_skills, columns=['User Name', 'Softskill'])
-    hard_skill_frame = pd.DataFrame(hard_skills, columns=['User Name', 'Hardskill'])
+    @staticmethod
+    def data_frame_build_users(users: List[User]):
 
-    soft_skill_frame.to_csv('./data/csv/users/softskills.csv')
-    hard_skill_frame.to_csv('./data/csv/users/hardskills.csv')
+        soft_skills = []
+        hard_skills = []
 
-    return (soft_skill_frame, hard_skill_frame)
+        for user in users:
 
-def skills_count_users(users: List[User]):
+            soft_skills += [ [user.name, soft_skill.name] for soft_skill in user.softSkills ]
+            hard_skills += [ [user.name, hard_skill.name] for hard_skill in user.hardSkills ]
 
-    soft_skill_frame, hard_skill_frame = data_frame_build_users(users)
+        soft_skill_frame = pd.DataFrame(soft_skills, columns=['User Name', 'Softskill'])
+        hard_skill_frame = pd.DataFrame(hard_skills, columns=['User Name', 'Hardskill'])
 
-    soft_skill_frame['Softskill'].value_counts().to_csv('./data/csv/users/soft_skill_count.csv')
-    hard_skill_frame['Hardskill'].value_counts().to_csv('./data/csv/users/hard_skill_count.csv')
+        soft_skill_frame.to_csv('./data/csv/users/softskills.csv')
+        hard_skill_frame.to_csv('./data/csv/users/hardskills.csv')
 
-def skills_count_openings(openings: List[Opening]):
+        return (soft_skill_frame, hard_skill_frame)
 
-    soft_skill_frame, hard_skill_frame = data_frame_build_openings(openings)
+    @staticmethod
+    def skills_count_users(users: List[User]):
 
-    soft_skill_frame['Softskill'].value_counts().to_csv('./data/csv/openings/soft_skill_count.csv')
-    hard_skill_frame['Hardskill'].value_counts().to_csv('./data/csv/openings/hard_skill_count.csv')
+        soft_skill_frame, hard_skill_frame = DataAnalyser.data_frame_build_users(users)
 
-def dulicate(users: List[User]):
+        soft_skill_frame['Softskill'].value_counts().to_csv('./data/csv/users/soft_skill_count.csv')
+        hard_skill_frame['Hardskill'].value_counts().to_csv('./data/csv/users/hard_skill_count.csv')
 
-    soft_skill_frame, hard_skill_frame = data_frame_build_users(users)
+    @staticmethod
+    def skills_count_openings(openings: List[Opening]):
 
-    soft_skill_group = soft_skill_frame.groupby('User Name')
+        soft_skill_frame, hard_skill_frame = DataAnalyser.data_frame_build_openings(openings)
+
+        soft_skill_frame['Softskill'].value_counts().to_csv('./data/csv/openings/soft_skill_count.csv')
+        hard_skill_frame['Hardskill'].value_counts().to_csv('./data/csv/openings/hard_skill_count.csv')
+
+    @staticmethod
+    def dulicate(users: List[User]):
+
+        soft_skill_frame, hard_skill_frame = DataAnalyser.data_frame_build_users(users)
+
+        soft_skill_group = soft_skill_frame.groupby('User Name')
     
-if __name__ == "__main__":
-    
-    users_path = './examples/openings_users_softskills_confirmed/users'
-    openings_path = './examples/openings_users_softskills_confirmed/openings'
+    @staticmethod
+    def plot_data(data, dim, plot_path):
 
-    users_file = os.path.join(users_path, 'users_0.txt')
-    openings_file = os.path.join(openings_path, 'openings_0.txt')
+        if dim > 3:
 
-    users, openings = load_data(users_file, openings_file)
+            raise Exception('Too many dimensions to plot.')
 
-    skills_count_users(users)
+        if dim == 2:
+
+            xs = [vec[0] for vec in data]
+            ys = [vec[1] for vec in data]
+
+            plt.scatter(xs, ys)
+
+        if dim == 3:
+
+            xs = [vec[0] for vec in data]
+            ys = [vec[1] for vec in data]
+            zs = [vec[2] for vec in data]
+
+            fig = plt.figure()
+            ax = fig.add_subplot(111, projection='3d')
+
+            ax.scatter(xs, ys, zs)
+        
+        plt.savefig(plot_path)
+
+    @staticmethod
+    def dimension_reduction_analysis(data, algorithm: str='pca', components: int=2, plot:bool=False, plot_path=''):
+
+        transformed_data = []
+
+        if algorithm == 'pca':
+
+            pca = PCA(n_components=components)
+
+            transformed_data = pca.fit_transform(data)
+
+        if algorithm == 'tsne':
+
+            tsne = TSNE(n_components=components)
+
+            transformed_data = tsne.fit_transform(data)
+
+        if algorithm == 'tsne_pca':
+
+            pca = PCA(n_components=50)
+
+            t_data = pca.fit_transform(data)
+
+            tsne = TSNE(n_components=components)
+
+            transformed_data = tsne.fit_transform(t_data)
+
+        if algorithm == 'umap':
+
+            umap = UMAP(n_components=components)
+
+            transformed_data = umap.fit_transform(data)
+
+        if plot:
+
+           DataAnalyser.plot_data(transformed_data, components, plot_path)
+
+        return transformed_data
+

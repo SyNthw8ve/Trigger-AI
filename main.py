@@ -3,7 +3,7 @@ import pathlib
 import pickle
 import numpy as np
 
-from tests.ecm_tests import test_ecm_operations
+from tests.ecm_tests import test_ecm_matches_instances_dimension_reduction
 from tests.gng_test import test_gng_operations
 from util.generators.operation_generator import OperationGenerator
 from util.operation import read_operations
@@ -12,6 +12,8 @@ from sklearn.model_selection import train_test_split
 
 from tensorflow.keras.losses import MeanSquaredError
 from trigger.train.networks.auto_enconder import AutoEncoder
+
+from data_analysis.analysis import DataAnalyser
 
 users_path = './examples/openings_users_softskills_confirmed/users'
 openings_path = './examples/openings_users_softskills_confirmed/openings'
@@ -43,14 +45,6 @@ if __name__ == "__main__":
     #         with open(out_path, 'wb') as f:
     #             pickle.dump(operations, f)
 
-    # test_gng_operations()
-
-    openings_path_t = os.path.join(instances_path, openings_path_instances)
-    
-
-    openings = DataInitializer.read_openings(
-        openings_path=instances_path, openings_instances_path=openings_path_t)
-
-    openings_embedding = np.array([opening.embedding for opening in openings])
+    test_ecm_matches_instances_dimension_reduction(2)
 
     
