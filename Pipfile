@@ -5,18 +5,17 @@ name = "pypi"
 
 [packages]
 sentence-transformers = "*"
-tensorflow = "*"
 scipy = "*"
-interference = {editable = true, git = "https://github.com/daxtery/Trigger-Recommendations.git"}
 pymongo = "*"
 mongoengine = "*"
 rq = "*"
-flask = "*"
+Flask = "*"
 redis = "*"
 dnspython = "*"
-flask-rq2 = "*"
+Flask-RQ2 = "*"
 rq-dashboard = "*"
-flask-cli = "*"
+Flask-CLI = "*"
+tensorflow = "==2.4.1"
 
 [dev-packages]
 pandas = "*"
@@ -25,3 +24,7 @@ ipykernel = "*"
 
 [requires]
 python_version = "3.7"
+
+[packages.interference]
+editable = true
+git = "https://github.com/daxtery/Trigger-Recommendations.git"
